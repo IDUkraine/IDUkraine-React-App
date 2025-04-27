@@ -33,11 +33,13 @@
   height: 49px;
 }
 
-.header-navigation-options {
+.header-nav-options .navigation-options {
   list-style: none;
   display: flex;
   flex-direction: row;
   gap: 32px;
+  font-family: secondary-regular;
+  font-size: 16px;
 }
 
 .header-phone-container {
@@ -52,6 +54,12 @@
   height: 24px;
   fill: #fd9f41;
 }
+
+.header-phone-container p {
+  font-size: 18px;
+  font-family: secondary-medium;
+}
+
 .footer-container {
   height: 300px;
   background-color: #151921;
@@ -59,40 +67,40 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 267px;
+  justify-content: space-between;
   padding: 0 32px;
   border-radius: 20px 20px 0 0;
   overflow: hidden;
-  position: relative; /* For absolute positioning of fingerprint */
-  width: 1380px; /* Match layout width */
-  margin: auto; /* Center footer */
+  position: relative;
+  width: 1380px;
+  margin: auto;
 }
 
 .footer-logo {
   width: 300px;
   height: 91px;
-  fill: #fff; /* Ensure logo is white */
+  fill: #fff;
 }
 
 .footer-content {
   display: flex;
   flex-direction: row;
   gap: 200px;
-  flex: 1; /* Take remaining space */
-  justify-content: flex-start; /* Align content to the left */
+  flex: 1;
+  justify-content: flex-start;
 }
 
 .footer-nav-options {
   display: flex;
 }
 
-.footer-navigation-options {
+.footer-nav-options .navigation-options {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
   font-size: 18px;
-  font-family: secondary-regular, sans-serif;
+  font-family: secondary-medium;
 }
 
 .footer-contacts {
@@ -104,7 +112,7 @@
 .footer-contacts-title {
   color: rgba(255, 255, 255, 0.8);
   font-size: 20px;
-  font-family: secondary-bold, sans-serif;
+  font-family: secondary-regular;
 }
 
 .footer-contacts-list {
@@ -113,14 +121,14 @@
   flex-direction: column;
   gap: 16px;
   font-size: 16px;
-  font-family: secondary-regular, sans-serif;
+  font-family: secondary-regular;
 }
 
 .footer-phone-icon,
 .footer-mail-icon,
 .footer-facebook-icon,
 .footer-instagram-icon {
-  fill: #fd9f41; /* Orange icons as per screenshot */
+  fill: #fd9f41;
   width: 24px;
   height: 24px;
 }
@@ -133,6 +141,8 @@
   flex-direction: row;
   gap: 6px;
   align-items: center;
+  font-size: 16px;
+  font-family: secondary-medium;
 }
 
 .footer-phone-container {
@@ -143,20 +153,12 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: 302px;
-  height: 300px;
+  width: 211px;
+  height: 305px;
   overflow: hidden;
 }
 
 .footer-fingerprint-icon {
-  width: 244px;
-  height: 354px;
-  transform: scaleY(-1) rotate(-23.7deg);
-  position: absolute;
-  top: 10px;
-  right: -80px;
-}
-
-.footer-fingerprint-icon * {
-  fill: rgba(238, 192, 51, 0.1) !important;
+  width: 211px;
+  height: 305px;
 }

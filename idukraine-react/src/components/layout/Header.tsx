@@ -1,16 +1,12 @@
 import TitledLogo from '../../assets/svgs/header-logo.svg';
 import PhoneIcon from '../../assets/svgs/call.svg';
+import NavigationOptions from './NavigationOptions';
 const Header = () => {
   return (
     <div className="header-container">
       <TitledLogo className="header-logo" />
-      <div className="navigation-container">
-        <ul className="header-navigation-options">
-          <li>Про нас</li>
-          <li>Новини</li>
-          <li>Команда</li>
-          <li>Напрями роботи</li>
-        </ul>
+      <div className="header-nav-options">
+        <NavigationOptions />
       </div>
       <div className="header-phone-container">
         <PhoneIcon className="header-phone-icon" />
