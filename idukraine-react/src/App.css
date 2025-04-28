@@ -9,9 +9,30 @@
   background-color: #ffffff;
 }
 
+/* Reset default styles for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  font-size: inherit; /* Inherit font size from parent */
+  font-weight: inherit; /* Inherit font weight from parent */
+  line-height: inherit; /* Inherit line height from parent */
+  font-style: normal; /* Remove any default italic styles */
+  text-transform: none; /* Remove any default text transformations */
+  color: inherit; /* Inherit color from parent */
+}
+
 @font-face {
-  font-family: primary;
-  src: url(./assets/fonts/Rubik/static/Rubik-Black.ttf);
+  font-family: primary-regular;
+  src: url(./assets/fonts/Rubik/static/Rubik-Regular.ttf);
+}
+@font-face {
+  font-family: primary-medium;
+  src: url(./assets/fonts/Rubik/static/Rubik-Medium.ttf);
 }
 @font-face {
   font-family: secondary-regular;
