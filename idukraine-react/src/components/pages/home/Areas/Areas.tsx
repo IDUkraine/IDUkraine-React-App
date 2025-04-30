@@ -4,6 +4,7 @@ import AreaCard from './AreaCard';
 import HouseIcon from '../../../../assets/svgs/house.svg';
 import RepairIcon from '../../../../assets/svgs/repair.svg';
 import CorruptionIcon from '../../../../assets/svgs/corruption.svg';
+import PublicPropertyIcon from '../../../../assets/svgs/public-property.svg';
 import FingerPrintLeft from '../../../../assets/svgs/fingerprints/fingerprint-areas-left.svg';
 import FingerPrintRight from '../../../../assets/svgs/fingerprints/fingerprint-areas-right.svg';
 import CloseIcon from '../../../../assets/svgs/close.svg';
@@ -53,6 +54,12 @@ const AreasSection = () => {
       fingerprint: null,
     },
     {
+      title: 'Громадська власність',
+      text: 'Цей напрямок стосується управління та використання майна, що належить державі або громадам (місцевому самоврядуванню).',
+      icon: PublicPropertyIcon,
+      fingerprint: null,
+    },
+    {
       title: 'Сфера відновлення',
       text: 'Сфера відновлення в Україні зосереджена на відбудові інфраструктури, житла, економіки та соціальних систем, зруйнованих внаслідок війни.',
       icon: RepairIcon,
@@ -74,7 +81,7 @@ const AreasSection = () => {
               isSelected={selectedCard === card.title}
               onArrowClick={() => handleArrowClick(card.title)}
             >
-              {selectedCard === null ? (
+              {selectedCard !== card.title ? (
                 card.fingerprint
               ) : (
                 <FingerPrintOnSelect className="fingerprint-areas-have-selected" />
@@ -84,9 +91,15 @@ const AreasSection = () => {
         </div>
       </div>
       {(selectedCard || closingCard) && (
-        <div className="details-container">
+        <div
+          className={`modal-overlay ${
+            isClosing ? 'overlay-closing' : 'overlay-open'
+          }`}
+          onClick={handleCloseDetails}
+        >
           <div
-            className={`details-content ${isClosing ? 'closing' : ''}`}
+            className={`modal-content ${isClosing ? 'closing' : ''}`}
+            onClick={(e) => e.stopPropagation()}
             onAnimationEnd={handleAnimationEnd}
           >
             <CloseIcon className="details-close" onClick={handleCloseDetails} />

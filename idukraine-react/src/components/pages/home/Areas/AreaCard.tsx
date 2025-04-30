@@ -19,14 +19,17 @@ const AreaCard = ({
   children,
 }: AreaCardProps) => {
   return (
-    <div className={`area-card ${isSelected ? 'area-card-selected' : ''}`}>
+    <div
+      className={`area-card ${isSelected ? 'area-card-selected' : ''}`}
+      onClick={onArrowClick}
+    >
       <Icon className="card-icon" />
       <div className="card-content-container">
         <div className="card-content">
           <h3 className="card-title">{title}</h3>
           <p className="card-text">{text}</p>
         </div>
-        <RightArrowIcon className="card-arrow" onClick={onArrowClick} />
+        <RightArrowIcon className="card-arrow" />
       </div>
       {children}
     </div>

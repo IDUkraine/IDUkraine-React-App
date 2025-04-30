@@ -11,17 +11,22 @@
 }
 
 .areas-subtitle {
-  font-family: primary;
+  font-family: primary-medium;
   font-size: 20px;
-  color: rgba(21, 25, 33, 0.8);
+  color: rgba(21, 25, 33, 1);
   line-height: 120%;
   align-self: flex-start;
 }
 
 .areas-cards {
+  width: 90%;
+  margin: auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   overflow: hidden;
+  flex-wrap: wrap;
+  gap: 52px;
+  row-gap: 52px;
 }
 
 .area-card {
@@ -35,6 +40,10 @@
   gap: 55px;
   position: relative;
   transition: background-color 0.5s ease-in-out;
+}
+
+.area-card:hover {
+  cursor: pointer;
 }
 
 .area-card-selected {
@@ -93,7 +102,6 @@
   width: 40px;
   height: 40px;
   align-self: flex-end;
-  cursor: pointer;
 }
 
 .card-arrow * {
@@ -120,36 +128,6 @@
 
 .area-card-selected .fingerprint-areas-have-selected * {
   fill: #000;
-}
-
-.details-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 500px;
-  height: 100vh;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 1000;
-}
-
-.details-content {
-  width: 600px;
-  height: 100%;
-  background-color: rgba(21, 25, 33, 0.8);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  animation: slideInFromRight 0.5s ease-out forwards;
-}
-
-.details-content.closing {
-  animation: slideOutToRight 0.5s ease-in forwards;
 }
 
 .details-close {
@@ -187,6 +165,66 @@
   font-size: 16px;
   line-height: 120%;
   color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0); /* Початкова прозорість */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.modal-overlay.overlay-open {
+  animation: fadeInOverlay 0.5s ease-out forwards;
+}
+
+.modal-overlay.overlay-closing {
+  animation: fadeOutOverlay 0.5s ease-in forwards;
+}
+
+.modal-content {
+  width: 600px;
+  height: 100%;
+  background-color: rgba(21, 25, 33, 0.8);
+  backdrop-filter: blur(20px);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: slideInFromRight 0.5s ease-out forwards;
+  position: relative;
+}
+
+.modal-content.closing {
+  animation: slideOutToRight 0.5s ease-in forwards;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutOverlay {
+  from {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+  }
 }
 
 @keyframes slideInFromRight {
