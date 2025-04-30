@@ -200,5 +200,6 @@
 .general-news-divider {
   height: 2px;
   border: none;
+  border-radius: 4px;
   background-color: rgba(253, 159, 65, 0.6);
 }

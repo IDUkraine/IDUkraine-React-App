@@ -15,14 +15,16 @@ const Footer = () => {
         <div className="footer-contacts">
           <p className="footer-contacts-title">Наші контакти</p>
           <div className="footer-contacts-container">
-            <div className="footer-contacts-icons">
+            <div className="footer-contacts-item">
               <PhoneIcon className="footer-phone-icon" />
-              <MailIcon className="footer-mail-icon" />
-              <FacebookIcon className="footer-facebook-icon" />
-            </div>
-            <div className="footer-contacts-text">
               <p>+380 67 843-02-44</p>
+            </div>
+            <div className="footer-contacts-item">
+              <MailIcon className="footer-mail-icon" />
               <p>example@gmail.com</p>
+            </div>
+            <div className="footer-contacts-item">
+              <FacebookIcon className="footer-facebook-icon" />
               <p>ID Ukraine</p>
             </div>
           </div>
