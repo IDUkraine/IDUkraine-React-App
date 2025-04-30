@@ -7,35 +7,29 @@ import NavigationOptions from './NavigationOptions';
 const Footer = () => {
   return (
     <div className="footer-container">
-      <FooterLogo className="footer-logo" />
-      <div className="footer-nav-options">
-        <NavigationOptions />
-      </div>
-      <div className="footer-contacts">
-        <p className="footer-contacts-title">Наші контакти</p>
-        <ul className="footer-contacts-list">
-          <li>
-            <div className="footer-phone-container">
+      <div className="footer-content">
+        <FooterLogo className="footer-logo" />
+        <div className="footer-nav-options">
+          <NavigationOptions />
+        </div>
+        <div className="footer-contacts">
+          <p className="footer-contacts-title">Наші контакти</p>
+          <div className="footer-contacts-container">
+            <div className="footer-contacts-icons">
               <PhoneIcon className="footer-phone-icon" />
-              <p>+380 67 843-02-44</p>
-            </div>
-          </li>
-          <li>
-            <div className="footer-mail-container">
               <MailIcon className="footer-mail-icon" />
-              <p>example@gmail.com</p>
-            </div>
-          </li>
-          <li>
-            <div className="footer-facebook-container">
               <FacebookIcon className="footer-facebook-icon" />
+            </div>
+            <div className="footer-contacts-text">
+              <p>+380 67 843-02-44</p>
+              <p>example@gmail.com</p>
               <p>ID Ukraine</p>
             </div>
-          </li>
-        </ul>
-      </div>
-      <div className="fingerprint-container">
-        <FooterFingerprint className="footer-fingerprint-icon" />
+          </div>
+        </div>
+        <div className="fingerprint-container">
+          <FooterFingerprint className="footer-fingerprint-icon" />
+        </div>
       </div>
     </div>
   );

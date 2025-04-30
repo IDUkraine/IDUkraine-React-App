@@ -1,0 +1,75 @@
+.about-section {
+  border-radius: 20px;
+  background-color: #151921;
+  padding: 80px 30px;
+}
+
+.about-container {
+  margin: 0 30px;
+}
+
+.about-content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+}
+
+.about-subtitle {
+  font-family: primary-medium;
+  font-size: 20px;
+  color: rgba(253, 159, 65, 0.8);
+  margin-bottom: 20px;
+  line-height: 120%;
+  letter-spacing: 2px;
+}
+
+.about-image-container {
+  min-width: 500px;
+  height: 495px;
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: antiquewhite;
+  position: relative;
+  z-index: 1;
+}
+
+.about-title {
+  font-family: primary-medium;
+  font-size: 48px;
+  color: #fff;
+}
+
+.about-title-orange {
+  color: rgba(253, 159, 65, 1);
+}
+
+.about-text {
+  font-family: secondary-medium;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #fff;
+  width: 525px;
+}
+
+.about-right-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.about-fingerprint {
+  position: absolute;
+  top: 110px;
+  right: -240px;
+  z-index: 0;
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  z-index: 1;
+  position: absolute;
+}
