@@ -29,7 +29,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="fingerprint-container">
+        <div className="footer-fingerprint-container">
           <FooterFingerprint className="footer-fingerprint-icon" />
         </div>
       </div>

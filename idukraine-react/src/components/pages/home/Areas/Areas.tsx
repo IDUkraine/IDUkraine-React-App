@@ -92,14 +92,11 @@ const AreasSection = () => {
       </div>
       {(selectedCard || closingCard) && (
         <div
-          className={`modal-overlay ${
-            isClosing ? 'overlay-closing' : 'overlay-open'
-          }`}
-          onClick={handleCloseDetails}
+          className="details-container"
+          onClick={handleCloseDetails} // клік по фону закриває
         >
           <div
-            className={`modal-content ${isClosing ? 'closing' : ''}`}
-            onClick={(e) => e.stopPropagation()}
+            className={`details-content ${isClosing ? 'closing' : ''}`}
             onAnimationEnd={handleAnimationEnd}
           >
             <CloseIcon className="details-close" onClick={handleCloseDetails} />
