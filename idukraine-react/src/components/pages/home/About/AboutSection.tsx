@@ -1,21 +1,36 @@
+import { motion } from 'framer-motion';
 import '../../../../assets/styles/about.css';
 import FingerPrintAbout from '../../../../assets/svgs/fingerprints/fingerprint-about.svg';
+import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 
 const AboutSection = () => {
+  const [ref, hasAnimated] = useSectionAnimation();
+
   return (
-    <section className="about-section">
+    <section className="about-section" ref={ref}>
       <div className="about-container">
         <h2 className="about-subtitle">/Про нас</h2>
         <div className="about-content">
-          <div className="about-image-container">
+          <motion.div
+            className="about-image-container"
+            initial={{ opacity: 0, y: -60 }}
+            animate={hasAnimated ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
             <img
               src="./hero-image.jpg"
               alt="About Image"
               className="about-image"
             />
             <FingerPrintAbout className="about-fingerprint" />
-          </div>
-          <div className="about-right-content">
+          </motion.div>
+
+          <motion.div
+            className="about-right-content"
+            initial={{ opacity: 0, y: -60 }}
+            animate={hasAnimated ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+          >
             <h1 className="about-title">
               Lorem ipsum dolor sit amet,{' '}
               <span className="about-title-orange">
@@ -30,7 +45,7 @@ const AboutSection = () => {
               cupidatat non proident, sunt in culpa qui officia deserunt mollit
               anim id est laborum.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

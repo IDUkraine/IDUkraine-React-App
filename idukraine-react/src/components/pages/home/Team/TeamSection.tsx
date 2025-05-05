@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import '../../../../assets/styles/team.css';
 import TeamFingerprint from '../../../../assets/svgs/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/person-play.svg';
 import MailIcon from '../../../../assets/svgs/mail.svg';
 import { useKeenSlider } from 'keen-slider/react';
+import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
+
 import 'keen-slider/keen-slider.min.css';
 
 const headEmployees = [
@@ -92,20 +95,29 @@ function TeamSection() {
   const [showAll, setShowAll] = useState(false);
   const center = { x: 225, y: 240 };
 
+  const [leftRef, leftVisible] = useSectionAnimation();
+  const [rightRef, rightVisible] = useSectionAnimation();
+
   const [sliderRef] = useKeenSlider({
     mode: 'free-snap',
     slides: {
       perView: 'auto',
-      spacing: 52, // Відповідає gap: 52px
+      spacing: 52,
     },
-    drag: true, // Увімкнути перетягування мишкою
+    drag: true,
   });
 
   return (
     <section className="team-section">
       <h2 className="team-title">Наша команда</h2>
       <div className="team-content">
-        <div className="team-left">
+        <motion.div
+          className="team-left"
+          ref={leftRef}
+          initial={{ opacity: 0, y: -60 }}
+          animate={leftVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
           <div className="team-fingerprint-container">
             <TeamFingerprint className="team-fingerprint" />
             <div className="photo-dots">
@@ -150,9 +162,15 @@ function TeamSection() {
               })}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="team-right">
+        <motion.div
+          className="team-right"
+          ref={rightRef}
+          initial={{ opacity: 0, x: 60 }}
+          animate={rightVisible ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+        >
           <div className="employee-info">
             <div>
               <h3>{selectedEmployee.name}</h3>
@@ -180,7 +198,7 @@ function TeamSection() {
           <div className="employee-photo">
             <img src={selectedEmployee.photo} alt={selectedEmployee.name} />
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <div className="show-all-container">

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import HeroSection from './Hero/HeroSection';
 import AboutSection from './About/AboutSection';
 import AreasSection from './Areas/Areas';
@@ -5,9 +6,60 @@ import GeneralNewsSection from './GeneralNews/GeneralNewsSection';
 import TeamSection from './Team/TeamSection';
 import ContactUsSection from './ContactUs/ContactUsSection';
 import TopNewsSection from './TopNews/TopNews';
-const HomePage = () => {
+import SplashScreen from './common/SplashScreen';
+
+function HomePage() {
+  // Ініціалізуємо showSplash на основі sessionStorage
+  const [showSplash, setShowSplash] = useState(() => {
+    return !sessionStorage.getItem('hasSeenSplash');
+  });
+  const [isSplashFading, setIsSplashFading] = useState(false);
+
+  useEffect(() => {
+    // Позначити заставку як переглянуту, якщо вона відображається
+    if (showSplash) {
+      sessionStorage.setItem('hasSeenSplash', 'true');
+    }
+  }, [showSplash]);
+
+  // Блокування прокрутки, коли заставка активна
+  useEffect(() => {
+    if (showSplash && !isSplashFading) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '0px'; // Налаштувати, якщо прокрутка викликає зсув
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+
+    // Очищення при демонтуванні
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [showSplash, isSplashFading]);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    setIsSplashFading(false);
+  };
+
+  const handleFadeStart = () => {
+    setIsSplashFading(true);
+  };
+
   return (
-    <div className="home-page">
+    <div
+      className={`home-page ${
+        showSplash && !isSplashFading ? 'splash-active' : ''
+      }`}
+    >
+      {showSplash && (
+        <SplashScreen
+          onComplete={handleSplashComplete}
+          onFadeStart={handleFadeStart}
+        />
+      )}
       <HeroSection />
       <AboutSection />
       <TeamSection />
@@ -17,6 +69,6 @@ const HomePage = () => {
       <ContactUsSection />
     </div>
   );
-};
+}
 
 export default HomePage;

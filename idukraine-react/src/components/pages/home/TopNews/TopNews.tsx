@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion';
 import '../../../../assets/styles/top-news.css';
 import TopNewsCard from './TopNewsCard';
+import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 
 interface NewsItem {
   title: string;
@@ -31,19 +33,27 @@ const newsItems: NewsItem[] = [
 ];
 
 function TopNewsSection() {
+  const [ref, hasAnimated] = useSectionAnimation();
+
   return (
-    <section className="top-news-section">
+    <section className="top-news-section" ref={ref}>
       <h2 className="top-news-section-title">/Найважливіші новини</h2>
       <div className="top-news-container">
         {newsItems.map((news, index) => (
-          <TopNewsCard
+          <motion.div
             key={index}
-            title={news.title}
-            text={news.text}
-            date={news.date}
-            category={news.category}
-            image={news.image || './news-image.jpg'}
-          />
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={hasAnimated ? { scale: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.2 }}
+          >
+            <TopNewsCard
+              title={news.title}
+              text={news.text}
+              date={news.date}
+              category={news.category}
+              image={news.image || './news-image.jpg'}
+            />
+          </motion.div>
         ))}
       </div>
     </section>

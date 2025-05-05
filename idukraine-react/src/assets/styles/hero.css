@@ -22,11 +22,16 @@
   font-family: secondary-medium;
   font-size: 24px;
   padding: 13px 20px;
-  border: none;
+  border: 2px solid #fd9f41;
   border-radius: 8px;
   cursor: pointer;
   height: 60px;
   width: 220px;
+  transition: background-color 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: transparent;
 }
 
 .hero-image-container {

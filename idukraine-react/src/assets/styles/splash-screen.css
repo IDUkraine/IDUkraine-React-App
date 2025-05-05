@@ -1,0 +1,120 @@
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #151921; /* Black background for transparent areas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction during fade-out */
+}
+
+.splash-screen-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 52px;
+  position: relative;
+  z-index: 2; /* Place content above image */
+  /* Removed semi-transparent overlay to avoid affecting image opacity */
+}
+
+.splash-logo {
+  max-width: 500px;
+  height: auto;
+  width: 90%;
+}
+
+.splash-title {
+  font-family: primary-medium;
+  font-size: 48px;
+  color: #fff;
+  line-height: 120%;
+  text-align: center;
+}
+
+.splash-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1; /* Place image below content */
+  opacity: 1; /* Ensure full opacity */
+}
+
+.progress-bar-container {
+  width: 35%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #eec033; /* Yellow-orange color from your theme */
+  animation: fillProgress 3s linear forwards;
+}
+
+@keyframes fillProgress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Hide main content only when splash is active and not fading */
+.home-page.splash-active > *:not(.splash-screen) {
+  visibility: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .splash-logo {
+    max-width: 400px;
+    width: 80%;
+  }
+
+  .splash-title {
+    font-size: 36px;
+  }
+
+  .progress-bar-container {
+    width: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .splash-logo {
+    max-width: 300px;
+    width: 90%;
+  }
+
+  .splash-title {
+    font-size: 28px;
+  }
+
+  .progress-bar-container {
+    width: 60%;
+  }
+}
