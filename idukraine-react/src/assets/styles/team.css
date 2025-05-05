@@ -1,5 +1,5 @@
 .team-section {
-  padding: 40px;
+  padding: 80px 0;
   font-family: sans-serif;
 }
 
@@ -188,13 +188,13 @@
 }
 
 .show-all-button {
-  background-color: #fd9f41;
-  color: #fff;
-  padding: 10px 20px;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 1);
+  padding: 12px 20px;
   font-family: secondary-medium;
-  font-size: 16px;
-  border: none;
-  border-radius: 12px;
+  font-size: 24px;
+  border: 2px solid rgba(253, 159, 65, 1);
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
