@@ -1,12 +1,19 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import TitledLogo from '../../assets/svgs/header-logo.svg';
 import PhoneIcon from '../../assets/svgs/call.svg';
 import NavigationOptions from './NavigationOptions';
+import IconedNavigationOptions from './IconedNavigationOptions';
+import '../../assets/styles/header.css';
+import CloseIcon from '../../assets/svgs/close.svg';
+import MenuLogo from '../../assets/svgs/menu-logo.svg';
+import MenuIcon from '../../assets/svgs/menu-icon.svg';
 
 const Header = () => {
   const [visible, setVisible] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,18 +21,16 @@ const Header = () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
-      // Only set the hide timeout if not at the top of the page
-      if (window.scrollY > 0) {
+      if (window.scrollY > 0 && !isMenuOpen) {
         timerRef.current = setTimeout(() => {
           setVisible(false);
-        }, 8000); // 8 секунд без скролу
+        }, 8000);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
 
-    // Set initial timeout only if not at the top
-    if (window.scrollY > 0) {
+    if (window.scrollY > 0 && !isMenuOpen) {
       timerRef.current = setTimeout(() => {
         setVisible(false);
       }, 8000);
@@ -35,7 +40,17 @@ const Header = () => {
       window.removeEventListener('scroll', handleScroll);
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, []);
+  }, [isMenuOpen]);
+
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <motion.div
@@ -45,13 +60,45 @@ const Header = () => {
       transition={{ duration: 0.6, ease: 'easeInOut' }}
     >
       <TitledLogo className="header-logo" />
-      <div className="header-nav-options">
+      <div className="header-nav-options desktop-only">
         <NavigationOptions />
       </div>
-      <div className="header-phone-container">
+      <div className="header-phone-container desktop-only">
         <PhoneIcon className="header-phone-icon" />
         <p>+380 67 843-02-44</p>
       </div>
+      <button className="hamburger-menu mobile-only" onClick={toggleMenu}>
+        <MenuIcon className="menu-icon" />
+      </button>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <motion.div
+              className="menu-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={handleOverlayClick}
+            />
+            <motion.div
+              className="mobile-menu"
+              ref={menuRef}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
+            >
+              <div className="menu-top-content" onClick={toggleMenu}>
+                <MenuLogo className="menu-logo" />
+                <CloseIcon className="menu-close-icon" />
+              </div>
+              <IconedNavigationOptions />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

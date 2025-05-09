@@ -7,61 +7,24 @@
   margin: auto;
 }
 
+@media screen and (max-width: 1380px) {
+  .layout-container {
+    width: calc(100% - 60px);
+    max-width: 1380px;
+    margin: 0 30px;
+  }
+}
+
 .layout-content {
   margin-top: 75px;
-}
-
-.header-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  width: 1380px;
-  height: 65px;
-  margin: auto;
-  padding: 0 20px;
-  border-radius: 10px;
-  border: 0.5px solid rgba(253, 159, 65, 0.8);
-  position: fixed;
-  top: 10px;
-  z-index: 1000;
-}
-
-.header-logo {
-  width: 150px;
-  height: 49px;
-}
-
-.header-nav-options .navigation-options {
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  gap: 32px;
-  font-family: secondary-regular;
-  font-size: 16px;
-}
-
-.header-phone-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 4px;
-}
-
-.header-phone-icon {
-  width: 24px;
-  height: 24px;
-  fill: #fd9f41;
-}
-
-.header-phone-container p {
-  font-size: 18px;
-  font-family: secondary-medium;
 }
 
 .home-page {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.navigation-options a {
+  text-decoration: none;
 }

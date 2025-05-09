@@ -9,24 +9,21 @@ import TopNewsSection from './TopNews/TopNews';
 import SplashScreen from './common/SplashScreen';
 
 function HomePage() {
-  // Ініціалізуємо showSplash на основі sessionStorage
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem('hasSeenSplash');
   });
   const [isSplashFading, setIsSplashFading] = useState(false);
 
   useEffect(() => {
-    // Позначити заставку як переглянуту, якщо вона відображається
     if (showSplash) {
       sessionStorage.setItem('hasSeenSplash', 'true');
     }
   }, [showSplash]);
 
-  // Блокування прокрутки, коли заставка активна
   useEffect(() => {
     if (showSplash && !isSplashFading) {
       document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = '0px'; // Налаштувати, якщо прокрутка викликає зсув
+      document.body.style.paddingRight = '0px';
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';

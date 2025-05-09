@@ -6,22 +6,39 @@
   border-radius: 20px 20px 0 0;
   overflow: hidden;
   position: relative;
-  width: 100%;
+  width: 1380px; /* Синхронізовано з layout-container для десктопу */
+  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
   margin: 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box; /* Гарантує, що padding не додає ширину */
 }
 
-.footer-logo-wrapper {
-  flex: 0 0 auto;
+/* Адаптація для планшетів (екрани до 1380px) */
+@media screen and (max-width: 1380px) {
+  .footer-container {
+    width: calc(
+      100% - 60px
+    ); /* Синхронізовано з layout-container: 100% - 30px з боків */
+    max-width: 1380px; /* Обмеження максимальної ширини */
+    margin: 0 30px; /* Відступи по 30px з боків */
+    height: 200px;
+  }
 }
 
 .footer-logo {
   width: 300px;
   height: 91px;
   fill: #fff;
+}
+
+@media screen and (max-width: 1380px) {
+  .footer-logo {
+    width: 200px;
+    height: 60px;
+  }
 }
 
 .footer-content {
@@ -42,8 +59,26 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  font-size: 18px;
+  font-size: 18px; /* Базовий розмір для десктопу */
   font-family: secondary-medium;
+}
+
+/* Зменшення розміру шрифту для планшетів до 1380px */
+@media screen and (max-width: 1380px) {
+  .footer-nav-options .navigation-options {
+    font-size: 16px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .footer-nav-options .navigation-options {
+    font-size: 14px;
+  }
+}
+
+.footer-nav-options a {
+  color: #ffffff;
 }
 
 .footer-contacts {
@@ -55,8 +90,22 @@
 
 .footer-contacts-title {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 20px;
+  font-size: 20px; /* Базовий розмір для десктопу */
   font-family: secondary-regular;
+}
+
+/* Зменшення розміру шрифту для планшетів до 1380px */
+@media screen and (max-width: 1380px) {
+  .footer-contacts-title {
+    font-size: 16px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .footer-contacts-title {
+    font-size: 14px;
+  }
 }
 
 .footer-contacts-container {
@@ -69,9 +118,16 @@
   display: flex;
   flex-direction: row;
   gap: 6px;
-  font-size: 16px;
+  font-size: 16px; /* Базовий розмір */
   font-family: secondary-medium;
   align-items: center;
+}
+
+/* Зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .footer-contacts-item {
+    font-size: 14px;
+  }
 }
 
 .footer-phone-icon,
@@ -94,6 +150,17 @@
 .footer-fingerprint-icon {
   width: 211px;
   height: 305px;
+}
+
+@media screen and (max-width: 1380px) {
+  .footer-fingerprint-container {
+    width: 140px;
+    height: 200px;
+  }
+  .footer-fingerprint-icon {
+    width: 140px;
+    height: 200px;
+  }
 }
 
 .footer-animation-wrapper {

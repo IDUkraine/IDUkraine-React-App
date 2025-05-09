@@ -18,9 +18,7 @@ function ContactUsSection() {
           animate={hasAnimated ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <h3 className="contact-us-main-heading">
-            Потрібна допомога? Зв'яжіться з нами
-          </h3>
+          <h3 className="contact-us-main-heading">Зв'яжіться з нами</h3>
           <p className="contact-us-subheading">
             Звертайтеся до нас за будь-якими питаннями чи допомогою. Ми тут, щоб
             допомогти!

@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/team.css';
 import TeamFingerprint from '../../../../assets/svgs/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/person-play.svg';
 import MailIcon from '../../../../assets/svgs/mail.svg';
+import CloseIcon from '../../../../assets/svgs/close.svg';
 import { useKeenSlider } from 'keen-slider/react';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 
 import 'keen-slider/keen-slider.min.css';
 
-const headEmployees = [
+interface Employee {
+  id: number;
+  name: string;
+  position: string;
+  specialty: string;
+  years: number;
+  email: string;
+  description: string;
+  photo: string;
+  iconPhotoOffsetY?: string;
+  radius?: number;
+}
+
+const headEmployees: Employee[] = [
   {
     id: 1,
     name: 'Serhii Rokun',
@@ -88,12 +102,19 @@ const headEmployees = [
     iconPhotoOffsetY: '0%',
   },
 ];
-const allEmployees = [...headEmployees];
+const allEmployees: Employee[] = [...headEmployees];
 
 function TeamSection() {
-  const [selectedEmployee, setSelectedEmployee] = useState(headEmployees[0]);
-  const [showAll, setShowAll] = useState(false);
-  const center = { x: 225, y: 240 };
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee>(
+    headEmployees[0]
+  );
+  const [showAll, setShowAll] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [scale, setScale] = useState<number>(1);
+  const [radiusScale, setRadiusScale] = useState<number>(1);
+
+  const baseCenter = { x: 225, y: 240 };
+  const baseWidth = 450;
 
   const [leftRef, leftVisible] = useSectionAnimation();
   const [rightRef, rightVisible] = useSectionAnimation();
@@ -107,9 +128,52 @@ function TeamSection() {
     drag: true,
   });
 
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      if (width <= 769) {
+        setScale(280 / baseWidth); // 280px на 769px
+        setRadiusScale(1); // Зменшуємо радіус на 30%
+      } else if (width <= 900) {
+        setScale(300 / baseWidth); // 300px на 900px
+        setRadiusScale(0.95); // Зменшуємо радіус на 25%
+      } else if (width <= 1025) {
+        setScale(320 / baseWidth); // 320px на 1025px
+        setRadiusScale(0.95); // Зменшуємо радіус на 20%
+      } else if (width <= 1200) {
+        setScale(360 / baseWidth); // 360px на 1200px
+        setRadiusScale(0.95); // Зменшуємо радіус на 10%
+      } else if (width <= 1381) {
+        setScale(400 / baseWidth); // 400px на 1381px
+        setRadiusScale(1); // Без зменшення
+      } else {
+        setScale(1); // 450px для десктопу
+        setRadiusScale(1); // Без зменшення
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
+
+  const center = {
+    x: baseCenter.x * scale,
+    y: baseCenter.y * scale,
+  };
+
+  const openModal = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <section className="team-section">
-      <h2 className="team-title">Наша команда</h2>
+    <section className="team-section" id="team">
+      <h2 className="team-title">/Наша команда</h2>
       <div className="team-content">
         <motion.div
           className="team-left"
@@ -123,9 +187,9 @@ function TeamSection() {
             <div className="photo-dots">
               {headEmployees.map((emp, index) => {
                 const angle = (2 * Math.PI * index) / headEmployees.length;
-                const radius = emp.radius ?? 190;
-                const x = center.x + radius * Math.cos(angle) - 45;
-                const y = center.y + radius * Math.sin(angle) - 45;
+                const radius = (emp.radius ?? 190) * scale * radiusScale;
+                const x = center.x + radius * Math.cos(angle) - 45 * scale;
+                const y = center.y + radius * Math.sin(angle) - 45 * scale;
 
                 return (
                   <div
@@ -134,7 +198,13 @@ function TeamSection() {
                       selectedEmployee.id === emp.id ? 'active' : ''
                     }`}
                     style={{ top: `${y}px`, left: `${x}px` }}
-                    onClick={() => setSelectedEmployee(emp)}
+                    onClick={() => {
+                      if (window.innerWidth <= 769) {
+                        openModal(emp);
+                      } else {
+                        setSelectedEmployee(emp);
+                      }
+                    }}
                   >
                     <div className="photo-dot">
                       <img
@@ -216,7 +286,13 @@ function TeamSection() {
             <div
               className="employee-slide keen-slider__slide"
               key={emp.id}
-              onClick={() => setSelectedEmployee(emp)}
+              onClick={() => {
+                if (window.innerWidth <= 769) {
+                  openModal(emp);
+                } else {
+                  setSelectedEmployee(emp);
+                }
+              }}
             >
               <img
                 src={emp.photo}
@@ -245,6 +321,41 @@ function TeamSection() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {isModalOpen && (
+        <div className="modal-overlay active">
+          <div className="modal-content">
+            <CloseIcon className="modal-close" onClick={closeModal} />
+            <div className="modal-employee-info">
+              <h3>{selectedEmployee.name}</h3>
+              <p className="position">{selectedEmployee.position}</p>
+              <div className="modal-employee-specs-container">
+                <div className="modal-employee-specs">
+                  <SpecialtyIcon className="modal-employee-specs-icon" />
+                  <p>{selectedEmployee.specialty}</p>
+                </div>
+                <div className="modal-employee-specs">
+                  <ExperienceIcon className="modal-employee-specs-icon" />
+                  <p>{selectedEmployee.years} years of experience</p>
+                </div>
+                <div className="modal-employee-specs">
+                  <MailIcon className="modal-employee-specs-icon" />
+                  <p>{selectedEmployee.email}</p>
+                </div>
+              </div>
+              <p
+                className="modal-employee-description"
+                dangerouslySetInnerHTML={{
+                  __html: selectedEmployee.description,
+                }}
+              />
+            </div>
+            <div className="modal-employee-photo">
+              <img src={selectedEmployee.photo} alt={selectedEmployee.name} />
+            </div>
+          </div>
         </div>
       )}
     </section>
