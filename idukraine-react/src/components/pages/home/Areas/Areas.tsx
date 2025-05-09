@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
 import AreaCard from './AreaCard';
 import HouseIcon from '../../../../assets/svgs/house.svg';
@@ -9,11 +10,15 @@ import FingerPrintLeft from '../../../../assets/svgs/fingerprints/fingerprint-ar
 import FingerPrintRight from '../../../../assets/svgs/fingerprints/fingerprint-areas-right.svg';
 import CloseIcon from '../../../../assets/svgs/close.svg';
 import FingerPrintOnSelect from '../../../../assets/svgs/fingerprints/fingerprint-areas-have-selected.svg';
+import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
+import { useTruncateText } from '../../../../hooks/useTruncateText';
 
 const AreasSection = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [closingCard, setClosingCard] = useState<string | null>(null); // Track closing card
+  const [closingCard, setClosingCard] = useState<string | null>(null);
+  const [ref, hasAnimated] = useSectionAnimation();
+  const { truncateText } = useTruncateText();
 
   const handleArrowClick = (title: string) => {
     setIsClosing(false);
@@ -34,79 +39,86 @@ const AreasSection = () => {
     }
   };
 
-  const truncateText = (text: string, maxWords: number = 20) => {
-    const words = text.split(' ');
-    if (words.length <= maxWords) return text;
-    return words.slice(0, maxWords).join(' ') + '...';
-  };
-
   const cards = [
-    {
-      title: 'Антикорупційна діяльність',
-      text: 'Антикорупційна діяльність в Україні спрямована на запобігання, виявлення та протидію корупції в державному та приватному секторах. Це включає моніторинг діяльності органів влади, просування прозорості, підтримку законодавчих реформ, громадську освіту та залучення громадян до антикорупційних ініціатив. Корупція в Україні історично була системною проблемою, що гальмує економічний розвиток і знижує довіру до державних інститутів.',
-      icon: CorruptionIcon,
-      fingerprint: <FingerPrintLeft className="fingerprint-areas-left" />,
-    },
-    {
-      title: 'Сфера публічних фінансів',
-      text: 'Сфера публічних фінансів охоплює управління державними коштами, включаючи бюджетування, державні закупівлі, оподаткування, управління боргом та фінансову звітність.',
-      icon: HouseIcon,
-      fingerprint: null,
-    },
     {
       title: 'Громадська власність',
       text: 'Цей напрямок стосується управління та використання майна, що належить державі або громадам (місцевому самоврядуванню).',
       icon: PublicPropertyIcon,
+      iconClass: 'areas-public-property-icon',
       fingerprint: null,
+    },
+    {
+      title: 'Розвиток доброчесності, підтримка антикорупційної інфраструктури',
+      text: 'Антикорупційна діяльність в Україні спрямована на запобігання, виявлення та протидію корупції в державному та приватному секторах.',
+      icon: CorruptionIcon,
+      iconClass: 'areas-corruption-icon',
+      fingerprint: <FingerPrintLeft className="fingerprint-areas-left" />,
     },
     {
       title: 'Сфера відновлення',
       text: 'Сфера відновлення в Україні зосереджена на відбудові інфраструктури, житла, економіки та соціальних систем, зруйнованих внаслідок війни.',
       icon: RepairIcon,
+      iconClass: 'areas-repair-icon',
       fingerprint: <FingerPrintRight className="fingerprint-areas-right" />,
+    },
+    {
+      title: 'Сфера публічних фінансів',
+      text: 'Сфера публічних фінансів охоплює управління державними коштами, включаючи бюджетування, державні закупівлі, оподаткування, управління боргом та фінансову звітність.',
+      icon: HouseIcon,
+      iconClass: 'areas-house-icon',
+      fingerprint: null,
     },
   ];
 
+  const animationDelays = [0, 0.2, 0.6, 0.4];
+  const spanValues = [5, 7, 6, 6];
+
   return (
-    <section className="areas-section">
+    <section className="areas-section" id="work-areas" ref={ref}>
       <div className="areas-container">
         <h2 className="areas-subtitle">/Напрями роботи</h2>
         <div className="areas-cards">
-          {cards.map((card) => (
-            <AreaCard
+          {cards.map((card, index) => (
+            <motion.div
               key={card.title}
-              title={card.title}
-              text={truncateText(card.text, 20)}
-              icon={card.icon}
-              isSelected={selectedCard === card.title}
-              onArrowClick={() => handleArrowClick(card.title)}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={hasAnimated ? { scale: 1, opacity: 1 } : {}}
+              transition={{
+                duration: 0.6,
+                ease: 'easeOut',
+                delay: animationDelays[index],
+              }}
+              style={{ gridColumn: `span ${spanValues[index]}` }}
             >
-              {selectedCard !== card.title ? (
-                card.fingerprint
-              ) : (
-                <FingerPrintOnSelect className="fingerprint-areas-have-selected" />
-              )}
-            </AreaCard>
+              <AreaCard
+                title={card.title}
+                text={truncateText(card.text, 20)}
+                icon={card.icon}
+                iconClass={card.iconClass}
+                isSelected={selectedCard === card.title}
+                onArrowClick={() => handleArrowClick(card.title)}
+              >
+                {selectedCard !== card.title ? (
+                  card.fingerprint
+                ) : (
+                  <FingerPrintOnSelect className="fingerprint-areas-have-selected" />
+                )}
+              </AreaCard>
+            </motion.div>
           ))}
         </div>
       </div>
       {(selectedCard || closingCard) && (
-        <div
-          className={`modal-overlay ${
-            isClosing ? 'overlay-closing' : 'overlay-open'
-          }`}
-          onClick={handleCloseDetails}
-        >
+        <div className="details-container">
           <div
-            className={`modal-content ${isClosing ? 'closing' : ''}`}
-            onClick={(e) => e.stopPropagation()}
+            className={`details-content ${isClosing ? 'closing' : ''}`}
             onAnimationEnd={handleAnimationEnd}
           >
             <CloseIcon className="details-close" onClick={handleCloseDetails} />
             {cards.map((card) =>
               selectedCard === card.title || closingCard === card.title ? (
                 <div key={card.title} className="details-body">
-                  <card.icon className="details-icon" />
+                  <card.icon className={`details-icon ${card.iconClass}`} />
                   <h3 className="details-title">{card.title}</h3>
                   <p className="details-text">{card.text}</p>
                 </div>

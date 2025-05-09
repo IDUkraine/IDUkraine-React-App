@@ -1,0 +1,418 @@
+.top-news-section {
+  padding: 40px 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 1380px; /* Синхронізовано з layout-container для десктопу */
+  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
+  margin: 0 auto;
+}
+
+/* Адаптація для планшетів (екрани до 1381px) */
+@media screen and (max-width: 1381px) {
+  .top-news-section {
+    width: calc(100% - 60px); /* 100% - 30px з кожного боку */
+    width: 100%;
+    padding: 30px 0;
+    gap: 30px;
+  }
+}
+
+/* Проміжна адаптація для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-section {
+    padding: 25px 0;
+    gap: 25px;
+  }
+}
+
+/* Додаткове зменшення для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-section {
+    padding: 20px 0;
+    gap: 20px;
+  }
+}
+
+.top-news-section-title {
+  font-size: 20px;
+  font-family: primary-medium;
+  line-height: 120%;
+  color: rgba(21, 25, 33, 1);
+  margin-left: 30px;
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-section-title {
+    font-size: 18px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-section-title {
+    font-size: 17px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-section-title {
+    font-size: 16px;
+  }
+}
+
+.top-news-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+/* Адаптація для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-container {
+    gap: 20px;
+  }
+}
+
+/* Проміжна адаптація для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-container {
+    gap: 16px;
+  }
+}
+
+/* Додаткове зменшення для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-container {
+    gap: 20px;
+    row-gap: 20px;
+  }
+}
+
+.top-news-card {
+  width: 400px;
+  height: 500px;
+  background-color: rgba(21, 25, 33, 1);
+  border-radius: 20px;
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+/* Зменшення розмірів картки для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-card {
+    width: 330px;
+    height: 420px;
+    padding: 8px;
+    gap: 8px;
+  }
+}
+
+/* Проміжне зменшення розмірів картки для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-card {
+    width: 300px;
+    height: 375px;
+    padding: 7px;
+    gap: 7px;
+  }
+}
+
+/* Додаткове зменшення розмірів картки для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-card {
+    width: 300px;
+    height: 360px;
+    padding: 6px;
+    gap: 6px;
+  }
+}
+
+.top-news-card:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.top-news-image {
+  width: 100%;
+  height: 200px;
+  background-color: #ccc; /* Заглушка для фото */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+
+/* Зменшення висоти зображення для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-image {
+    height: 180px;
+  }
+}
+
+/* Проміжне зменшення висоти зображення для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-image {
+    height: 170px;
+  }
+}
+
+/* Додаткове зменшення висоти зображення для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-image {
+    height: 160px;
+  }
+}
+
+.top-news-content {
+  flex: 1;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Зменшення відступів для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-content {
+    padding: 0 10px;
+    gap: 10px;
+  }
+}
+
+/* Проміжне зменшення відступів для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-content {
+    padding: 0 9px;
+    gap: 9px;
+  }
+}
+
+/* Додаткове зменшення відступів для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-content {
+    padding: 0 8px;
+    gap: 8px;
+  }
+}
+
+.top-news-icon {
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 10px;
+  font-family: secondary-bold;
+  color: #fd9f41;
+  padding: 4px 8px;
+  border: 1px solid rgba(253, 159, 65, 1);
+  border-radius: 12px;
+  width: fit-content;
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-icon {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-icon {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-icon {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+}
+
+.top-news-header {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+}
+
+/* Зменшення відступів для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-header {
+    gap: 3px;
+  }
+}
+
+/* Проміжне зменшення відступів для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-header {
+    gap: 2px;
+  }
+}
+
+/* Додаткове зменшення відступів для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-header {
+    gap: 2px;
+  }
+}
+
+.top-news-title {
+  font-size: 24px;
+  font-family: primary-medium;
+  line-height: 120%;
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-title {
+    font-size: 20px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-title {
+    font-size: 19px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-title {
+    font-size: 18px;
+  }
+}
+
+.top-news-category {
+  color: rgba(253, 159, 65, 0.8);
+  font-size: 12px;
+  font-family: secondary-regular;
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-category {
+    font-size: 11px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-category {
+    font-size: 10px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-category {
+    font-size: 10px;
+  }
+}
+
+.top-news-text {
+  font-size: 16px;
+  font-family: secondary-regular;
+  line-height: 140%;
+  color: rgba(255, 255, 255, 0.8);
+  flex: 1;
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-text {
+    font-size: 14px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-text {
+    font-size: 13px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-text {
+    font-size: 12px;
+  }
+}
+
+.top-news-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-news-date {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-family: secondary-regular;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Зменшення шрифту для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-date {
+    font-size: 11px;
+  }
+}
+
+/* Проміжне зменшення шрифту для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-date {
+    font-size: 10px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-date {
+    font-size: 10px;
+  }
+}
+
+.top-news-arrow-icon {
+  width: 40px;
+  height: 40px;
+  fill: #fd9f41;
+}
+
+/* Зменшення розміру іконки для екранів до 1381px */
+@media screen and (max-width: 1381px) {
+  .top-news-arrow-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Проміжне зменшення розміру іконки для екранів до 1200px */
+@media screen and (max-width: 1200px) {
+  .top-news-arrow-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Додаткове зменшення розміру іконки для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .top-news-arrow-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

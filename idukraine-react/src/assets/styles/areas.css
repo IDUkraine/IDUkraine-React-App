@@ -1,13 +1,23 @@
 .areas-section {
-  padding: 60px 0;
+  padding: 40px 0;
 }
 
 .areas-container {
-  width: 100%;
+  width: 1380px; /* Синхронізовано з layout-container для десктопу */
+  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+/* Адаптація для планшетів (екрани до 1380px) */
+@media screen and (max-width: 1380px) {
+  .areas-container {
+    width: calc(100% - 60px); /* 100% - 30px з кожного боку */
+    max-width: 1380px;
+    margin: 0 30px;
+  }
 }
 
 .areas-subtitle {
@@ -19,27 +29,41 @@
 }
 
 .areas-cards {
-  width: 90%;
+  width: 100%;
   margin: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: auto;
+  gap: 40px;
+  row-gap: 40px;
   justify-content: center;
-  overflow: hidden;
-  flex-wrap: wrap;
-  gap: 52px;
-  row-gap: 52px;
+}
+
+@media screen and (max-width: 1380px) {
+  .areas-cards {
+    gap: 20px;
+    row-gap: 20px;
+  }
 }
 
 .area-card {
-  width: 400px;
-  height: 450px;
+  height: 300px;
   background-color: #151921;
   border-radius: 20px;
-  padding: 40px 24px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 55px;
+  gap: 24px;
   position: relative;
   transition: background-color 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 1025px) {
+  .area-card {
+    height: 200px;
+    gap: 10px;
+    padding: 12px;
+  }
 }
 
 .area-card:hover {
@@ -50,15 +74,24 @@
   background-color: #fd9f41;
 }
 
-.area-card-selected .card-icon {
+@media screen and (max-width: 1025px) {
+  .area-card-icon {
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+}
+
+.area-card-selected .area-card-icon {
   fill: #151921;
 }
 
-.area-card-selected .card-icon * {
+.area-card-selected .area-card-icon * {
   fill: #151921 !important;
 }
 
-.area-card-selected .card-arrow * {
+.area-card-selected .area-card-arrow * {
   fill: #151921 !important;
 }
 
@@ -67,57 +100,114 @@
   color: #151921;
 }
 
-.card-content-container {
+.area-card-content-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.card-content {
+.area-card-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.card-title {
+@media screen and (max-width: 1025px) {
+  .area-card-content {
+    gap: 8px;
+  }
+}
+
+.area-card-title {
   font-family: primary-medium;
+  max-width: 90%;
   font-size: 24px;
   color: #fff;
   letter-spacing: 120%;
   transition: color 0.5s ease-in-out;
+  white-space: normal; /* Запобігає перенесенню тексту */
+  overflow: hidden; /* Ховає надлишковий текст */
+  text-overflow: ellipsis; /* Додає три крапки */
 }
 
-.card-text {
+/* Зменшення шрифту назви для планшетів */
+@media screen and (max-width: 1380px) {
+  .area-card-title {
+    font-size: 16px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .area-card-title {
+    font-size: 14px;
+  }
+}
+
+.area-card-text {
   font-family: secondary-regular;
+  max-width: 75%;
   font-size: 16px;
   line-height: 120%;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.5s ease-in-out;
+  overflow: hidden; /* Ховає надлишковий текст */
+  text-overflow: ellipsis; /* Додає три крапки */
+  display: -webkit-box;
+  line-clamp: 4;
+  -webkit-line-clamp: 4; /* Обмежує кількість рядків */
+  -webkit-box-orient: vertical; /* Вертикальна орієнтація для обрізки */
 }
 
-.card-arrow {
+/* Зменшення шрифту тексту для планшетів */
+@media screen and (max-width: 1380px) {
+  .area-card-text {
+    font-size: 14px;
+  }
+}
+
+/* Додаткове зменшення шрифту для екранів до 1025px */
+@media screen and (max-width: 1025px) {
+  .area-card-text {
+    font-size: 12px;
+    max-width: 90%;
+  }
+}
+
+.area-card-arrow {
   fill: rgba(253, 159, 65, 1);
   width: 40px;
   height: 40px;
   align-self: flex-end;
 }
 
-.card-arrow * {
+@media screen and (max-width: 1025px) {
+  .area-card-arrow {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.area-card-arrow * {
   fill: rgba(253, 159, 65, 1) !important;
 }
 
 .fingerprint-areas-left {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: auto;
 }
 
 .fingerprint-areas-right {
   position: absolute;
   top: -10px;
-  right: -30px;
+  right: -10px;
+  height: 100%;
+  width: auto;
 }
 
 .fingerprint-areas-have-selected {
@@ -128,6 +218,48 @@
 
 .area-card-selected .fingerprint-areas-have-selected * {
   fill: #000;
+}
+
+.details-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1000;
+}
+
+@media screen and (max-width: 1025px) {
+  .details-container {
+    width: 50%;
+  }
+}
+
+.details-content {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(21, 25, 33, 0.8);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: slideInFromRight 0.5s ease-out forwards;
+}
+
+@media screen and (max-width: 1025px) {
+  .details-content {
+    padding: 20px;
+  }
+}
+
+.details-content.closing {
+  animation: slideOutToRight 0.5s ease-in forwards;
 }
 
 .details-close {
@@ -154,10 +286,23 @@
   transition: fill 0.5s ease-in-out;
 }
 
+@media screen and (max-width: 1025px) {
+  .details-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .details-title {
   font-family: primary;
   font-size: 24px;
   color: #fff;
+}
+
+@media screen and (max-width: 1025px) {
+  .details-title {
+    font-size: 20px;
+  }
 }
 
 .details-text {
@@ -167,63 +312,9 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0); /* Початкова прозорість */
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 1000;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-
-.modal-overlay.overlay-open {
-  animation: fadeInOverlay 0.5s ease-out forwards;
-}
-
-.modal-overlay.overlay-closing {
-  animation: fadeOutOverlay 0.5s ease-in forwards;
-}
-
-.modal-content {
-  width: 600px;
-  height: 100%;
-  background-color: rgba(21, 25, 33, 0.8);
-  backdrop-filter: blur(20px);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  animation: slideInFromRight 0.5s ease-out forwards;
-  position: relative;
-}
-
-.modal-content.closing {
-  animation: slideOutToRight 0.5s ease-in forwards;
-}
-
-@keyframes fadeInOverlay {
-  from {
-    background-color: rgba(0, 0, 0, 0);
-    opacity: 0;
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0.3);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOutOverlay {
-  from {
-    background-color: rgba(0, 0, 0, 0.3);
-    opacity: 1;
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0);
-    opacity: 0;
+@media screen and (max-width: 1025px) {
+  .details-text {
+    font-size: 14px;
   }
 }
 
