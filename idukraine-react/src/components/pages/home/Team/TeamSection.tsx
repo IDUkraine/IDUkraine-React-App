@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/team.css';
-import TeamFingerprint from '../../../../assets/svgs/team-logo.svg';
+import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/person-play.svg';
 import MailIcon from '../../../../assets/svgs/mail.svg';
@@ -183,7 +183,7 @@ function TeamSection() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <div className="team-fingerprint-container">
-            <TeamFingerprint className="team-fingerprint" />
+            <TeamLogo className="team-fingerprint" />
             <div className="photo-dots">
               {headEmployees.map((emp, index) => {
                 const angle = (2 * Math.PI * index) / headEmployees.length;
