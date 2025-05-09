@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import '../../assets/styles/footer.css';
 import FooterLogo from '../../assets/svgs/logos/footer-logo.svg';
-import PhoneIcon from '../../assets/svgs/call.svg';
-import MailIcon from '../../assets/svgs/mail.svg';
-import FacebookIcon from '../../assets/svgs/facebook.svg';
+import PhoneIcon from '../../assets/svgs/icons/call.svg';
+import MailIcon from '../../assets/svgs/icons/mail.svg';
+import FacebookIcon from '../../assets/svgs/icons/facebook.svg';
 import FooterFingerprint from '../../assets/svgs/fingerprints/fingerprint-footer.svg';
 import NavigationOptions from './NavigationOptions';
 import { useSectionAnimation } from '../../hooks/useSectionAnimation';

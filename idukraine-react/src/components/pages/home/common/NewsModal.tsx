@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CloseIcon from '../../../../assets/svgs/close.svg';
-import ArrowTop from '../../../../assets/svgs/arrow-downward.svg';
+import ArrowTop from '../../../../assets/svgs/icons/arrow-downward.svg';
 import { NewsItem } from '../../../../types/types';
 
 interface NewsModalProps {

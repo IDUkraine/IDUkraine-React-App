@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/team.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
-import SpecialtyIcon from '../../../../assets/svgs/hail.svg';
-import ExperienceIcon from '../../../../assets/svgs/person-play.svg';
-import MailIcon from '../../../../assets/svgs/mail.svg';
-import CloseIcon from '../../../../assets/svgs/close.svg';
+import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
+import ExperienceIcon from '../../../../assets/svgs/icons/person-play.svg';
+import MailIcon from '../../../../assets/svgs/icons/mail.svg';
+import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import { useKeenSlider } from 'keen-slider/react';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 
@@ -52,14 +52,14 @@ const headEmployees: Employee[] = [
   },
   {
     id: 3,
-    name: 'Stanislav Bronevystkyy',
+    name: 'Stanislav Bronevytskyy',
     position: 'Founder',
     specialty: 'Lawyer',
     years: 20,
     email: 'example@gmail.com',
     description:
       '<strong>20 years of experience in criminal justice system.</strong> \n\nUntil November 2024 - prosecutor at the SAPO. Expert in investigating white-collar crimes and corruption crimes committed by top officials. Experience in international technical assistance project on institutional development of the NACP.',
-    photo: './workers/stanislav-bronevystkyy.jpeg',
+    photo: './workers/stanislav-bronevytskyy.jpeg',
     iconPhotoOffsetY: '20%',
     radius: 230,
   },

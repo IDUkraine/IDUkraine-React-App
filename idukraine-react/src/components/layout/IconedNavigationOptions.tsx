@@ -1,7 +1,7 @@
-import AboutIcon from '../../assets/svgs/about.svg';
-import TeamIcon from '../../assets/svgs/team.svg';
-import NewsIcon from '../../assets/svgs/news.svg';
-import AreasIcon from '../../assets/svgs/areas.svg';
+import AboutIcon from '../../assets/svgs/icons/about.svg';
+import TeamIcon from '../../assets/svgs/icons/team.svg';
+import NewsIcon from '../../assets/svgs/icons/news.svg';
+import AreasIcon from '../../assets/svgs/icons/areas.svg';
 
 const IconedNavigationOptions = () => {
   const navItems = [

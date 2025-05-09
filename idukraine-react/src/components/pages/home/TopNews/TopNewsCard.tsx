@@ -1,4 +1,4 @@
-import ArrowIcon from '../../../../assets/svgs/arrow-right-alt.svg';
+import ArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
 import '../../../../assets/styles/top-news.css';
 
 interface NewsCardProps {

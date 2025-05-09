@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/contact-us.css';
-import PhoneIcon from '../../../../assets/svgs/call.svg';
-import MailIcon from '../../../../assets/svgs/mail.svg';
-import FacebookIcon from '../../../../assets/svgs/facebook.svg';
+import PhoneIcon from '../../../../assets/svgs/icons/call.svg';
+import MailIcon from '../../../../assets/svgs/icons/mail.svg';
+import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 
 function ContactUsSection() {

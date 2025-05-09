@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import TitledLogo from '../../assets/svgs/logos/header-logo.svg';
-import PhoneIcon from '../../assets/svgs/call.svg';
+import PhoneIcon from '../../assets/svgs/icons/call.svg';
 import NavigationOptions from './NavigationOptions';
 import IconedNavigationOptions from './IconedNavigationOptions';
 import '../../assets/styles/header.css';
-import CloseIcon from '../../assets/svgs/close.svg';
+import CloseIcon from '../../assets/svgs/icons/close.svg';
 import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
-import MenuIcon from '../../assets/svgs/menu-icon.svg';
+import MenuIcon from '../../assets/svgs/icons/menu-icon.svg';
 
 const Header = () => {
   const [visible, setVisible] = useState(true);

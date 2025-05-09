@@ -3,8 +3,8 @@ import { useKeenSlider } from 'keen-slider/react';
 import { useState, useEffect, useRef } from 'react';
 import '../../../../assets/styles/general-news.css';
 import { useTruncateText } from '../../../../hooks/useTruncateText';
-import RightArrowIcon from '../../../../assets/svgs/arrow-circle-right.svg';
-import LeftArrowIcon from '../../../../assets/svgs/arrow-circle-left.svg';
+import RightArrowIcon from '../../../../assets/svgs/icons/arrow-circle-right.svg';
+import LeftArrowIcon from '../../../../assets/svgs/icons/arrow-circle-left.svg';
 import NewsModal from '../common/NewsModal';
 import { NewsItem } from '../../../../types/types';
 
