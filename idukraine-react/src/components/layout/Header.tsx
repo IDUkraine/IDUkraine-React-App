@@ -1,18 +1,19 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import TitledLogo from '../../assets/svgs/header-logo.svg';
+import TitledLogo from '../../assets/svgs/logos/header-logo.svg';
 import PhoneIcon from '../../assets/svgs/call.svg';
 import NavigationOptions from './NavigationOptions';
 import IconedNavigationOptions from './IconedNavigationOptions';
 import '../../assets/styles/header.css';
 import CloseIcon from '../../assets/svgs/close.svg';
-import MenuLogo from '../../assets/svgs/menu-logo.svg';
+import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
 import MenuIcon from '../../assets/svgs/menu-icon.svg';
 
 const Header = () => {
   const [visible, setVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const timerRef = useRef<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Header = () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
-      if (window.scrollY > 0 && !isMenuOpen) {
+      if (window.scrollY > 0 && !isMenuOpen && !isHovered) {
         timerRef.current = setTimeout(() => {
           setVisible(false);
         }, 8000);
@@ -30,7 +31,7 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll);
 
-    if (window.scrollY > 0 && !isMenuOpen) {
+    if (window.scrollY > 0 && !isMenuOpen && !isHovered) {
       timerRef.current = setTimeout(() => {
         setVisible(false);
       }, 8000);
@@ -40,7 +41,7 @@ const Header = () => {
       window.removeEventListener('scroll', handleScroll);
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isHovered]);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -52,14 +53,24 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <motion.div
       className="header-container"
       initial={{ y: -100, opacity: 0 }}
       animate={visible ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeInOut' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <TitledLogo className="header-logo" />
+      <TitledLogo
+        className="header-logo"
+        onClick={scrollToTop}
+        style={{ cursor: 'pointer' }}
+      />
       <div className="header-nav-options desktop-only">
         <NavigationOptions />
       </div>

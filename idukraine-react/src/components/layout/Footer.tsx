@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import '../../assets/styles/footer.css';
-import FooterLogo from '../../assets/svgs/footer-logo.svg';
+import FooterLogo from '../../assets/svgs/logos/footer-logo.svg';
 import PhoneIcon from '../../assets/svgs/call.svg';
 import MailIcon from '../../assets/svgs/mail.svg';
 import FacebookIcon from '../../assets/svgs/facebook.svg';
