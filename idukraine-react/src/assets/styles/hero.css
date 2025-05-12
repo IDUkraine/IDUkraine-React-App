@@ -235,7 +235,6 @@
   }
   .hero-button {
     font-size: 18px;
-    height: 40px;
     width: 160px;
     padding: 8px 12px;
   }
@@ -278,9 +277,12 @@
   }
   .hero-button {
     font-size: 16px;
-    height: 36px;
-    width: 140px;
+    width: fit-content;
     padding: 6px 10px;
+    height: fit-content;
+  }
+  .hero-button:active {
+    color: #fff;
   }
   .hero-image {
     height: 300px;
@@ -343,12 +345,6 @@
   .overlay-text {
     font-size: 18px;
   }
-  .hero-button {
-    font-size: 14px;
-    height: 32px;
-    width: 120px;
-    padding: 5px 8px;
-  }
   .milestone-text {
     font-size: 14px;
   }
@@ -376,10 +372,8 @@
     font-size: 16px;
   }
   .hero-button {
-    font-size: 12px;
-    height: 28px;
-    width: 100px;
-    padding: 4px 6px;
+    font-size: 16px;
+    padding: 8px;
   }
   .milestone-container {
     padding: 0 12px;

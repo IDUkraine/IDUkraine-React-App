@@ -168,6 +168,8 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  overflow-y: auto; /* Дозволяє вертикальну прокрутку, якщо вміст виходить за межі */
+  -webkit-overflow-scrolling: touch; /* Для плавного прокручування на сенсорних пристроях iOS */
   animation: slideInFromRight 0.5s ease-out forwards;
 }
 
