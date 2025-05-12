@@ -3,21 +3,12 @@
 }
 
 .areas-container {
-  width: 1380px; /* Синхронізовано з layout-container для десктопу */
-  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
+  width: 1380px;
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-/* Адаптація для планшетів (екрани до 1380px) */
-@media screen and (max-width: 1380px) {
-  .areas-container {
-    width: calc(100% - 60px); /* 100% - 30px з кожного боку */
-    max-width: 1380px;
-    margin: 0 30px;
-  }
 }
 
 .areas-subtitle {
@@ -39,13 +30,6 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 1380px) {
-  .areas-cards {
-    gap: 20px;
-    row-gap: 20px;
-  }
-}
-
 .area-card {
   height: 300px;
   background-color: #151921;
@@ -58,29 +42,12 @@
   transition: background-color 0.5s ease-in-out;
 }
 
-@media screen and (max-width: 1025px) {
-  .area-card {
-    height: 200px;
-    gap: 10px;
-    padding: 12px;
-  }
-}
-
 .area-card:hover {
   cursor: pointer;
 }
 
 .area-card-selected {
   background-color: #fd9f41;
-}
-
-@media screen and (max-width: 1025px) {
-  .area-card-icon {
-    min-width: 50px;
-    min-height: 50px;
-    max-width: 50px;
-    max-height: 50px;
-  }
 }
 
 .area-card-selected .area-card-icon {
@@ -114,12 +81,6 @@
   gap: 16px;
 }
 
-@media screen and (max-width: 1025px) {
-  .area-card-content {
-    gap: 8px;
-  }
-}
-
 .area-card-title {
   font-family: primary-medium;
   max-width: 90%;
@@ -127,23 +88,9 @@
   color: #fff;
   letter-spacing: 120%;
   transition: color 0.5s ease-in-out;
-  white-space: normal; /* Запобігає перенесенню тексту */
-  overflow: hidden; /* Ховає надлишковий текст */
-  text-overflow: ellipsis; /* Додає три крапки */
-}
-
-/* Зменшення шрифту назви для планшетів */
-@media screen and (max-width: 1380px) {
-  .area-card-title {
-    font-size: 16px;
-  }
-}
-
-/* Додаткове зменшення шрифту для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .area-card-title {
-    font-size: 14px;
-  }
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .area-card-text {
@@ -153,27 +100,12 @@
   line-height: 120%;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.5s ease-in-out;
-  overflow: hidden; /* Ховає надлишковий текст */
-  text-overflow: ellipsis; /* Додає три крапки */
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
   line-clamp: 4;
-  -webkit-line-clamp: 4; /* Обмежує кількість рядків */
-  -webkit-box-orient: vertical; /* Вертикальна орієнтація для обрізки */
-}
-
-/* Зменшення шрифту тексту для планшетів */
-@media screen and (max-width: 1380px) {
-  .area-card-text {
-    font-size: 14px;
-  }
-}
-
-/* Додаткове зменшення шрифту для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .area-card-text {
-    font-size: 12px;
-    max-width: 90%;
-  }
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .area-card-arrow {
@@ -181,13 +113,6 @@
   width: 40px;
   height: 40px;
   align-self: flex-end;
-}
-
-@media screen and (max-width: 1025px) {
-  .area-card-arrow {
-    width: 30px;
-    height: 30px;
-  }
 }
 
 .area-card-arrow * {
@@ -232,12 +157,6 @@
   z-index: 1000;
 }
 
-@media screen and (max-width: 1025px) {
-  .details-container {
-    width: 50%;
-  }
-}
-
 .details-content {
   width: 100%;
   height: 100%;
@@ -250,12 +169,6 @@
   align-items: center;
   gap: 20px;
   animation: slideInFromRight 0.5s ease-out forwards;
-}
-
-@media screen and (max-width: 1025px) {
-  .details-content {
-    padding: 20px;
-  }
 }
 
 .details-content.closing {
@@ -286,11 +199,10 @@
   transition: fill 0.5s ease-in-out;
 }
 
-@media screen and (max-width: 1025px) {
-  .details-icon {
-    width: 40px;
-    height: 40px;
-  }
+.details-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .details-title {
@@ -299,23 +211,11 @@
   color: #fff;
 }
 
-@media screen and (max-width: 1025px) {
-  .details-title {
-    font-size: 20px;
-  }
-}
-
 .details-text {
   font-family: secondary-regular;
   font-size: 16px;
   line-height: 120%;
   color: rgba(255, 255, 255, 0.8);
-}
-
-@media screen and (max-width: 1025px) {
-  .details-text {
-    font-size: 14px;
-  }
 }
 
 @keyframes slideInFromRight {
@@ -337,5 +237,281 @@
   100% {
     transform: translateX(100%);
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1380px) {
+  .areas-container {
+    width: calc(100% - 60px);
+    max-width: 1380px;
+    margin: 0 30px;
+  }
+  .areas-cards {
+    gap: 20px;
+    row-gap: 20px;
+  }
+  .area-card-title {
+    font-size: 16px;
+  }
+  .area-card-text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  .area-card {
+    height: 200px;
+    gap: 10px;
+    padding: 12px;
+  }
+  .areas-container {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+  }
+  .area-card-icon {
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .area-card-content {
+    gap: 8px;
+  }
+  .area-card-title {
+    font-size: 16px;
+  }
+  .area-card-text {
+    font-size: 12px;
+    max-width: 90%;
+  }
+  .area-card-arrow {
+    width: 30px;
+    height: 30px;
+  }
+  .details-container {
+    width: 50%;
+  }
+  .details-content {
+    padding: 20px;
+  }
+  .details-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .details-title {
+    font-size: 20px;
+  }
+  .details-text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .areas-section {
+    padding: 32px 0;
+  }
+  .areas-container {
+    width: 100%;
+    margin: auto;
+    gap: 24px;
+  }
+  .areas-subtitle {
+    font-size: 18px;
+  }
+  .areas-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    row-gap: 16px;
+  }
+  .area-card {
+    grid-column: span 12;
+    padding: 12px;
+    gap: 16px;
+  }
+  .area-card-icon {
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .area-card-content-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    flex: none;
+  }
+  .area-card-content {
+    gap: 12px;
+    flex: 1;
+  }
+  .area-card-title {
+    font-size: 16px;
+    max-width: 80%;
+  }
+  .area-card-text {
+    max-width: 80%;
+    font-size: 16px;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+  .area-card-arrow {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+  .fingerprint-areas-left,
+  .fingerprint-areas-right {
+    transform: scale(0.8);
+    right: -5px;
+    top: -5px;
+  }
+  .fingerprint-areas-have-selected {
+    transform: scale(0.8);
+    bottom: -5px;
+    left: -5px;
+  }
+  .details-container {
+    width: 100%;
+  }
+  .details-content {
+    padding: 16px;
+    gap: 16px;
+  }
+  .details-body {
+    gap: 40px;
+    margin-top: 10%;
+    width: 80%;
+  }
+  .details-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .details-title {
+    font-size: 18px;
+  }
+  .details-text {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 601px) {
+  .areas-section {
+    padding: 24px 0;
+  }
+  .areas-container {
+    gap: 20px;
+  }
+  .areas-subtitle {
+    font-size: 14px;
+  }
+  .areas-cards {
+    gap: 12px;
+    row-gap: 12px;
+  }
+  .area-card {
+    padding: 12px;
+  }
+  .area-card-icon {
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+  }
+  .area-card-content-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .area-card-text {
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+  .fingerprint-areas-left,
+  .fingerprint-areas-right {
+    display: none;
+  }
+  .fingerprint-areas-have-selected {
+    display: none;
+  }
+  .details-content {
+    padding: 12px;
+    gap: 12px;
+  }
+  .details-body {
+    gap: 32px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .areas-section {
+    padding: 20px 0;
+  }
+  .areas-container {
+    gap: 16px;
+  }
+  .areas-subtitle {
+    font-size: 14px;
+  }
+  .areas-cards {
+    gap: 10px;
+    row-gap: 10px;
+  }
+  .area-card {
+    padding: 12px;
+  }
+  .area-card-content {
+    gap: 8px;
+  }
+  .area-card-title {
+    max-width: 100%;
+    font-size: 16px;
+  }
+  .area-card-icon {
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+  }
+  .area-card-content-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .area-card-text {
+    font-size: 14px;
+    max-width: 95%;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
+  }
+  .area-card-arrow {
+    width: 30px;
+    height: 30px;
+  }
+  .details-content {
+    padding: 10px;
+    gap: 10px;
+  }
+  .details-body {
+    gap: 24px;
+  }
+  .details-icon {
+    width: 45px;
+    height: 45px;
+  }
+  .details-title {
+    font-size: 14px;
+  }
+  .details-text {
+    font-size: 12px;
+  }
+  .details-close {
+    height: 28px;
+    width: 28px;
+  }
+  .details-icon {
+    height: 40px;
+    width: 40px;
   }
 }

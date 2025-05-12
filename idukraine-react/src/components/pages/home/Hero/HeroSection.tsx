@@ -1,7 +1,51 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import '../../../../assets/styles/hero.css';
+import { useEffect, useState } from 'react';
+import FingerprintMilestone from '../../../../assets/svgs/fingerprints/fingerprint-milestone.svg';
 
 const HeroSection = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const milestones = [
+    {
+      year_amount: 8,
+      year_text: 'Років',
+      phrase: 'Працюємо над розвитком доброчесності в Україні',
+    },
+    {
+      year_amount: 22,
+      year_text: 'Роки',
+      phrase: 'Досвіду роботи в сфері публічних фінансів',
+    },
+    {
+      year_amount: 3,
+      year_text: 'Роки',
+      phrase: 'Досвіду роботи в сфері відновлення',
+    },
+  ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % milestones.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [milestones.length]);
+
   const handleButtonClick = () => {
     const aboutSection = document.getElementById('about');
     if (aboutSection) {
@@ -20,22 +64,65 @@ const HeroSection = () => {
         >
           Integrity & Development Ukraine
         </motion.h1>
-        <motion.button
-          className="hero-button"
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
-          onClick={handleButtonClick}
-        >
-          Ознайомитися
-        </motion.button>
+        {!isMobile && (
+          <motion.button
+            className="hero-button"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
+            onClick={handleButtonClick}
+          >
+            Ознайомитися
+          </motion.button>
+        )}
       </div>
 
       <div className="hero-image-container">
         <img src="./hero-image.jpg" alt="Hero Image" className="hero-image" />
         <div className="hero-overlay">
-          <p className="overlay-text">Розвивай добро чесно</p>
+          {!isMobile && <p className="overlay-text">Розвивай добро чесно</p>}
         </div>
+      </div>
+      {isMobile && (
+        <div className="moto-container">
+          <p className="moto-text">Розвивай добро чесно</p>
+          {isMobile && (
+            <motion.button
+              className="hero-button"
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
+              onClick={handleButtonClick}
+            >
+              Ознайомитися
+            </motion.button>
+          )}
+        </div>
+      )}
+      <div className="milestone-container">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            className="milestone-text"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="milestone-year">
+              <p className="milestone-year-amount">
+                {milestones[currentIndex].year_amount}
+              </p>{' '}
+              <p className="milestone-year-text">
+                {milestones[currentIndex].year_text}
+              </p>
+            </div>
+            <p className="milestone-phrase">
+              {milestones[currentIndex].phrase}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+        <FingerprintMilestone className="milestone-icon" />
       </div>
     </section>
   );

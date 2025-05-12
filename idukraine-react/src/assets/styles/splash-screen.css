@@ -91,12 +91,12 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .splash-logo {
-    max-width: 400px;
+    max-width: 350px;
     width: 80%;
   }
 
   .splash-title {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .progress-bar-container {
@@ -111,7 +111,7 @@
   }
 
   .splash-title {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .progress-bar-container {

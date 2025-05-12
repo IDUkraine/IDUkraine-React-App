@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
 import AreaCard from './AreaCard';
-import HouseIcon from '../../../../assets/svgs/house.svg';
-import RepairIcon from '../../../../assets/svgs/repair.svg';
-import CorruptionIcon from '../../../../assets/svgs/corruption.svg';
-import PublicPropertyIcon from '../../../../assets/svgs/public-property.svg';
+import HouseIcon from '../../../../assets/svgs/icons/house.svg';
+import RepairIcon from '../../../../assets/svgs/icons/repair.svg';
+import CorruptionIcon from '../../../../assets/svgs/icons/corruption.svg';
+import PublicPropertyIcon from '../../../../assets/svgs/icons/public-property.svg';
 import FingerPrintLeft from '../../../../assets/svgs/fingerprints/fingerprint-areas-left.svg';
 import FingerPrintRight from '../../../../assets/svgs/fingerprints/fingerprint-areas-right.svg';
-import CloseIcon from '../../../../assets/svgs/close.svg';
+import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FingerPrintOnSelect from '../../../../assets/svgs/fingerprints/fingerprint-areas-have-selected.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 import { useTruncateText } from '../../../../hooks/useTruncateText';
@@ -17,8 +17,22 @@ const AreasSection = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [closingCard, setClosingCard] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769); // Ініціалізація isMobile
   const [ref, hasAnimated] = useSectionAnimation();
   const { truncateText } = useTruncateText();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleArrowClick = (title: string) => {
     setIsClosing(false);
@@ -70,8 +84,8 @@ const AreasSection = () => {
     },
   ];
 
-  const animationDelays = [0, 0.2, 0.6, 0.4];
-  const spanValues = [5, 7, 6, 6];
+  const animationDelays = isMobile ? [0, 0.2, 0.4, 0.6] : [0, 0.2, 0.6, 0.4];
+  const spanValues = isMobile ? [1, 1, 1, 1] : [5, 7, 6, 6];
 
   return (
     <section className="areas-section" id="work-areas" ref={ref}>
@@ -119,8 +133,10 @@ const AreasSection = () => {
               selectedCard === card.title || closingCard === card.title ? (
                 <div key={card.title} className="details-body">
                   <card.icon className={`details-icon ${card.iconClass}`} />
-                  <h3 className="details-title">{card.title}</h3>
-                  <p className="details-text">{card.text}</p>
+                  <div className="details-text-container">
+                    <h3 className="details-title">{card.title}</h3>
+                    <p className="details-text">{card.text}</p>
+                  </div>
                 </div>
               ) : null
             )}
