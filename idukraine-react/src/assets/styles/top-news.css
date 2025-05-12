@@ -40,20 +40,12 @@
   font-family: primary-medium;
   line-height: 120%;
   color: rgba(21, 25, 33, 1);
-  margin-left: 30px;
 }
 
 /* Зменшення шрифту для екранів до 1381px */
 @media screen and (max-width: 1381px) {
   .top-news-section-title {
     font-size: 18px;
-  }
-}
-
-/* Проміжне зменшення шрифту для екранів до 1200px */
-@media screen and (max-width: 1200px) {
-  .top-news-section-title {
-    font-size: 17px;
   }
 }
 
@@ -113,7 +105,7 @@
   .top-news-card {
     width: 330px;
     height: 420px;
-    padding: 8px;
+    padding: 10px;
     gap: 8px;
   }
 }
@@ -123,7 +115,6 @@
   .top-news-card {
     width: 300px;
     height: 375px;
-    padding: 7px;
     gap: 7px;
   }
 }
@@ -132,8 +123,7 @@
 @media screen and (max-width: 1025px) {
   .top-news-card {
     width: 300px;
-    height: 360px;
-    padding: 6px;
+    height: 375px;
     gap: 6px;
   }
 }
@@ -209,7 +199,7 @@
   text-transform: uppercase;
   display: inline-block;
   font-size: 10px;
-  font-family: secondary-bold;
+  font-family: secondary-regular;
   color: #fd9f41;
   padding: 4px 8px;
   border: 1px solid rgba(253, 159, 65, 1);
@@ -357,6 +347,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 12px;
 }
 
 .top-news-date {

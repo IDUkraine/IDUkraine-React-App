@@ -3,45 +3,14 @@
   background-color: #151921;
   padding: 80px 30px;
   margin-top: 32px;
-  width: 1380px; /* Синхронізовано з layout-container для десктопу */
-  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
+  width: 1380px;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Адаптація для планшетів (екрани до 1381px) */
-@media screen and (max-width: 1381px) {
-  .about-section {
-    width: 100%;
-    padding: 60px 20px;
-    margin: 24px 0;
-  }
-}
-
-/* Додаткове зменшення для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-section {
-    padding: 40px 16px;
-    margin: 16px 0;
-  }
-}
-
 .about-container {
   margin: 0 30px;
-}
-
-/* Адаптація для планшетів (екрани до 1381px) */
-@media screen and (max-width: 1381px) {
-  .about-container {
-    margin: 0 20px;
-  }
-}
-
-/* Додаткове зменшення для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-container {
-    margin: 0 16px;
-  }
 }
 
 .about-content {
@@ -51,43 +20,13 @@
   position: relative;
 }
 
-/* Адаптація для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-content {
-    gap: 30px;
-  }
-}
-
-/* Вертикальне розташування для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-content {
-    gap: 20px;
-  }
-}
-
 .about-subtitle {
   font-family: primary-medium;
   font-size: 20px;
-  color: rgba(253, 159, 65, 0.8);
+  color: rgba(253, 159, 65, 1);
   margin-bottom: 20px;
   line-height: 120%;
   letter-spacing: 2px;
-}
-
-/* Зменшення шрифту для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-subtitle {
-    font-size: 18px;
-    margin-bottom: 16px;
-  }
-}
-
-/* Додаткове зменшення шрифту для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-subtitle {
-    font-size: 16px;
-    margin-bottom: 12px;
-  }
 }
 
 .about-image-container {
@@ -99,40 +38,10 @@
   z-index: 1;
 }
 
-/* Зменшення розмірів для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-image-container {
-    min-width: 400px;
-    height: 395px;
-  }
-}
-
-/* Додаткове зменшення для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-image-container {
-    min-width: 300px;
-    height: 295px;
-  }
-}
-
 .about-title {
-  font-family: primary-medium;
+  font-family: secondary-medium;
   font-size: 36px;
   color: #fff;
-}
-
-/* Зменшення шрифту для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-title {
-    font-size: 24px;
-  }
-}
-
-/* Додаткове зменшення шрифту для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-title {
-    font-size: 20px;
-  }
 }
 
 .about-title-orange {
@@ -147,40 +56,10 @@
   width: 525px;
 }
 
-/* Зменшення шрифту та ширини для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-text {
-    font-size: 16px;
-    width: 100%;
-  }
-}
-
-/* Додаткове зменшення шрифту для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-text {
-    font-size: 14px;
-    max-width: 100%;
-  }
-}
-
 .about-right-content {
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-/* Зменшення відступів для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-right-content {
-    gap: 24px;
-  }
-}
-
-/* Додаткове зменшення відступів для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-right-content {
-    gap: 16px;
-  }
 }
 
 .about-fingerprint {
@@ -190,22 +69,6 @@
   z-index: 0;
 }
 
-/* Зменшення позиціонування для екранів до 1381px */
-@media screen and (max-width: 1381px) {
-  .about-fingerprint {
-    top: 80px;
-    right: -180px;
-    transform: scale(0.8); /* Зменшення розміру відбитка */
-  }
-}
-
-/* Приховання відбитка для екранів до 1025px */
-@media screen and (max-width: 1025px) {
-  .about-fingerprint {
-    display: none; /* Відбиток не поміщається при вертикальному розташуванні */
-  }
-}
-
 .about-image {
   max-width: 100%;
   height: 100%;
@@ -213,4 +76,147 @@
   border-radius: 20px;
   z-index: 1;
   position: absolute;
+}
+
+@media screen and (max-width: 1381px) {
+  .about-section {
+    width: 100%;
+    padding: 60px 20px;
+    margin: 24px 0;
+  }
+  .about-container {
+    margin: 0 20px;
+  }
+  .about-content {
+    gap: 30px;
+  }
+  .about-subtitle {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .about-image-container {
+    min-width: 400px;
+    height: 395px;
+  }
+  .about-title {
+    font-size: 24px;
+  }
+  .about-text {
+    font-size: 16px;
+    width: 100%;
+  }
+  .about-right-content {
+    gap: 24px;
+  }
+  .about-fingerprint {
+    top: 80px;
+    right: -180px;
+    transform: scale(0.8);
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  .about-section {
+    padding: 40px 16px;
+    margin: 16px 0;
+  }
+  .about-container {
+    margin: 0 16px;
+  }
+  .about-content {
+    gap: 20px;
+  }
+  .about-subtitle {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  .about-image-container {
+    min-width: 300px;
+    height: 295px;
+  }
+  .about-title {
+    font-size: 20px;
+  }
+  .about-text {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .about-right-content {
+    gap: 16px;
+  }
+  .about-fingerprint {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .about-section {
+    padding: 32px 12px;
+    margin: 12px 0;
+  }
+  .about-container {
+    margin: 0 12px;
+  }
+  .about-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .about-image-container {
+    min-width: 100%;
+    height: 400px;
+  }
+  .about-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    position: relative;
+  }
+  .about-title {
+    font-size: 18px;
+  }
+  .about-text {
+    font-size: 13px;
+  }
+  .about-right-content {
+    gap: 12px;
+  }
+}
+
+@media screen and (max-width: 601px) {
+  .about-section {
+    padding: 24px 10px;
+    margin: 10px 0;
+  }
+  .about-container {
+    margin: 0 10px;
+  }
+  .about-image-container {
+    height: 350px;
+  }
+  .about-title {
+    font-size: 16px;
+  }
+  .about-text {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .about-section {
+    padding: 20px 8px;
+    margin: 8px 0;
+  }
+  .about-container {
+    margin: 0 8px;
+  }
+  .about-image-container {
+    height: 250px;
+  }
+  .about-title {
+    font-size: 14px;
+  }
+  .about-text {
+    font-size: 11px;
+  }
 }

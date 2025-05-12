@@ -10,4 +10,5 @@ export default defineConfig({
       include: '**/*.svg', // Process all SVG files as React components
     }),
   ],
+  assetsInclude: ['src/assets/workers/**/*'],
 });

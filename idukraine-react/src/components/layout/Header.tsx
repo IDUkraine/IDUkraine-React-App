@@ -76,7 +76,7 @@ const Header = () => {
       </div>
       <div className="header-phone-container desktop-only">
         <PhoneIcon className="header-phone-icon" />
-        <p>+380 67 843-02-44</p>
+        <p>+380 73 091-08-24</p>
       </div>
       <button className="hamburger-menu mobile-only" onClick={toggleMenu}>
         <MenuIcon className="menu-icon" />
@@ -105,7 +105,7 @@ const Header = () => {
                 <MenuLogo className="menu-logo" />
                 <CloseIcon className="menu-close-icon" />
               </div>
-              <IconedNavigationOptions />
+              <IconedNavigationOptions onNavClick={toggleMenu} />
             </motion.div>
           </>
         )}

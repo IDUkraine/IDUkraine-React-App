@@ -32,7 +32,7 @@ const newsItems: NewsItem[] = [
   },
   {
     title: 'Lorem ipsum dolor sit amet4',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa who officiates mollit anim id est laborum.',
     date: 'March 27th, 2025',
     category: 'Антикорупційна діяльність',
     image: 'https://via.placeholder.com/600x400',
@@ -51,6 +51,7 @@ const GeneralNewsSection = () => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const newsSectionRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const { truncateText } = useTruncateText();
 
   const [sliderRef, instanceRef] = useKeenSlider({
@@ -67,6 +68,13 @@ const GeneralNewsSection = () => {
         });
       }
     },
+    slides: {
+      perView: 1,
+      spacing: 20,
+    },
+    updated(slider) {
+      slider.container.style.height = 'auto';
+    },
   });
 
   const [titlesSliderRef, titlesInstanceRef] = useKeenSlider({
@@ -74,14 +82,40 @@ const GeneralNewsSection = () => {
     loop: false,
     mode: 'snap',
     slides: {
-      perView: 2,
+      perView: isMobile ? 1 : 2,
       spacing: 20,
       origin: 'auto',
     },
     drag: false,
     rubberband: false,
     renderMode: 'performance',
+    updated(slider) {
+      const slides = slider.slides;
+      let maxHeight = 0;
+      slides.forEach((slide) => {
+        const height = slide.offsetHeight;
+        if (height > maxHeight) maxHeight = height;
+      });
+      slider.container.style.minHeight = `${maxHeight}px`;
+    },
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newIsMobile = window.innerWidth < 769;
+      setIsMobile(newIsMobile);
+      // Force slider update on resize
+      instanceRef.current?.update();
+      titlesInstanceRef.current?.update();
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [instanceRef, titlesInstanceRef]);
 
   const animation = { duration: 1000 };
 
@@ -90,11 +124,11 @@ const GeneralNewsSection = () => {
       !instanceRef.current ||
       !titlesInstanceRef.current ||
       currentSlide === 0
-    )
+    ) {
       return;
+    }
 
     const newIndex = currentSlide - 1;
-
     instanceRef.current.moveToIdx(newIndex, false, animation);
     titlesInstanceRef.current.moveToIdx(newIndex, false, {
       duration: 500,
@@ -104,11 +138,12 @@ const GeneralNewsSection = () => {
   };
 
   const handleNext = () => {
-    if (!instanceRef.current || !titlesInstanceRef.current) return;
+    if (!instanceRef.current || !titlesInstanceRef.current) {
+      return;
+    }
 
     const newIndex =
       currentSlide === newsItems.length - 1 ? 0 : currentSlide + 1;
-
     instanceRef.current.moveToIdx(newIndex, false, animation);
     titlesInstanceRef.current.moveToIdx(newIndex, false, {
       duration: 450,
@@ -122,7 +157,7 @@ const GeneralNewsSection = () => {
 
     const interval = setInterval(() => {
       handleNext();
-    }, 3000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isHovered, currentSlide]);
@@ -132,8 +167,12 @@ const GeneralNewsSection = () => {
     const section = newsSectionRef.current;
     if (!section) return;
 
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+    };
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+    };
 
     section.addEventListener('mouseenter', handleMouseEnter);
     section.addEventListener('mouseleave', handleMouseLeave);
@@ -207,7 +246,7 @@ const GeneralNewsSection = () => {
 
         <hr className="general-news-divider" />
 
-        <div ref={sliderRef} className="keen-slider content-slider">
+        <div ref={sliderRef} className="keen-slider general-news-slider">
           {newsItems.map((news, index) => (
             <div key={index} className="keen-slider__slide general-news-slide">
               <div className="general-news-card">

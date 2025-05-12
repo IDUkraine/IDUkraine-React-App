@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import '../../../../assets/styles/team.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/icons/person-play.svg';
 import MailIcon from '../../../../assets/svgs/icons/mail.svg';
 import CloseIcon from '../../../../assets/svgs/icons/close.svg';
-import { useKeenSlider } from 'keen-slider/react';
+import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
-
-import 'keen-slider/keen-slider.min.css';
+import employeesData from '../../../../data/emplyees.json';
 
 interface Employee {
   id: number;
@@ -21,87 +20,13 @@ interface Employee {
   description: string;
   photo: string;
   iconPhotoOffsetY?: string;
-  radius?: number;
+  links: {
+    [key: string]: string;
+  };
 }
 
-const headEmployees: Employee[] = [
-  {
-    id: 1,
-    name: 'Serhii Rokun',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 15.5,
-    email: 'example@gmail.com',
-    description:
-      '<strong>7 years of experience of management of teams.</strong> 8.5 years of experience in the NABU and international technical assistance projects in the field of institutional development of anti-corruption agencies.\n\n<strong>Expert in financial investigations, international cooperation and troubleshooting.</strong>',
-    photo: './workers/serhii-rokun.jpeg',
-    iconPhotoOffsetY: '30%',
-  },
-  {
-    id: 2,
-    name: 'Nadiia Burdiei',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 10,
-    email: 'example@gmail.com',
-    description:
-      'Experience in the field of corruption prevention, in particular, in assessing corruption risks, monitoring the lifestyle of officials, identifying public officials and their assets in positions at the National Agency for the Prevention of Corruption, the State Agency for Infrastructure Reconstruction and Development, and the Anti-Corruption Action Center. Experience in media.',
-    photo: './workers/nadia-burdiei.jpeg',
-    iconPhotoOffsetY: '50%',
-    radius: 180,
-  },
-  {
-    id: 3,
-    name: 'Stanislav Bronevytskyy',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 20,
-    email: 'example@gmail.com',
-    description:
-      '<strong>20 years of experience in criminal justice system.</strong> \n\nUntil November 2024 - prosecutor at the SAPO. Expert in investigating white-collar crimes and corruption crimes committed by top officials. Experience in international technical assistance project on institutional development of the NACP.',
-    photo: './workers/stanislav-bronevytskyy.jpeg',
-    iconPhotoOffsetY: '20%',
-    radius: 230,
-  },
-  {
-    id: 4,
-    name: 'Andrii Denysiuk',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 13,
-    email: 'example@gmail.com',
-    description:
-      '13 years of experience in criminal justice system. Assistant to a member of the Ukrainian Parliament. Experience in drafting laws, public speaking and implementing educational projects. \n\nSpecialist in anti-corruption, procurement and projects in the field of IT, cryptocurrency, public procurement.',
-    photo: './workers/andrii-denysiuk.jpg',
-    iconPhotoOffsetY: '20%',
-    radius: 190,
-  },
-  {
-    id: 5,
-    name: 'Andrii Sotnyk',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 12,
-    email: 'example@gmail.com',
-    description:
-      'A lawyer with over 12 years of professional experience in the field of law, including work in government bodies, international technical assistance projects, and the civil society sector. <strong>Expert in the legislative regulation</strong> of the judiciary and law enforcement agencies in Ukraine, with deep expertise in anti-corruption policy, development of regulatory legal acts, and legislative analysis.',
-    photo: './workers/andrii-sotnyk.jpeg',
-    iconPhotoOffsetY: '20%',
-    radius: 210,
-  },
-  {
-    id: 6,
-    name: 'Serhii Verenchuk',
-    position: 'Founder',
-    specialty: 'Lawyer',
-    years: 8.5,
-    email: 'example@gmail.com',
-    description:
-      '<strong>8.5 years of experience as a NABU detective</strong> and international technical assistance projects in the field of state-owned enterprises, corporate governance.\n\nExpert in conducting investigations in criminal proceedings on economic crimes.',
-    photo: './workers/serhii-verenchuk.jpeg',
-    iconPhotoOffsetY: '0%',
-  },
-];
+const headEmployees: Employee[] = employeesData.employees;
+const radiuses: number[] = employeesData.radiuses;
 const allEmployees: Employee[] = [...headEmployees];
 
 function TeamSection() {
@@ -119,36 +44,33 @@ function TeamSection() {
   const [leftRef, leftVisible] = useSectionAnimation();
   const [rightRef, rightVisible] = useSectionAnimation();
 
-  const [sliderRef] = useKeenSlider({
-    mode: 'free-snap',
-    slides: {
-      perView: 'auto',
-      spacing: 52,
-    },
-    drag: true,
-  });
-
   useEffect(() => {
     const updateScale = () => {
       const width = window.innerWidth;
-      if (width <= 769) {
-        setScale(280 / baseWidth); // 280px на 769px
-        setRadiusScale(1); // Зменшуємо радіус на 30%
+      if (width <= 380) {
+        setScale(260 / baseWidth);
+        setRadiusScale(1);
+      } else if (width <= 480) {
+        setScale(340 / baseWidth);
+        setRadiusScale(0.95);
+      } else if (width <= 769) {
+        setScale(350 / baseWidth);
+        setRadiusScale(1);
       } else if (width <= 900) {
-        setScale(300 / baseWidth); // 300px на 900px
-        setRadiusScale(0.95); // Зменшуємо радіус на 25%
+        setScale(280 / baseWidth);
+        setRadiusScale(1);
       } else if (width <= 1025) {
-        setScale(320 / baseWidth); // 320px на 1025px
-        setRadiusScale(0.95); // Зменшуємо радіус на 20%
+        setScale(320 / baseWidth);
+        setRadiusScale(0.95);
       } else if (width <= 1200) {
-        setScale(360 / baseWidth); // 360px на 1200px
-        setRadiusScale(0.95); // Зменшуємо радіус на 10%
+        setScale(360 / baseWidth);
+        setRadiusScale(0.95);
       } else if (width <= 1381) {
-        setScale(400 / baseWidth); // 400px на 1381px
-        setRadiusScale(1); // Без зменшення
+        setScale(400 / baseWidth);
+        setRadiusScale(1);
       } else {
-        setScale(1); // 450px для десктопу
-        setRadiusScale(1); // Без зменшення
+        setScale(1);
+        setRadiusScale(1);
       }
     };
 
@@ -187,7 +109,7 @@ function TeamSection() {
             <div className="photo-dots">
               {headEmployees.map((emp, index) => {
                 const angle = (2 * Math.PI * index) / headEmployees.length;
-                const radius = (emp.radius ?? 190) * scale * radiusScale;
+                const radius = radiuses[index] * scale * radiusScale;
                 const x = center.x + radius * Math.cos(angle) - 45 * scale;
                 const y = center.y + radius * Math.sin(angle) - 45 * scale;
 
@@ -260,6 +182,11 @@ function TeamSection() {
                 <p>{selectedEmployee.email}</p>
               </div>
             </div>
+            <div className="employee-links">
+              {selectedEmployee.links['facebook'] && (
+                <FacebookIcon className="employee-links-icon" />
+              )}
+            </div>
             <p
               className="employee-description"
               dangerouslySetInnerHTML={{ __html: selectedEmployee.description }}
@@ -281,83 +208,110 @@ function TeamSection() {
       </div>
 
       {showAll && (
-        <div ref={sliderRef} className="employee-slider keen-slider">
-          {allEmployees.map((emp) => (
-            <div
-              className="employee-slide keen-slider__slide"
-              key={emp.id}
-              onClick={() => {
-                if (window.innerWidth <= 769) {
-                  openModal(emp);
-                } else {
-                  setSelectedEmployee(emp);
-                }
-              }}
-            >
-              <img
-                src={emp.photo}
-                alt={emp.name}
-                className="employee-slide-photo"
-              />
-              <div className="employee-slide-info">
-                <div>
-                  <p className="employee-slide-name">{emp.name}</p>
-                  <p className="employee-slide-position">{emp.position}</p>
-                </div>
-                <div className="employee-specs-container">
-                  <div className="employee-specs">
-                    <SpecialtyIcon className="employee-specs-icon" />
-                    <p>{emp.specialty}</p>
-                  </div>
-                  <div className="employee-specs">
-                    <ExperienceIcon className="employee-specs-icon" />
-                    <p>{emp.years} years of experience</p>
-                  </div>
-                  <div className="employee-specs">
-                    <MailIcon className="employee-specs-icon" />
-                    <p>{emp.email}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {isModalOpen && (
-        <div className="modal-overlay active">
-          <div className="modal-content">
-            <CloseIcon className="modal-close" onClick={closeModal} />
-            <div className="modal-employee-info">
-              <h3>{selectedEmployee.name}</h3>
-              <p className="position">{selectedEmployee.position}</p>
-              <div className="modal-employee-specs-container">
-                <div className="modal-employee-specs">
-                  <SpecialtyIcon className="modal-employee-specs-icon" />
-                  <p>{selectedEmployee.specialty}</p>
-                </div>
-                <div className="modal-employee-specs">
-                  <ExperienceIcon className="modal-employee-specs-icon" />
-                  <p>{selectedEmployee.years} years of experience</p>
-                </div>
-                <div className="modal-employee-specs">
-                  <MailIcon className="modal-employee-specs-icon" />
-                  <p>{selectedEmployee.email}</p>
-                </div>
-              </div>
-              <p
-                className="modal-employee-description"
-                dangerouslySetInnerHTML={{
-                  __html: selectedEmployee.description,
+        <div className="employee-slider">
+          <div className="employee-slider-inner">
+            {allEmployees.map((emp) => (
+              <div
+                className="employee-slide"
+                key={emp.id}
+                onClick={() => {
+                  if (window.innerWidth <= 769) {
+                    openModal(emp);
+                  } else {
+                    setSelectedEmployee(emp);
+                  }
                 }}
-              />
-            </div>
-            <div className="modal-employee-photo">
-              <img src={selectedEmployee.photo} alt={selectedEmployee.name} />
-            </div>
+              >
+                <img
+                  src={emp.photo}
+                  alt={emp.name}
+                  className="employee-slide-photo"
+                />
+                <div className="employee-slide-info">
+                  <div>
+                    <p className="employee-slide-name">{emp.name}</p>
+                    <p className="employee-slide-position">{emp.position}</p>
+                  </div>
+                  <div className="employee-specs-container">
+                    <div className="employee-specs">
+                      <SpecialtyIcon className="employee-specs-icon" />
+                      <p>{emp.specialty}</p>
+                    </div>
+                    <div className="employee-specs">
+                      <ExperienceIcon className="employee-specs-icon" />
+                      <p>{emp.years} years of experience</p>
+                    </div>
+                    <div className="employee-specs">
+                      <MailIcon className="employee-specs-icon" />
+                      <p>{emp.email}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            >
+              <div className="modal-employee-photo">
+                <img
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: `center ${
+                      selectedEmployee.iconPhotoOffsetY ?? '0%'
+                    }`,
+                  }}
+                  src={selectedEmployee.photo}
+                  alt={selectedEmployee.name}
+                />
+              </div>
+              <CloseIcon className="modal-close" onClick={closeModal} />
+              <div className="modal-employee-info">
+                <div className="modal-employee-header">
+                  <h3>{selectedEmployee.name}</h3>
+                  <p className="position">{selectedEmployee.position}</p>
+                </div>
+                <div className="modal-employee-specs-container">
+                  <div className="modal-employee-specs">
+                    <SpecialtyIcon className="modal-employee-specs-icon" />
+                    <p>{selectedEmployee.specialty}</p>
+                  </div>
+                  <div className="modal-employee-specs">
+                    <ExperienceIcon className="modal-employee-specs-icon" />
+                    <p>{selectedEmployee.years} years of experience</p>
+                  </div>
+                  <div className="modal-employee-specs">
+                    <MailIcon className="modal-employee-specs-icon" />
+                    <p>{selectedEmployee.email}</p>
+                  </div>
+                </div>
+                <p
+                  className="modal-employee-description"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedEmployee.description,
+                  }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

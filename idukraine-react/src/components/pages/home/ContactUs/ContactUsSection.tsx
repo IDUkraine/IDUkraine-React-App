@@ -36,7 +36,7 @@ function ContactUsSection() {
                 <p className="contact-title">Phone</p>
                 <div className="contact-content">
                   <PhoneIcon className="contact-icon" />
-                  <p className="contact-text">+380 67 843-02-44</p>
+                  <p className="contact-text">+380 73 091-08-24</p>
                 </div>
               </div>
               <div className="contact-item">

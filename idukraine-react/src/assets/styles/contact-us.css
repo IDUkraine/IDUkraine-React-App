@@ -3,19 +3,10 @@
   flex-direction: column;
   gap: 32px;
   margin: 60px 0 100px 0;
-  width: 1380px; /* Синхронізовано з layout-container для десктопу */
-  max-width: 100%; /* Запобігає перевищенню ширини в’юпорту */
+  width: 1380px;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Адаптація для планшетів (екрани до 1380px) */
-@media screen and (max-width: 1380px) {
-  .contact-us-section {
-    width: calc(100% - 60px); /* 100% - 30px з кожного боку */
-    max-width: 1380px; /* Обмеження максимальної ширини */
-    margin: 35px 30px;
-  }
 }
 
 .contact-us-title {
@@ -47,13 +38,6 @@
   color: rgba(21, 25, 33, 1);
 }
 
-/* Зменшення розміру шрифту для екранів до 1280px */
-@media screen and (max-width: 1280px) {
-  .contact-us-main-heading {
-    font-size: 32px;
-  }
-}
-
 .contact-us-subheading {
   font-size: 18px;
   font-family: secondary-medium;
@@ -62,22 +46,11 @@
   letter-spacing: -0.5px;
 }
 
-/* Зменшення розміру шрифту для екранів до 1280px */
-@media screen and (max-width: 1280px) {
-  .contact-us-subheading {
-    font-size: 16px;
-  }
-}
-
 .contact-card {
   position: relative;
-  padding: 2px; /* Відступ для градієнтного бордера */
+  padding: 2px;
   border-radius: 20px;
-  background: linear-gradient(
-    -135deg,
-    #eec033,
-    #fd9f41
-  ); /* Градієнтний бордер */
+  background: linear-gradient(-135deg, #eec033, #fd9f41);
 }
 
 .contact-card-inner {
@@ -88,16 +61,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-}
-
-/* Адаптація для планшетів: вертикальне розташування контактів */
-@media screen and (max-width: 1380px) {
-  .contact-card-inner {
-    flex-direction: column; /* Контакти в стовпчик */
-    align-items: flex-start; /* Вирівнювання зліва */
-    gap: 20px; /* Зберігаємо відступ між контактами */
-    padding: 20px 16px;
-  }
 }
 
 .contact-item {
@@ -113,13 +76,6 @@
   font-family: secondary-regular;
   font-size: 16px;
   line-height: 120%;
-}
-
-/* Зменшення розміру шрифту для екранів до 1280px */
-@media screen and (max-width: 1280px) {
-  .contact-title {
-    font-size: 14px;
-  }
 }
 
 .contact-content {
@@ -142,9 +98,160 @@
   line-height: 120%;
 }
 
-/* Зменшення розміру шрифту для екранів до 1280px */
+@media screen and (max-width: 1380px) {
+  .contact-us-section {
+    width: calc(100% - 60px);
+    max-width: 1380px;
+    margin: 35px 30px;
+  }
+  .contact-card-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 16px;
+  }
+}
+
 @media screen and (max-width: 1280px) {
+  .contact-us-main-heading {
+    font-size: 32px;
+  }
+  .contact-us-subheading {
+    font-size: 16px;
+  }
+  .contact-title {
+    font-size: 14px;
+  }
   .contact-text {
     font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .contact-us-section {
+    width: 100%;
+    margin: 20px 0;
+    gap: 24px;
+  }
+  .contact-us-title {
+    font-size: 18px;
+  }
+  .contact-us-content {
+    gap: 24px;
+  }
+  .contact-us-left {
+    gap: 10px;
+    max-width: 100%;
+  }
+  .contact-us-main-heading {
+    font-size: 28px;
+  }
+  .contact-us-subheading {
+    font-size: 15px;
+  }
+  .contact-card-inner {
+    padding: 16px 12px;
+    gap: 16px;
+  }
+  .contact-title {
+    font-size: 13px;
+  }
+  .contact-text {
+    font-size: 13px;
+  }
+  .contact-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .contact-content {
+    gap: 4px;
+  }
+  .contact-item {
+    gap: 6px;
+  }
+}
+
+@media screen and (max-width: 601px) {
+  .contact-us-section {
+    margin: 25px 0;
+    gap: 20px;
+  }
+  .contact-us-title {
+    font-size: 16px;
+  }
+  .contact-us-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .contact-us-left {
+    gap: 8px;
+  }
+  .contact-us-main-heading {
+    font-size: 24px;
+  }
+  .contact-us-subheading {
+    font-size: 14px;
+  }
+  .contact-us-right {
+    width: 100%;
+  }
+  .contact-card {
+    width: 100%;
+  }
+  .contact-card-inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 20px;
+  }
+  .contact-title {
+    font-size: 12px;
+  }
+  .contact-text {
+    font-size: 12px;
+  }
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .contact-content {
+    gap: 4px;
+  }
+  .contact-item {
+    gap: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .contact-us-section {
+    margin: 20px 0;
+    gap: 16px;
+  }
+  .contact-us-title {
+    font-size: 14px;
+  }
+  .contact-us-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contact-us-left {
+    gap: 6px;
+  }
+  .contact-us-main-heading {
+    font-size: 20px;
+  }
+  .contact-us-subheading {
+    font-size: 12px;
+  }
+  .contact-icon {
+    width: 16px;
+    height: 16px;
+  }
+  .contact-content {
+    gap: 3px;
+  }
+  .contact-item {
+    gap: 3px;
   }
 }

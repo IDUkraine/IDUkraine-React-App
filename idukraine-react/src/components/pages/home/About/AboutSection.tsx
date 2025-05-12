@@ -18,7 +18,7 @@ const AboutSection = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <img
-              src="./hero-image.jpg"
+              src="./about-image.jpg"
               alt="About Image"
               className="about-image"
             />
