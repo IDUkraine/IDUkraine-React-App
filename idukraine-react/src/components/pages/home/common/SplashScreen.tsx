@@ -14,11 +14,11 @@ function SplashScreen({ onComplete, onFadeStart }: SplashScreenProps) {
     const fadeTimer = setTimeout(() => {
       setIsFading(true);
       onFadeStart();
-    }, 300000);
+    }, 3000);
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 400000);
+    }, 4000);
 
     return () => {
       clearTimeout(fadeTimer);
