@@ -43,6 +43,11 @@
 
 .footer-nav-options a {
   color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.footer-nav-options a:hover {
+  color: #fd9f41;
 }
 
 .footer-contacts {

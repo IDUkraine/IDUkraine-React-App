@@ -27,12 +27,27 @@ const AreasSection = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize();
+    handleResize(); // Викликаємо при початковому завантаженні для встановлення початкового стану
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // НОВИЙ useEffect для керування прокруткою body
+  useEffect(() => {
+    if (selectedCard && isMobile) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = ''; // Скидаємо до значення за замовчуванням
+    }
+
+    // Функція очищення, яка гарантує відновлення прокрутки при розмонтуванні компонента
+    // або зміні залежностей
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedCard, isMobile]); // Запускаємо ефект при зміні selectedCard або isSmallMobile
 
   const handleArrowClick = (title: string) => {
     setIsClosing(false);

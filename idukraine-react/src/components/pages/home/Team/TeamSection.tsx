@@ -9,6 +9,7 @@ import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 import employeesData from '../../../../data/emplyees.json';
+import { useKeenSlider } from 'keen-slider/react';
 
 interface Employee {
   id: number;
@@ -37,6 +38,12 @@ function TeamSection() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
   const [radiusScale, setRadiusScale] = useState<number>(1);
+  const [sliderRef] = useKeenSlider<HTMLDivElement>({
+    mode: 'free',
+    drag: true,
+    rubberband: false,
+    renderMode: 'performance',
+  });
 
   const baseCenter = { x: 225, y: 240 };
   const baseWidth = 450;
@@ -48,17 +55,17 @@ function TeamSection() {
     const updateScale = () => {
       const width = window.innerWidth;
       if (width <= 380) {
-        setScale(260 / baseWidth);
+        setScale(240 / baseWidth);
         setRadiusScale(1);
       } else if (width <= 480) {
         setScale(340 / baseWidth);
         setRadiusScale(0.95);
       } else if (width <= 769) {
-        setScale(350 / baseWidth);
+        setScale(340 / baseWidth);
         setRadiusScale(1);
       } else if (width <= 900) {
         setScale(280 / baseWidth);
-        setRadiusScale(1);
+        setRadiusScale(0.95);
       } else if (width <= 1025) {
         setScale(320 / baseWidth);
         setRadiusScale(0.95);
@@ -78,6 +85,21 @@ function TeamSection() {
     window.addEventListener('resize', updateScale);
     return () => window.removeEventListener('resize', updateScale);
   }, []);
+
+  // Ефект для блокування прокручування body
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset'; // або 'auto', залежно від ваших стилів
+    }
+
+    // Функція очищення, яка запускається при розмонтуванні компонента
+    // або перед наступним запуском ефекту
+    return () => {
+      document.body.style.overflow = 'unset'; // Переконайтеся, що overflow скидається
+    };
+  }, [isModalOpen]); // Залежність від isModalOpen
 
   const center = {
     x: baseCenter.x * scale,
@@ -209,7 +231,7 @@ function TeamSection() {
 
       {showAll && (
         <div className="employee-slider">
-          <div className="employee-slider-inner">
+          <div className="employee-slider-inner" ref={sliderRef}>
             {allEmployees.map((emp) => (
               <div
                 className="employee-slide"
