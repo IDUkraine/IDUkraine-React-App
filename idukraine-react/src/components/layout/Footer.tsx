@@ -7,13 +7,31 @@ import FacebookIcon from '../../assets/svgs/icons/facebook.svg';
 import FooterFingerprint from '../../assets/svgs/fingerprints/fingerprint-footer.svg';
 import NavigationOptions from './NavigationOptions';
 import { useSectionAnimation } from '../../hooks/useSectionAnimation';
+import { useEffect, useState } from 'react';
 
 const Footer = () => {
   const [ref, hasAnimated] = useSectionAnimation();
+  const [initialY, setInitialY] = useState(window.innerWidth < 480 ? 50 : 160);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 480) {
+        setInitialY(50);
+      } else {
+        setInitialY(160);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className="footer-container">
       <motion.div
-        initial={{ y: 160, opacity: 0 }}
+        initial={{ y: initialY, opacity: 0 }}
         animate={hasAnimated ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
         ref={ref}

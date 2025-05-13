@@ -1,3 +1,4 @@
+/* Base styles */
 .hero-section {
   margin: 30px auto 0 auto;
   width: 1380px;
@@ -28,11 +29,31 @@
   cursor: pointer;
   height: 60px;
   width: 220px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Added color to transition */
+  outline: none; /* Remove default focus outline */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on some mobile browsers */
 }
 
 .hero-button:hover {
   background-color: transparent;
+  color: #151921; /* Ensure text color remains consistent or changes as intended on hover */
+}
+
+/* Added :active state for better feedback on click/tap on devices supporting hover */
+@media (hover: hover) and (pointer: fine) {
+  .hero-button:active {
+    background-color: transparent; /* Match hover background on active */
+    color: #151921; /* Match hover text color on active */
+  }
+}
+
+/* Reset hover/active on touch devices by overriding for the base state */
+@media (hover: none) and (pointer: coarse) {
+  .hero-button:hover {
+    background-color: #fd9f41; /* Revert to default background on hover for touch */
+    color: #151921; /* Revert to default text color on hover for touch */
+  }
+  /* Active state will be handled specifically in the 769px media query */
 }
 
 .hero-image-container {
@@ -280,10 +301,21 @@
     width: fit-content;
     padding: 6px 10px;
     height: fit-content;
+    /* Revert to default background on hover/active for touch - base state */
+    background-color: #fd9f41;
+    color: #151921;
   }
+  /* Ensure hover styles are reset for touch devices */
+  .hero-button:hover {
+    background-color: #fd9f41;
+    color: #151921;
+  }
+  /* Apply white text color specifically when active on touch */
   .hero-button:active {
-    color: #fff;
+    background-color: #fd9f41; /* Keep background color */
+    color: #fff; /* Change text color to white when active */
   }
+
   .hero-image {
     height: 300px;
   }
