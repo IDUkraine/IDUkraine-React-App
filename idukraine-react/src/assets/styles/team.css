@@ -1,9 +1,9 @@
 /* Base styles */
 .team-section {
-  padding: 80px 0 80px 10px;
+  padding: 80px 0;
+  max-width: 1380px;
+  margin: 0 30px;
   font-family: sans-serif;
-  width: 1380px;
-  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -217,10 +217,23 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  /* Add outline: none to prevent focus outline after click on some browsers */
+  outline: none;
 }
 
-.show-all-button:hover {
+/* Modified hover and active styles for the button */
+.show-all-button:hover,
+.show-all-button:active {
+  /* Add :active pseudo-class */
   background-color: #fd9f41;
+}
+
+/* Reset hover/active on touch devices by overriding */
+@media (hover: none) and (pointer: coarse) {
+  .show-all-button:hover,
+  .show-all-button:active {
+    background-color: transparent; /* Reset background on hover/active for touch */
+  }
 }
 
 .employee-slider {
@@ -859,6 +872,17 @@
 
   .worker-info-tooltip {
     margin-top: 2px;
+    /* Ensure tooltip is hidden on small screens */
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .photo-dot-wrapper:hover .worker-info-tooltip {
+    /* Ensure tooltip is hidden on small screens even on hover */
+    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 
   .worker-info-text {
@@ -890,6 +914,14 @@
   .show-all-button {
     font-size: 16px;
     padding: 12px 20px;
+    /* Reset hover/active background on touch devices */
+    background-color: transparent;
+  }
+
+  .show-all-button:hover,
+  .show-all-button:active {
+    /* Ensure background remains transparent on hover/active for touch */
+    background-color: transparent;
   }
 
   .employee-slider {
