@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import '../../assets/styles/layout.css';
