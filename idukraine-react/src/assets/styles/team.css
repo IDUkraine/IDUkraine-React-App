@@ -315,13 +315,14 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  height: -webkit-fill-available;
+  min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   z-index: 1000;
 }
 
@@ -332,12 +333,16 @@
   border-radius: 20px;
   padding: 20px;
   width: 90%;
+  height: 100%;
+  height: -webkit-fill-available;
   min-height: 100vh;
   margin: 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-close {
