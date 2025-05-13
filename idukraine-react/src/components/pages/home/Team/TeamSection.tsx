@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+import '../../../../assets/styles/swiper-custom.css';
 import '../../../../assets/styles/team.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
@@ -9,7 +12,6 @@ import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 import employeesData from '../../../../data/emplyees.json';
-import { useKeenSlider } from 'keen-slider/react';
 
 interface Employee {
   id: number;
@@ -38,12 +40,6 @@ function TeamSection() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
   const [radiusScale, setRadiusScale] = useState<number>(1);
-  const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    mode: 'free',
-    drag: true,
-    rubberband: false,
-    renderMode: 'performance',
-  });
 
   const baseCenter = { x: 225, y: 240 };
   const baseWidth = 450;
@@ -231,11 +227,20 @@ function TeamSection() {
 
       {showAll && (
         <div className="employee-slider">
-          <div className="employee-slider-inner" ref={sliderRef}>
+          <Swiper
+            slidesPerView="auto"
+            spaceBetween={20}
+            freeMode={{
+              enabled: true,
+              sticky: false,
+            }}
+            modules={[FreeMode]}
+            className="employee-slider-inner"
+          >
             {allEmployees.map((emp) => (
-              <div
-                className="employee-slide"
+              <SwiperSlide
                 key={emp.id}
+                className="employee-slide"
                 onClick={() => {
                   if (window.innerWidth <= 769) {
                     openModal(emp);
@@ -269,9 +274,9 @@ function TeamSection() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       )}
 

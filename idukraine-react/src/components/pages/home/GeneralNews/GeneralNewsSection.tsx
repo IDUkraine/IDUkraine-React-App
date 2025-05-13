@@ -131,7 +131,7 @@ const GeneralNewsSection = () => {
     const newIndex = currentSlide - 1;
     instanceRef.current.moveToIdx(newIndex, false, animation);
     titlesInstanceRef.current.moveToIdx(newIndex, false, {
-      duration: 500,
+      duration: 350,
       easing: (t: number) => t,
     });
     setCurrentSlide(newIndex);
@@ -157,7 +157,7 @@ const GeneralNewsSection = () => {
 
     const interval = setInterval(() => {
       handleNext();
-    }, 60000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isHovered, currentSlide]);
@@ -240,7 +240,7 @@ const GeneralNewsSection = () => {
                 }`}
               >
                 <p className="keen-slider-title">
-                  {isActive ? news.title : truncateText(news.title, 4)}
+                  {isActive ? news.title : news.title.slice(0, 25) + '...'}
                 </p>
               </div>
             );

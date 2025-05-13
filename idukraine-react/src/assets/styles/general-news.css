@@ -40,6 +40,11 @@
   overflow: hidden;
   padding: 0 24px;
   min-height: 80px; /* Ensure enough height for titles */
+  transition: all 0.3s ease-in-out;
+}
+
+.keen-slider__slide .title-slide inactive {
+  opacity: 0;
 }
 
 .title-slide {

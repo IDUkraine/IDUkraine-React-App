@@ -247,38 +247,35 @@
   overflow-x: hidden;
 }
 
-.employee-slider-inner {
-  display: flex;
-  gap: 20px;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding-bottom: 10px;
-  scroll-snap-type: x proximity;
+.employee-slider .swiper {
+  width: 100%;
+  height: auto;
 }
 
-.employee-slider-inner::-webkit-scrollbar {
-  display: none;
-}
-.employee-slider-inner:active {
-  cursor: grabbing; /* Курсор під час активного перетягування */
+.employee-slider-inner {
+  width: 100%;
 }
 
 .employee-slide {
-  flex: 0 0 255px;
+  width: 255px !important;
   height: 420px;
   background-color: rgba(21, 25, 33, 1);
   border-radius: 20px;
   padding: 10px;
-  text-align: center;
-  transition: transform 0.3s ease;
   color: #fff;
   text-align: left;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  scroll-snap-align: center;
+}
+
+.swiper-wrapper {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.swiper-slide {
+  display: flex;
 }
 
 .employee-slide:hover {
