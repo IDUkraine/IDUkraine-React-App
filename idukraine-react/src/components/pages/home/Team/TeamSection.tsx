@@ -40,6 +40,7 @@ function TeamSection() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
   const [radiusScale, setRadiusScale] = useState<number>(1);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   const baseCenter = { x: 225, y: 240 };
   const baseWidth = 450;
@@ -82,20 +83,33 @@ function TeamSection() {
     return () => window.removeEventListener('resize', updateScale);
   }, []);
 
-  // Ефект для блокування прокручування body
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset'; // або 'auto', залежно від ваших стилів
+      document.body.style.overflow = 'unset';
     }
 
-    // Функція очищення, яка запускається при розмонтуванні компонента
-    // або перед наступним запуском ефекту
     return () => {
-      document.body.style.overflow = 'unset'; // Переконайтеся, що overflow скидається
+      document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen]); // Залежність від isModalOpen
+  }, [isModalOpen]);
 
   const center = {
     x: baseCenter.x * scale,
@@ -288,6 +302,7 @@ function TeamSection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
+            style={{ height: viewportHeight }}
           >
             <motion.div
               className="modal-content"
@@ -295,6 +310,7 @@ function TeamSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
+              style={{ minHeight: viewportHeight }}
             >
               <div className="modal-employee-photo">
                 <img
