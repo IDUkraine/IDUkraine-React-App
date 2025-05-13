@@ -18,7 +18,7 @@ function SplashScreen({ onComplete, onFadeStart }: SplashScreenProps) {
 
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 4000);
+    }, 3000);
 
     return () => {
       clearTimeout(fadeTimer);
