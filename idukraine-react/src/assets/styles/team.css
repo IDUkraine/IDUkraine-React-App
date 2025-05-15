@@ -1,7 +1,7 @@
 /* Base styles */
 .team-section {
   padding: 80px 0;
-  max-width: 1380px;
+  max-width: 100%;
   margin: 0 30px;
   font-family: sans-serif;
   margin: 0 auto;
@@ -197,7 +197,8 @@
   white-space: pre-line;
 }
 
-.employee-description strong {
+.employee-description strong,
+.employee-description b {
   font-family: secondary-medium;
   font-weight: inherit;
 }
@@ -222,18 +223,22 @@
 }
 
 /* Modified hover and active styles for the button */
-.show-all-button:hover,
+.show-all-button:hover {
+  background-color: rgba(253, 159, 65, 0.8); /* Slightly less opaque on hover */
+}
+
 .show-all-button:active {
   /* Add :active pseudo-class */
-  background-color: #fd9f41;
+  background-color: rgba(253, 159, 65, 1); /* Full opacity on active (press) */
+  transition: background-color 0s; /* Make the active state change instant */
 }
 
 /* Reset hover/active on touch devices by overriding */
 @media (hover: none) and (pointer: coarse) {
-  .show-all-button:hover,
-  .show-all-button:active {
-    background-color: transparent; /* Reset background on hover/active for touch */
+  .show-all-button:hover {
+    background-color: transparent; /* Reset background on hover for touch */
   }
+  /* Remove the :active reset for touch devices here */
 }
 
 .employee-slider {
@@ -243,42 +248,39 @@
   overflow-x: hidden;
 }
 
-.employee-slider-inner {
-  display: flex;
-  gap: 20px;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding-bottom: 10px;
-  scroll-snap-type: x proximity;
+.employee-slider .swiper {
+  width: 100%;
+  height: auto;
 }
 
-.employee-slider-inner::-webkit-scrollbar {
-  display: none;
-}
-.employee-slider-inner:active {
-  cursor: grabbing; /* Курсор під час активного перетягування */
+.employee-slider-inner {
+  width: 100%;
 }
 
 .employee-slide {
-  flex: 0 0 255px;
+  width: 255px !important;
   height: 420px;
   background-color: rgba(21, 25, 33, 1);
   border-radius: 20px;
   padding: 10px;
-  text-align: center;
-  transition: transform 0.3s ease;
   color: #fff;
   text-align: left;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  scroll-snap-align: center;
 }
 
-.employee-slide:hover {
-  transform: translateY(-1px);
+.swiper-wrapper {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.swiper-slide {
+  display: flex;
+}
+
+.swiper-slide:hover {
+  cursor: pointer;
 }
 
 .employee-slide-photo {
@@ -315,12 +317,13 @@
   left: 0;
   width: 100%;
   height: 100%;
+  height: -webkit-fill-available;
+  min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow-y: auto; /* Дозволяє вертикальну прокрутку, якщо вміст виходить за межі */
-  -webkit-overflow-scrolling: touch; /* Для плавного прокручування на сенсорних пристроях iOS */
+  align-items: flex-start;
+  overflow: hidden;
   z-index: 1000;
 }
 
@@ -331,11 +334,16 @@
   border-radius: 20px;
   padding: 20px;
   width: 90%;
-  overflow-y: auto;
+  height: 100%;
+  height: -webkit-fill-available;
+  min-height: 100vh;
+  margin: 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-close {
@@ -407,7 +415,8 @@
   white-space: pre-line;
 }
 
-.modal-employee-description strong {
+.modal-employee-description strong,
+.modal-employee-description b {
   font-family: secondary-medium;
   font-weight: inherit;
 }
@@ -705,7 +714,27 @@
 
   .show-all-button {
     font-size: 16px;
-    padding: 6px 12px;
+    padding: 12px 20px;
+    /* Remove explicit background-color: transparent here if it was present */
+  }
+
+  /* Keep the standard :active style or define a specific one if needed */
+  .show-all-button:active {
+    background-color: rgba(
+      253,
+      159,
+      65,
+      1
+    ); /* Apply background fill on press */
+    transition: background-color 0s;
+  }
+
+  /* Ensure hover is transparent on touch, but don't override active */
+  @media (hover: none) and (pointer: coarse) {
+    .show-all-button:hover {
+      background-color: transparent;
+    }
+    /* Ensure active state is NOT overridden here */
   }
 
   .employee-slider {
@@ -794,7 +823,7 @@
   }
 
   .show-all-button {
-    padding: 5px 10px;
+    padding: 12px 20px;
   }
 
   .employee-slider {
@@ -911,19 +940,6 @@
     margin-top: 20px;
   }
 
-  .show-all-button {
-    font-size: 16px;
-    padding: 12px 20px;
-    /* Reset hover/active background on touch devices */
-    background-color: transparent;
-  }
-
-  .show-all-button:hover,
-  .show-all-button:active {
-    /* Ensure background remains transparent on hover/active for touch */
-    background-color: transparent;
-  }
-
   .employee-slider {
     margin-top: 8px;
     padding: 8px 0;
@@ -951,11 +967,12 @@
   }
 
   .modal-content {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     padding: 15px;
     gap: 12px;
     border-radius: 0;
+    margin: 0;
   }
 
   .modal-employee-specs-container {
@@ -965,6 +982,10 @@
   .modal-close {
     width: 36px;
     height: 36px;
+  }
+
+  .modal-overlay {
+    overflow-y: auto;
   }
 }
 

@@ -18,6 +18,14 @@ function TopNewsCard({
   image,
   onClick,
 }: NewsCardProps) {
+  const stripHtml = (html: string) => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  };
+
+  const plainText = stripHtml(text);
+
   return (
     <div className="top-news-card" onClick={onClick}>
       <div
@@ -30,7 +38,7 @@ function TopNewsCard({
           <h3 className="top-news-title">{title}</h3>
           <p className="top-news-category">{category}</p>
         </div>
-        <p className="top-news-text">{text.slice(0, 170)}...</p>
+        <p className="top-news-text">{plainText.slice(0, 170)}...</p>
       </div>
       <div className="top-news-footer">
         <span className="top-news-date">{date}</span>

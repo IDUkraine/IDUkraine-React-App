@@ -3,36 +3,46 @@ import { motion } from 'framer-motion';
 import '../../../../assets/styles/top-news.css';
 import TopNewsCard from './TopNewsCard';
 import NewsModal from '../common/NewsModal';
-import { NewsItem } from '../../../../types/types';
+import { NewsItem } from '../../../../types/news';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
-
-const newsItems: NewsItem[] = [
-  {
-    title: 'Lorem ipsum dolor sit amet',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    date: 'March 24th, 2025',
-    category: 'Антикорупційна діяльність',
-    image: './hero-image.jpg',
-  },
-  {
-    title: 'Lorem ipsum dolor sit amet',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    date: 'March 25th, 2025',
-    category: 'Антикорупційна діяльність',
-    image: './hero-image.jpg',
-  },
-  {
-    title: 'Lorem ipsum dolor sit amet',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    date: 'March 26th, 2025',
-    category: 'Антикорупційна діяльність',
-    image: './hero-image.jpg',
-  },
-];
+import { newsService } from '../../../../services/newsService';
 
 function TopNewsSection() {
-  const [ref, hasAnimated] = useSectionAnimation();
+  const [ref, hasAnimated] = useSectionAnimation(); // hasAnimated tells us when the section is visible
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  // New state to indicate the content is loaded AND ready for animation
+  const [isContentReady, setIsContentReady] = useState(false);
+
+  useEffect(() => {
+    const loadTopNews = async () => {
+      try {
+        const data = await newsService.getTopNews();
+        setNewsItems(data);
+        // Data is loaded, but give React/DOM a moment to render the cards
+        // before marking content as ready for animation
+        // A small timeout can help ensure elements are in the DOM
+        setTimeout(() => {
+          setIsContentReady(true);
+        }, 50); // You might need to adjust this delay
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load news');
+        setIsLoading(false); // Ensure loading is false on error
+      } finally {
+        // Only set isLoading to false after content is ready for animation,
+        // or manage loading state separately if you need a loading indicator shown longer
+        // For animation timing, setting content ready state is key
+        if (!error) {
+          // Only set loading false if no error
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadTopNews();
+  }, []); // Effect runs once on mount for data fetching
 
   const openModal = (news: NewsItem) => {
     setSelectedNews(news);
@@ -54,21 +64,48 @@ function TopNewsSection() {
     };
   }, [selectedNews]);
 
+  if (isLoading && !isContentReady) {
+    // You might want to render the section wrapper even when loading
+    // so the ref is attached early, but ensure it has minimal height
+    return (
+      <section className="top-news-section" id="news" ref={ref}>
+        <div className="loading">Loading...</div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="top-news-section" id="news" ref={ref}>
+        <div className="error">{error}</div>
+      </section>
+    );
+  }
+
+  // Render the section and cards only after data is loaded (or on error)
+  // The animation will be controlled by hasAnimated AND isContentReady
   return (
     <section className="top-news-section" id="news" ref={ref}>
       <h2 className="top-news-section-title">/Найважливіші новини</h2>
       <div className="top-news-container">
         {newsItems.map((news, index) => (
           <motion.div
-            key={index}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={hasAnimated ? { scale: 1, opacity: 1 } : {}}
+            key={news.id} // Using news.id is correct for keys
+            initial={{ opacity: 0, scale: 0.8 }}
+            // Animate only if the section is visible AND the content is marked as ready
+            animate={
+              hasAnimated && isContentReady ? { opacity: 1, scale: 1 } : {}
+            }
             transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.2 }}
           >
             <TopNewsCard
               title={news.title}
               text={news.text}
-              date={news.date}
+              date={new Date(news.date).toLocaleDateString('uk-UA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
               category={news.category}
               image={news.image || './news-image.jpg'}
               onClick={() => openModal(news)}

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+import '../../../../assets/styles/swiper-custom.css';
 import '../../../../assets/styles/team.css';
+import '../../../../assets/styles/modal.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/icons/person-play.svg';
@@ -8,8 +12,7 @@ import MailIcon from '../../../../assets/svgs/icons/mail.svg';
 import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
-import employeesData from '../../../../data/emplyees.json';
-import { useKeenSlider } from 'keen-slider/react';
+import employeesData from '../../../../data/employees.json';
 
 interface Employee {
   id: number;
@@ -21,29 +24,27 @@ interface Employee {
   description: string;
   photo: string;
   iconPhotoOffsetY?: string;
+  isDisplayedInCircle?: boolean;
   links: {
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
 }
 
-const headEmployees: Employee[] = employeesData.employees;
+const allEmployees: Employee[] = employeesData.employees;
+const circleEmployees: Employee[] = allEmployees
+  .filter((emp) => emp.isDisplayedInCircle ?? true)
+  .slice(0, 6);
 const radiuses: number[] = employeesData.radiuses;
-const allEmployees: Employee[] = [...headEmployees];
 
 function TeamSection() {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee>(
-    headEmployees[0]
+    circleEmployees[0]
   );
   const [showAll, setShowAll] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
   const [radiusScale, setRadiusScale] = useState<number>(1);
-  const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    mode: 'free',
-    drag: true,
-    rubberband: false,
-    renderMode: 'performance',
-  });
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
   const baseCenter = { x: 225, y: 240 };
   const baseWidth = 450;
@@ -86,20 +87,31 @@ function TeamSection() {
     return () => window.removeEventListener('resize', updateScale);
   }, []);
 
-  // Ефект для блокування прокручування body
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset'; // або 'auto', залежно від ваших стилів
+      document.body.style.overflow = 'unset';
     }
 
-    // Функція очищення, яка запускається при розмонтуванні компонента
-    // або перед наступним запуском ефекту
     return () => {
-      document.body.style.overflow = 'unset'; // Переконайтеся, що overflow скидається
+      document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen]); // Залежність від isModalOpen
+  }, [isModalOpen]);
 
   const center = {
     x: baseCenter.x * scale,
@@ -129,8 +141,8 @@ function TeamSection() {
           <div className="team-fingerprint-container">
             <TeamLogo className="team-fingerprint" />
             <div className="photo-dots">
-              {headEmployees.map((emp, index) => {
-                const angle = (2 * Math.PI * index) / headEmployees.length;
+              {circleEmployees.map((emp, index) => {
+                const angle = (2 * Math.PI * index) / circleEmployees.length;
                 const radius = radiuses[index] * scale * radiusScale;
                 const x = center.x + radius * Math.cos(angle) - 45 * scale;
                 const y = center.y + radius * Math.sin(angle) - 45 * scale;
@@ -231,11 +243,20 @@ function TeamSection() {
 
       {showAll && (
         <div className="employee-slider">
-          <div className="employee-slider-inner" ref={sliderRef}>
+          <Swiper
+            slidesPerView="auto"
+            spaceBetween={20}
+            freeMode={{
+              enabled: true,
+              sticky: false,
+            }}
+            modules={[FreeMode]}
+            className="employee-slider-inner"
+          >
             {allEmployees.map((emp) => (
-              <div
-                className="employee-slide"
+              <SwiperSlide
                 key={emp.id}
+                className="employee-slide"
                 onClick={() => {
                   if (window.innerWidth <= 769) {
                     openModal(emp);
@@ -269,20 +290,21 @@ function TeamSection() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       )}
 
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
-            className="modal-overlay"
+            className="modal-container modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
+            style={{ height: viewportHeight }}
           >
             <motion.div
               className="modal-content"
@@ -290,6 +312,7 @@ function TeamSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
+              style={{ minHeight: viewportHeight }}
             >
               <div className="modal-employee-photo">
                 <img
@@ -322,6 +345,11 @@ function TeamSection() {
                     <MailIcon className="modal-employee-specs-icon" />
                     <p>{selectedEmployee.email}</p>
                   </div>
+                </div>
+                <div className="employee-links">
+                  {selectedEmployee.links['facebook'] && (
+                    <FacebookIcon className="employee-links-icon" />
+                  )}
                 </div>
                 <p
                   className="modal-employee-description"

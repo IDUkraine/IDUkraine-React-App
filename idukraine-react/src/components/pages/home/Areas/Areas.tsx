@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
+import '../../../../assets/styles/modal.css';
 import AreaCard from './AreaCard';
 import HouseIcon from '../../../../assets/svgs/icons/house.svg';
 import RepairIcon from '../../../../assets/svgs/icons/repair.svg';
@@ -17,9 +18,20 @@ const AreasSection = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [closingCard, setClosingCard] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 769); // Ініціалізація isMobile
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [ref, hasAnimated] = useSectionAnimation();
   const { truncateText } = useTruncateText();
+  const scrollYRef = useRef<number>(0);
+
+  useLayoutEffect(() => {
+    // Calculate scrollbar width
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty(
+      '--scrollbar-width',
+      `${scrollbarWidth}px`
+    );
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,27 +39,27 @@ const AreasSection = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize(); // Викликаємо при початковому завантаженні для встановлення початкового стану
+    handleResize();
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  // НОВИЙ useEffect для керування прокруткою body
   useEffect(() => {
     if (selectedCard && isMobile) {
-      document.body.style.overflow = 'hidden';
+      document.documentElement.classList.add('is-locked');
+      document.body.classList.add('is-locked');
     } else {
-      document.body.style.overflow = ''; // Скидаємо до значення за замовчуванням
+      document.documentElement.classList.remove('is-locked');
+      document.body.classList.remove('is-locked');
     }
 
-    // Функція очищення, яка гарантує відновлення прокрутки при розмонтуванні компонента
-    // або зміні залежностей
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.classList.remove('is-locked');
+      document.body.classList.remove('is-locked');
     };
-  }, [selectedCard, isMobile]); // Запускаємо ефект при зміні selectedCard або isSmallMobile
+  }, [selectedCard, isMobile]);
 
   const handleArrowClick = (title: string) => {
     setIsClosing(false);
@@ -138,7 +150,7 @@ const AreasSection = () => {
         </div>
       </div>
       {(selectedCard || closingCard) && (
-        <div className="details-container">
+        <div className="modal-container details-container">
           <div
             className={`details-content ${isClosing ? 'closing' : ''}`}
             onAnimationEnd={handleAnimationEnd}

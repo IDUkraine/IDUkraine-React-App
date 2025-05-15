@@ -1,0 +1,232 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.loginBox {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loginTitle {
+  font-family: 'primary-medium', sans-serif;
+  color: #2c2c2c;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.loginSubtitle {
+  color: #757575;
+  font-family: 'secondary-regular', sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-family: 'secondary-medium', sans-serif;
+  color: #2c2c2c;
+  font-size: 0.875rem;
+}
+
+.input {
+  padding: 0.75rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2c2c2c;
+}
+
+.button {
+  background-color: #2c2c2c;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-family: 'primary-medium', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #404040;
+}
+
+.demoCredentials {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #757575;
+  font-size: 0.875rem;
+}
+
+/* Dashboard styles */
+.dashboardContainer {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.navbar {
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbarContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboardTitle {
+  font-family: 'primary-medium', sans-serif;
+  color: #2c2c2c;
+  font-size: 1.5rem;
+}
+
+.logoutButton {
+  background-color: transparent;
+  color: #757575;
+  border: 1px solid #e5e5e5;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.contentCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  color: #757575;
+  font-family: 'secondary-medium', sans-serif;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab:hover {
+  color: #2c2c2c;
+}
+
+.tabActive {
+  color: #2c2c2c;
+}
+
+.tabActive::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #2c2c2c;
+}
+
+/* Coming Soon section */
+.comingSoon {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #757575;
+}
+
+.comingSoonIcon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+.comingSoonTitle {
+  font-family: 'primary-medium', sans-serif;
+  color: #2c2c2c;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comingSoonText {
+  font-family: 'secondary-regular', sans-serif;
+  color: #757575;
+}
+
+.settingsSection {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.settingsSection .loginBox {
+  margin: 0;
+}
+
+.changePasswordForm {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}

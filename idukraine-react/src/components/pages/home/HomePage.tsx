@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import HeroSection from './Hero/HeroSection';
 import AboutSection from './About/AboutSection';
 import AreasSection from './Areas/Areas';
@@ -8,15 +9,22 @@ import ContactUsSection from './ContactUs/ContactUsSection';
 import TopNewsSection from './TopNews/TopNews';
 import SplashScreen from './common/SplashScreen';
 
+type ContextType = {
+  onSplashComplete: () => void;
+};
+
 function HomePage() {
+  const { onSplashComplete } = useOutletContext<ContextType>();
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem('hasSeenSplash');
   });
   const [isSplashFading, setIsSplashFading] = useState(false);
+  const [splashComplete, setSplashComplete] = useState(!showSplash);
 
   useEffect(() => {
     if (showSplash) {
       sessionStorage.setItem('hasSeenSplash', 'true');
+      setSplashComplete(false);
     }
   }, [showSplash]);
 
@@ -36,13 +44,17 @@ function HomePage() {
     };
   }, [showSplash, isSplashFading]);
 
-  const handleSplashComplete = () => {
-    setShowSplash(false);
-    setIsSplashFading(false);
-  };
-
   const handleFadeStart = () => {
     setIsSplashFading(true);
+    setSplashComplete(true);
+    onSplashComplete();
+  };
+
+  const handleSplashComplete = () => {
+    setTimeout(() => {
+      setShowSplash(false);
+      setIsSplashFading(false);
+    }, 900);
   };
 
   return (
@@ -57,7 +69,7 @@ function HomePage() {
           onFadeStart={handleFadeStart}
         />
       )}
-      <HeroSection />
+      <HeroSection splashComplete={splashComplete} />
       <AboutSection />
       <TeamSection />
       <TopNewsSection />

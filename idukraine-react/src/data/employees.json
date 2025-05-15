@@ -3,16 +3,18 @@
     {
       "id": 1,
       "name": "Andrii Denysiuk",
-      "email": "example@gmail.com",
+      "email": "example3@gmail.com",
       "position": "Founder",
-      "specialty": "Lawyer",
+      "specialty": "Law",
       "years": 13,
-      "description": "13 years of experience in criminal justice system. Assistant to a member of the Ukrainian Parliament. Experience in drafting laws, public speaking and implementing educational projects. \n\nSpecialist in anti-corruption, procurement and projects in the field of IT, cryptocurrency, public procurement.",
-      "photo": "/workers/andrii-denysiuk.jpg",
+      "description": "<p>13 years of experience in criminal justice system. Assistant to a member of the Ukrainian Parliament. Experience in drafting laws, public speaking and implementing educational projects.</p><p>Specialist in anti-corruption, procurement and projects in the field of IT, cryptocurrency, public procurement.</p>",
       "iconPhotoOffsetY": "20%",
       "links": {
         "facebook": "https://www.facebook.com/andrii.denysiuk"
-      }
+      },
+      "currentPhotoPath": "/workers/andrii-denysiuk.jpg",
+      "isDisplayedInCircle": true,
+      "photo": "/workers/andrii-denysiuk.jpg"
     },
     {
       "id": 2,
@@ -26,7 +28,8 @@
       "iconPhotoOffsetY": "50%",
       "links": {
         "facebook": "https://www.facebook.com/nadiia.burdiei"
-      }
+      },
+      "isDisplayedInCircle": true
     },
     {
       "id": 3,
@@ -40,7 +43,8 @@
       "iconPhotoOffsetY": "20%",
       "links": {
         "facebook": "https://www.facebook.com/stanislav.bronevytskyy"
-      }
+      },
+      "isDisplayedInCircle": true
     },
     {
       "id": 4,
@@ -49,12 +53,14 @@
       "position": "Founder",
       "specialty": "Lawyer",
       "years": 15.5,
-      "description": "<strong>7 years of experience of management of teams.</strong> 8.5 years of experience in the NABU and international technical assistance projects in the field of institutional development of anti-corruption agencies.\n\n<strong>Expert in financial investigations, international cooperation and troubleshooting.</strong>",
-      "photo": "/workers/serhii-rokun.jpeg",
+      "description": "<p><strong>7 years of experience of management of teams.</strong> 8.5 years of experience in the NABU and international technical assistance projects in the field of institutional development of anti-corruption agencies. </p><p><strong>Expert in financial investigations, international cooperation and troubleshooting.</strong></p>",
       "iconPhotoOffsetY": "30%",
       "links": {
         "facebook": "https://www.facebook.com/serhii.rokun"
-      }
+      },
+      "isDisplayedInCircle": true,
+      "currentPhotoPath": "/workers/serhii-rokun.jpeg",
+      "photo": "/workers/serhii-rokun.jpeg"
     },
     {
       "id": 5,
@@ -64,11 +70,13 @@
       "specialty": "Lawyer",
       "years": 12,
       "description": "A lawyer with over 12 years of professional experience in the field of law, including work in government bodies, international technical assistance projects, and the civil society sector. <strong>Expert in the legislative regulation</strong> of the judiciary and law enforcement agencies in Ukraine, with deep expertise in anti-corruption policy, development of regulatory legal acts, and legislative analysis.",
-      "photo": "/workers/andrii-sotnyk.jpeg",
-      "iconPhotoOffsetY": "20%",
+      "iconPhotoOffsetY": "10%",
       "links": {
         "facebook": "https://www.facebook.com/andrii.sotnyk"
-      }
+      },
+      "isDisplayedInCircle": true,
+      "currentPhotoPath": "/workers/andrii-sotnyk.jpeg",
+      "photo": "/workers/andrii-sotnyk.jpeg"
     },
     {
       "id": 6,
@@ -77,13 +85,38 @@
       "position": "Founder",
       "specialty": "Lawyer",
       "years": 8.5,
-      "description": "<strong>8.5 years of experience as a NABU detective</strong> and international technical assistance projects in the field of state-owned enterprises, corporate governance.\n\nExpert in conducting investigations in criminal proceedings on economic crimes.",
-      "photo": "/workers/serhii-verenchuk.jpeg",
+      "description": "<p><strong>8.5 years of experience as a NABU detective</strong> and international technical assistance projects in the field of state-owned enterprises, corporate governance. Expert in conducting investigations in criminal proceedings on economic crimes.</p><p></p><p>test</p>",
       "iconPhotoOffsetY": "0%",
       "links": {
         "facebook": "https://www.facebook.com/serhii.verenchuk"
-      }
+      },
+      "isDisplayedInCircle": true,
+      "currentPhotoPath": "/workers/serhii-verenchuk.jpeg",
+      "photo": "/workers/serhii-verenchuk.jpeg"
+    },
+    {
+      "name": "test",
+      "email": "maxtomusiak315@gmail.com",
+      "position": "test",
+      "specialty": "test",
+      "years": 1.5,
+      "description": "<p>Lore<strong>lkjljljk</strong>lklj</p>",
+      "iconPhotoOffsetY": "0%",
+      "links": {
+        "facebook": "https:/test.com.ua"
+      },
+      "isDisplayedInCircle": false,
+      "id": 7,
+      "currentPhotoPath": "/workers/1747294992017-274453656.png",
+      "photo": "/workers/1747294992017-274453656.png"
     }
   ],
-  "radiuses": [190, 180, 230, 190, 210, 190]
+  "radiuses": [
+    190,
+    180,
+    230,
+    190,
+    210,
+    190
+  ]
 }

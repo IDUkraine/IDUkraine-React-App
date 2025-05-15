@@ -3,7 +3,11 @@ import '../../../../assets/styles/hero.css';
 import { useEffect, useState } from 'react';
 import FingerprintMilestone from '../../../../assets/svgs/fingerprints/fingerprint-milestone.svg';
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  splashComplete: boolean;
+}
+
+const HeroSection = ({ splashComplete }: HeroSectionProps) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -59,8 +63,10 @@ const HeroSection = () => {
         <motion.h1
           className="hero-title"
           initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+          animate={
+            splashComplete ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
+          }
+          transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
         >
           Integrity & Development Ukraine
         </motion.h1>
@@ -68,8 +74,10 @@ const HeroSection = () => {
           <motion.button
             className="hero-button"
             initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
+            animate={
+              splashComplete ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }
+            }
+            transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
             onClick={handleButtonClick}
           >
             Ознайомитися
@@ -90,8 +98,10 @@ const HeroSection = () => {
             <motion.button
               className="hero-button"
               initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
+              animate={
+                splashComplete ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }
+              }
+              transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
               onClick={handleButtonClick}
             >
               Ознайомитися
@@ -105,9 +115,11 @@ const HeroSection = () => {
             key={currentIndex}
             className="milestone-text"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={
+              splashComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+            }
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
           >
             <div className="milestone-year">
               <p className="milestone-year-amount">

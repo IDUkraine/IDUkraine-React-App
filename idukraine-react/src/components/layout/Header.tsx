@@ -9,7 +9,11 @@ import CloseIcon from '../../assets/svgs/icons/close.svg';
 import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
 import MenuIcon from '../../assets/svgs/icons/menu-icon.svg';
 
-const Header = () => {
+interface HeaderProps {
+  splashComplete: boolean;
+}
+
+const Header = ({ splashComplete }: HeaderProps) => {
   const [visible, setVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -61,8 +65,12 @@ const Header = () => {
     <motion.div
       className="header-container"
       initial={{ y: -100, opacity: 0 }}
-      animate={visible ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      animate={
+        visible && splashComplete
+          ? { y: 0, opacity: 1 }
+          : { y: -100, opacity: 0 }
+      }
+      transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

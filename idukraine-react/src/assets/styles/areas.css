@@ -148,17 +148,22 @@
 .details-container {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  width: 40%;
+  bottom: 0;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: stretch;
   z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .details-content {
-  width: 100%;
+  position: relative;
+  width: 40%;
   height: 100%;
   background-color: rgba(21, 25, 33, 0.8);
   backdrop-filter: blur(30px);
@@ -168,8 +173,9 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  overflow-y: auto; /* Дозволяє вертикальну прокрутку, якщо вміст виходить за межі */
-  -webkit-overflow-scrolling: touch; /* Для плавного прокручування на сенсорних пристроях iOS */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   animation: slideInFromRight 0.5s ease-out forwards;
 }
 
@@ -290,11 +296,8 @@
     width: 30px;
     height: 30px;
   }
-  .details-container {
-    width: 50%;
-  }
   .details-content {
-    padding: 20px;
+    width: 50%;
   }
   .details-icon {
     width: 40px;
@@ -374,12 +377,8 @@
     bottom: -5px;
     left: -5px;
   }
-  .details-container {
-    width: 100%;
-  }
   .details-content {
-    padding: 16px;
-    gap: 16px;
+    width: 100%;
   }
   .details-body {
     gap: 40px;

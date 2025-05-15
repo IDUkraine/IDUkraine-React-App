@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import ArrowTop from '../../../../assets/svgs/icons/arrow-downward.svg';
-import { NewsItem } from '../../../../types/types';
+import { NewsItem } from '../../../../types/news';
+import '../../../../assets/styles/modal.css';
+import DOMPurify from 'dompurify';
 
 interface NewsModalProps {
   news: NewsItem;
@@ -35,6 +37,19 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
     };
   }, []);
 
+  useEffect(() => {
+    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+      if (node.tagName === 'A') {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+
+    return () => {
+      DOMPurify.removeHook('afterSanitizeAttributes');
+    };
+  }, []);
+
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(onClose, 300);
@@ -44,6 +59,14 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
     if (contentRef.current) {
       contentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString('uk-UA', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   return (
@@ -57,14 +80,27 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
           <CloseIcon className="news-modal-close-icon" />
         </div>
         <div className="news-modal-header">
-          <span className="news-modal-date">{news.date}</span>
+          <span className="news-modal-date">{formatDate(news.date)}</span>
           <h2 className="news-modal-title">{news.title}</h2>
           <span className="news-modal-category">{news.category}</span>
         </div>
-        <div className="news-modal-image" />
+        {news.image && (
+          <div className="news-modal-image-container">
+            <img
+              src={news.image}
+              alt={news.title}
+              className="news-modal-image"
+            />
+          </div>
+        )}
         <div className="news-modal-body">
           <div className="news-modal-main">
-            <p className="news-modal-text">{news.text}</p>
+            <div
+              className="news-modal-text"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(news.text),
+              }}
+            />
           </div>
         </div>
         <ArrowTop
