@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
 import '../../../../assets/styles/modal.css';
@@ -21,7 +21,6 @@ const AreasSection = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [ref, hasAnimated] = useSectionAnimation();
   const { truncateText } = useTruncateText();
-  const scrollYRef = useRef<number>(0);
 
   useLayoutEffect(() => {
     // Calculate scrollbar width

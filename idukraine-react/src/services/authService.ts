@@ -8,11 +8,6 @@ interface StoredCredentials {
   passwordHash: string;
 }
 
-const storedCredentials: StoredCredentials = {
-  username: 'a3hOVgmdo4CO7l7',
-  passwordHash: '$2b$12$cgM1QQxrJ9nHJpTHEGTEeOSBaP2Z2HRGLzK.dHqFoersr0DxsE7A6',
-};
-
 export const authService = {
   async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, SALT_ROUNDS);
