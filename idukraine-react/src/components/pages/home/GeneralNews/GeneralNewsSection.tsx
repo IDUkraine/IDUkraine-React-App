@@ -5,9 +5,11 @@ import '../../../../assets/styles/general-news.css';
 import { useTruncateText } from '../../../../hooks/useTruncateText';
 import RightArrowIcon from '../../../../assets/svgs/icons/arrow-circle-right.svg';
 import LeftArrowIcon from '../../../../assets/svgs/icons/arrow-circle-left.svg';
+import FingerPrintGeneralNews from '../../../../assets/svgs/fingerprints/fingerprint-general-news.svg';
 import NewsModal from '../common/NewsModal';
 import { NewsItem } from '../../../../types/news';
 import { newsService } from '../../../../services/newsService';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 const GeneralNewsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -19,6 +21,7 @@ const GeneralNewsSection = () => {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const loadNews = async () => {
@@ -187,11 +190,15 @@ const GeneralNewsSection = () => {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading">{t('news.loading')}</div>;
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return <div className="error">{t('news.error')}</div>;
+  }
+
+  if (newsItems.length === 0) {
+    return <div className="no-news">{t('news.empty')}</div>;
   }
 
   return (
@@ -202,19 +209,19 @@ const GeneralNewsSection = () => {
     >
       <div className="general-news-container">
         <div className="general-news-header">
-          <h2 className="general-news-title">/Всі новини</h2>
+          <h2 className="general-news-title">{t('news.allNews')}</h2>
           <div className="general-news-arrows">
             <div
               className={`slick-arrow ${currentSlide === 0 ? 'disabled' : ''}`}
               onClick={handlePrev}
-              aria-label="Previous slide"
+              aria-label={t('news.previous')}
             >
               <LeftArrowIcon className="slick-custom-icon" />
             </div>
             <div
               className="slick-arrow"
               onClick={handleNext}
-              aria-label="Next slide"
+              aria-label={t('news.next')}
             >
               <RightArrowIcon className="slick-custom-icon" />
             </div>
@@ -225,6 +232,7 @@ const GeneralNewsSection = () => {
           {newsItems.map((news, index) => {
             const isActive = index === currentSlide;
             const isNext = index === currentSlide + 1;
+            const title = language === 'en' ? news.titleEn : news.titleUk;
 
             return (
               <div
@@ -234,7 +242,7 @@ const GeneralNewsSection = () => {
                 }`}
               >
                 <p className="keen-slider-title">
-                  {isActive ? news.title : truncateText(news.title, 4)}
+                  {isActive ? title : truncateText(title, 4)}
                 </p>
               </div>
             );
@@ -258,22 +266,31 @@ const GeneralNewsSection = () => {
                     />
                   )}
                   <div className="general-news-text">
-                    <p>{truncateText(stripHtml(news.text), 70)}</p>
+                    <p>
+                      {truncateText(
+                        stripHtml(
+                          language === 'en' ? news.textEn : news.textUk
+                        ),
+                        70
+                      )}
+                    </p>
                     <p
                       className="general-news-read-more"
                       onClick={() => openModal(news)}
                     >
-                      Читати далі
+                      {t('news.readMore')}
                     </p>
                   </div>
 
                   <span className="general-news-date">
-                    {new Date(news.date).toLocaleDateString('uk-UA', {
+                    {new Date(news.date).toLocaleDateString(t('locale'), {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
                     })}
                   </span>
+
+                  <FingerPrintGeneralNews className="general-news-fingerprint" />
                 </div>
               </div>
             </div>

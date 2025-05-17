@@ -6,6 +6,7 @@ import NewsModal from '../common/NewsModal';
 import { NewsItem } from '../../../../types/news';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 import { newsService } from '../../../../services/newsService';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 function TopNewsSection() {
   const [ref, hasAnimated] = useSectionAnimation(); // hasAnimated tells us when the section is visible
@@ -15,6 +16,7 @@ function TopNewsSection() {
   const [error, setError] = useState<string | null>(null);
   // New state to indicate the content is loaded AND ready for animation
   const [isContentReady, setIsContentReady] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const loadTopNews = async () => {
@@ -69,7 +71,7 @@ function TopNewsSection() {
     // so the ref is attached early, but ensure it has minimal height
     return (
       <section className="top-news-section" id="news" ref={ref}>
-        <div className="loading">Loading...</div>
+        <div className="loading">{t('news.loading')}</div>
       </section>
     );
   }
@@ -77,7 +79,15 @@ function TopNewsSection() {
   if (error) {
     return (
       <section className="top-news-section" id="news" ref={ref}>
-        <div className="error">{error}</div>
+        <div className="error">{t('news.error')}</div>
+      </section>
+    );
+  }
+
+  if (newsItems.length === 0) {
+    return (
+      <section className="top-news-section" id="news" ref={ref}>
+        <div className="no-news">{t('news.empty')}</div>
       </section>
     );
   }
@@ -86,7 +96,7 @@ function TopNewsSection() {
   // The animation will be controlled by hasAnimated AND isContentReady
   return (
     <section className="top-news-section" id="news" ref={ref}>
-      <h2 className="top-news-section-title">/Найважливіші новини</h2>
+      <h2 className="top-news-section-title">{t('news.topNews')}</h2>
       <div className="top-news-container">
         {newsItems.map((news, index) => (
           <motion.div
@@ -99,14 +109,18 @@ function TopNewsSection() {
             transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.2 }}
           >
             <TopNewsCard
-              title={news.title}
-              text={news.text}
-              date={new Date(news.date).toLocaleDateString('uk-UA', {
+              key={news.id}
+              titleEn={news.titleEn}
+              titleUk={news.titleUk}
+              textEn={news.textEn}
+              textUk={news.textUk}
+              date={new Date(news.date).toLocaleDateString(t('locale'), {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               })}
-              category={news.category}
+              categoryEn={news.categoryEn}
+              categoryUk={news.categoryUk}
               image={news.image || './news-image.jpg'}
               onClick={() => openModal(news)}
             />

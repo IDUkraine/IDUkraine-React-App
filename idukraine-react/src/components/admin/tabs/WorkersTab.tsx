@@ -5,8 +5,10 @@ import '../../../assets/styles/worker-management.css';
 import DOMPurify from 'dompurify';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const WorkersTab: React.FC = () => {
+  const { t } = useLanguage();
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [editingWorker, setEditingWorker] = useState<WorkerFormData | null>(
     null
@@ -16,14 +18,27 @@ const WorkersTab: React.FC = () => {
   const [offsetPreview, setOffsetPreview] = useState<string>('0%');
   const [tempImagePath, setTempImagePath] = useState<string | null>(null);
 
-  const editor = useEditor({
+  const editorEn = useEditor({
     extensions: [StarterKit],
     content: '',
     onUpdate: ({ editor }) => {
       if (editingWorker) {
         setEditingWorker({
           ...editingWorker,
-          description: editor.getHTML(),
+          descriptionEn: editor.getHTML(),
+        });
+      }
+    },
+  });
+
+  const editorUk = useEditor({
+    extensions: [StarterKit],
+    content: '',
+    onUpdate: ({ editor }) => {
+      if (editingWorker) {
+        setEditingWorker({
+          ...editingWorker,
+          descriptionUk: editor.getHTML(),
         });
       }
     },
@@ -34,10 +49,11 @@ const WorkersTab: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (editor && editingWorker) {
-      editor.commands.setContent(editingWorker.description);
+    if (editorEn && editorUk && editingWorker) {
+      editorEn.commands.setContent(editingWorker.descriptionEn || '');
+      editorUk.commands.setContent(editingWorker.descriptionUk || '');
     }
-  }, [editingWorker?.id, editor]);
+  }, [editingWorker?.id, editorEn, editorUk]);
 
   const loadWorkers = async () => {
     try {
@@ -52,43 +68,48 @@ const WorkersTab: React.FC = () => {
   };
 
   const handleEditWorker = (worker: Worker) => {
+    console.log('Editing worker:', worker);
     const { photo, ...workerWithoutPhoto } = worker;
-    setEditingWorker({
+
+    // Handle both facebook property formats
+    const links = {
+      facebook: worker.facebook || worker.links?.facebook || undefined,
+    };
+
+    const editingData = {
       ...workerWithoutPhoto,
       currentPhotoPath: photo,
-    });
+      links,
+    };
+
+    console.log('Setting editing worker:', editingData);
+    setEditingWorker(editingData);
     setOffsetPreview(worker.iconPhotoOffsetY);
     setTempImagePath(null);
-    if (editor) {
-      editor.commands.setContent(worker.description);
+    if (editorEn && editorUk) {
+      editorEn.commands.setContent(worker.descriptionEn);
+      editorUk.commands.setContent(worker.descriptionUk);
     }
   };
 
   const handleCreateWorker = () => {
-    setEditingWorker({
-      name: '',
-      email: '',
-      position: '',
-      specialty: '',
-      years: 0,
-      description: '',
-      iconPhotoOffsetY: '0%',
-      links: {},
-      isDisplayedInCircle: false,
-    });
+    setEditingWorker(workerService.createEmptyWorker());
     setOffsetPreview('0%');
     setTempImagePath(null);
+    if (editorEn && editorUk) {
+      editorEn.commands.setContent('');
+      editorUk.commands.setContent('');
+    }
   };
 
   const handleDeleteWorker = async (worker: Worker) => {
     if (window.confirm('Are you sure you want to delete this worker?')) {
       try {
-        await workerService.deleteWorkerPhoto(worker.photo);
+        if (worker.photo) {
+          await workerService.deletePhoto(worker.photo);
+        }
         const updatedWorkers = workers.filter((w) => w.id !== worker.id);
-        await workerService.saveWorkers({
-          employees: updatedWorkers,
-          radiuses: [190, 180, 230, 190, 210, 190],
-        });
+        await workerService.saveWorkers(updatedWorkers);
         setWorkers(updatedWorkers);
         setMessage('Worker deleted successfully');
       } catch (error) {
@@ -106,7 +127,7 @@ const WorkersTab: React.FC = () => {
       let photoPath = editingWorker.currentPhotoPath || '';
 
       if (editingWorker.photo) {
-        photoPath = await workerService.saveWorkerPhoto(editingWorker.photo);
+        photoPath = await workerService.uploadPhoto(editingWorker.photo);
 
         if (
           editingWorker.id &&
@@ -114,33 +135,28 @@ const WorkersTab: React.FC = () => {
           editingWorker.currentPhotoPath !== photoPath
         ) {
           try {
-            await workerService.deleteWorkerPhoto(
-              editingWorker.currentPhotoPath
-            );
+            await workerService.deletePhoto(editingWorker.currentPhotoPath);
           } catch (error) {
             console.error('Error deleting old photo:', error);
           }
         }
       }
 
-      const description = editor?.getHTML() || '';
-
       const workerData: Worker = {
         ...editingWorker,
         id: editingWorker.id || Math.max(...workers.map((w) => w.id), 0) + 1,
         photo: photoPath,
-        description,
+        descriptionEn: editorEn?.getHTML() || '',
+        descriptionUk: editorUk?.getHTML() || '',
+        links: editingWorker.links || {},
       };
+      console.log('Saving worker data:', workerData);
 
       const updatedWorkers = editingWorker.id
         ? workers.map((w) => (w.id === editingWorker.id ? workerData : w))
         : [...workers, workerData];
 
-      await workerService.saveWorkers({
-        employees: updatedWorkers,
-        radiuses: [190, 180, 230, 190, 210, 190],
-      });
-
+      await workerService.saveWorkers(updatedWorkers);
       setWorkers(updatedWorkers);
       handleCloseForm();
       setMessage('Changes saved successfully');
@@ -154,11 +170,11 @@ const WorkersTab: React.FC = () => {
     const file = e.target.files?.[0];
     if (file && editingWorker) {
       try {
-        const newPhotoPath = await workerService.saveWorkerPhoto(file);
+        const newPhotoPath = await workerService.uploadPhoto(file);
 
         if (tempImagePath) {
           try {
-            await workerService.deleteWorkerPhoto(tempImagePath);
+            await workerService.deletePhoto(tempImagePath);
           } catch (error) {
             console.error('Error deleting previous temp photo:', error);
           }
@@ -179,7 +195,7 @@ const WorkersTab: React.FC = () => {
   const handleCloseForm = async () => {
     if (tempImagePath) {
       try {
-        await workerService.deleteWorkerPhoto(tempImagePath);
+        await workerService.deletePhoto(tempImagePath);
       } catch (error) {
         console.error('Error deleting temporary photo:', error);
       }
@@ -187,8 +203,9 @@ const WorkersTab: React.FC = () => {
 
     setEditingWorker(null);
     setTempImagePath(null);
-    if (editor) {
-      editor.commands.setContent('');
+    if (editorEn && editorUk) {
+      editorEn.commands.setContent('');
+      editorUk.commands.setContent('');
     }
   };
 
@@ -204,11 +221,6 @@ const WorkersTab: React.FC = () => {
     });
   };
 
-  const getWorkerPhotoUrl = (photoPath: string): string => {
-    const photoData = workerService.getPhotoData(photoPath);
-    return photoData || photoPath;
-  };
-
   const handleOffsetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const offset = `${value}%`;
@@ -222,14 +234,14 @@ const WorkersTab: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading">{t('admin.loading')}</div>;
   }
 
   return (
     <div className="container">
       <div className="header">
         <button onClick={handleCreateWorker} className="addButton">
-          Add New Worker
+          {t('admin.worker.addNew')}
         </button>
       </div>
 
@@ -241,27 +253,92 @@ const WorkersTab: React.FC = () => {
         </div>
       )}
 
+      <div className="grid">
+        {workers.map((worker) => (
+          <div key={worker.id} className="card">
+            <img
+              src={worker.photo}
+              alt={worker.nameEn}
+              className="cardImage"
+              style={{ objectPosition: `center ${worker.iconPhotoOffsetY}` }}
+            />
+            <div className="cardContent">
+              <h3 className="cardTitle">
+                {worker.nameEn} / {worker.nameUk}
+              </h3>
+              <p className="cardPosition">
+                {worker.positionEn} / {worker.positionUk}
+              </p>
+              <p className="cardSpecialty">
+                {worker.specialtyEn} / {worker.specialtyUk}
+              </p>
+              <div className="cardDescription">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(worker.descriptionEn),
+                  }}
+                />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(worker.descriptionUk),
+                  }}
+                />
+              </div>
+              <div className="cardActions">
+                <button
+                  onClick={() => handleEditWorker(worker)}
+                  className="editButton"
+                >
+                  {t('admin.worker.edit')}
+                </button>
+                <button
+                  onClick={() => handleDeleteWorker(worker)}
+                  className="deleteButton"
+                >
+                  {t('admin.worker.delete')}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {editingWorker && (
         <div className="modalOverlay">
           <div className="modalContent">
             <h2 className="modalTitle">
-              {editingWorker.id ? 'Edit Worker' : 'Add New Worker'}
+              {editingWorker.id
+                ? t('admin.worker.edit')
+                : t('admin.worker.add')}
             </h2>
             <button className="modalClose" onClick={handleCloseForm}>
               ×
             </button>
             <form onSubmit={handleSubmit} className="form">
               <div className="formGroup">
-                <label className="label">Name</label>
+                <label className="label">Name (English)</label>
                 <input
                   type="text"
-                  name="name"
-                  value={editingWorker.name}
+                  name="nameEn"
+                  value={editingWorker.nameEn}
                   onChange={handleInputChange}
                   className="input"
                   required
                 />
               </div>
+
+              <div className="formGroup">
+                <label className="label">Name (Ukrainian)</label>
+                <input
+                  type="text"
+                  name="nameUk"
+                  value={editingWorker.nameUk}
+                  onChange={handleInputChange}
+                  className="input"
+                  required
+                />
+              </div>
+
               <div className="formGroup">
                 <label className="label">Email</label>
                 <input
@@ -273,30 +350,57 @@ const WorkersTab: React.FC = () => {
                   required
                 />
               </div>
+
               <div className="formGroup">
-                <label className="label">Position</label>
+                <label className="label">Position (English)</label>
                 <input
                   type="text"
-                  name="position"
-                  value={editingWorker.position}
+                  name="positionEn"
+                  value={editingWorker.positionEn}
                   onChange={handleInputChange}
                   className="input"
                   required
                 />
               </div>
+
               <div className="formGroup">
-                <label className="label">Specialty</label>
+                <label className="label">Position (Ukrainian)</label>
                 <input
                   type="text"
-                  name="specialty"
-                  value={editingWorker.specialty}
+                  name="positionUk"
+                  value={editingWorker.positionUk}
                   onChange={handleInputChange}
                   className="input"
                   required
                 />
               </div>
+
               <div className="formGroup">
-                <label className="label">Years of Experience</label>
+                <label className="label">Specialty (English)</label>
+                <input
+                  type="text"
+                  name="specialtyEn"
+                  value={editingWorker.specialtyEn}
+                  onChange={handleInputChange}
+                  className="input"
+                  required
+                />
+              </div>
+
+              <div className="formGroup">
+                <label className="label">Specialty (Ukrainian)</label>
+                <input
+                  type="text"
+                  name="specialtyUk"
+                  value={editingWorker.specialtyUk}
+                  onChange={handleInputChange}
+                  className="input"
+                  required
+                />
+              </div>
+
+              <div className="formGroup">
+                <label className="label">{t('admin.worker.years')}</label>
                 <input
                   type="number"
                   name="years"
@@ -307,25 +411,45 @@ const WorkersTab: React.FC = () => {
                   step="0.5"
                 />
               </div>
+
               <div className="formGroup">
-                <label className="label">Description</label>
+                <label className="label">Description (English)</label>
                 <div className="editor-controls">
                   <button
                     type="button"
-                    onClick={() => editor?.chain().focus().toggleBold().run()}
+                    onClick={() => editorEn?.chain().focus().toggleBold().run()}
                     className={`editor-button ${
-                      editor?.isActive('bold') ? 'active' : ''
+                      editorEn?.isActive('bold') ? 'active' : ''
                     }`}
                   >
-                    Bold
+                    {t('admin.editor.bold')}
                   </button>
                 </div>
                 <div className="editor-container">
-                  <EditorContent editor={editor} />
+                  <EditorContent editor={editorEn} />
                 </div>
               </div>
+
               <div className="formGroup">
-                <label className="label">Photo</label>
+                <label className="label">Description (Ukrainian)</label>
+                <div className="editor-controls">
+                  <button
+                    type="button"
+                    onClick={() => editorUk?.chain().focus().toggleBold().run()}
+                    className={`editor-button ${
+                      editorUk?.isActive('bold') ? 'active' : ''
+                    }`}
+                  >
+                    {t('admin.editor.bold')}
+                  </button>
+                </div>
+                <div className="editor-container">
+                  <EditorContent editor={editorUk} />
+                </div>
+              </div>
+
+              <div className="formGroup">
+                <label className="label">{t('admin.worker.photo')}</label>
                 <input
                   type="file"
                   onChange={handlePhotoChange}
@@ -334,7 +458,9 @@ const WorkersTab: React.FC = () => {
                 />
                 {editingWorker.currentPhotoPath && (
                   <div className="imageContainer">
-                    <span className="imageLabel">Current Photo:</span>
+                    <span className="imageLabel">
+                      {t('admin.worker.currentPhoto')}:
+                    </span>
                     <img
                       src={editingWorker.currentPhotoPath}
                       alt="Current"
@@ -344,7 +470,9 @@ const WorkersTab: React.FC = () => {
                 )}
                 {editingWorker.photo && (
                   <div className="imageContainer">
-                    <span className="imageLabel">New Photo Preview:</span>
+                    <span className="imageLabel">
+                      {t('admin.worker.newPhoto')}:
+                    </span>
                     <img
                       src={URL.createObjectURL(editingWorker.photo)}
                       alt="Preview"
@@ -353,8 +481,9 @@ const WorkersTab: React.FC = () => {
                   </div>
                 )}
               </div>
+
               <div className="formGroup">
-                <label className="label">Photo Offset</label>
+                <label className="label">{t('admin.worker.photoOffset')}</label>
                 <div className="photoPreviewSection">
                   <div className="photoPreviewContainer">
                     <div className="photoPreviewInner">
@@ -386,24 +515,7 @@ const WorkersTab: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="formGroup">
-                <label className="label">Facebook Link</label>
-                <input
-                  type="url"
-                  name="facebook"
-                  value={editingWorker.links.facebook || ''}
-                  onChange={(e) =>
-                    setEditingWorker({
-                      ...editingWorker,
-                      links: {
-                        ...editingWorker.links,
-                        facebook: e.target.value,
-                      },
-                    })
-                  }
-                  className="input"
-                />
-              </div>
+
               <div className="checkbox">
                 <input
                   type="checkbox"
@@ -416,62 +528,46 @@ const WorkersTab: React.FC = () => {
                   }
                   className="checkboxInput"
                 />
-                <span className="checkboxLabel">Display in Circle (max 6)</span>
+                <span className="checkboxLabel">
+                  {t('admin.worker.displayInCircle')}
+                </span>
               </div>
+
+              <div className="formGroup">
+                <label className="label">{t('admin.worker.facebook')}</label>
+                <input
+                  type="url"
+                  name="facebook"
+                  value={editingWorker.links?.facebook || ''}
+                  onChange={(e) =>
+                    setEditingWorker({
+                      ...editingWorker,
+                      links: {
+                        ...(editingWorker.links || {}),
+                        facebook: e.target.value,
+                      },
+                    })
+                  }
+                  className="input"
+                />
+              </div>
+
               <div className="formActions">
                 <button
                   type="button"
                   onClick={handleCloseForm}
                   className="cancelButton"
                 >
-                  Cancel
+                  {t('admin.worker.cancel')}
                 </button>
                 <button type="submit" className="saveButton">
-                  Save
+                  {t('admin.worker.save')}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
-      <div className="grid">
-        {workers.map((worker) => (
-          <div key={worker.id} className="card">
-            <img
-              src={getWorkerPhotoUrl(worker.photo)}
-              alt={worker.name}
-              className="cardImage"
-              style={{ objectPosition: `center ${worker.iconPhotoOffsetY}` }}
-            />
-            <div className="cardContent">
-              <h3 className="cardTitle">{worker.name}</h3>
-              <p className="cardPosition">{worker.position}</p>
-              <p className="cardSpecialty">{worker.specialty}</p>
-              <div
-                className="cardDescription"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(worker.description),
-                }}
-              />
-              <div className="cardActions">
-                <button
-                  onClick={() => handleEditWorker(worker)}
-                  className="editButton"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteWorker(worker)}
-                  className="deleteButton"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

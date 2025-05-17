@@ -45,7 +45,7 @@
   color: #fff;
 }
 
-.about-title-orange {
+.about-title span {
   color: rgba(253, 159, 65, 1);
   font-style: italic;
 }
@@ -66,8 +66,8 @@
 
 .about-fingerprint {
   position: absolute;
-  top: 110px;
-  right: -240px;
+  top: 160px;
+  right: -220px;
   z-index: 0;
 }
 
@@ -111,9 +111,8 @@
     gap: 24px;
   }
   .about-fingerprint {
-    top: 80px;
-    right: -180px;
-    transform: scale(0.8);
+    top: 60px;
+    right: -150px;
   }
 }
 
@@ -147,9 +146,9 @@
     gap: 16px;
   }
   .about-fingerprint {
-    top: -80px;
-    right: -260px;
-    transform: scale(0.6);
+    top: -20px;
+    right: -170px;
+    transform: scale(0.7);
   }
 }
 

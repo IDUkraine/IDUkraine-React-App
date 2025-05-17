@@ -1,7 +1,7 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
-import '../../../../assets/styles/modal.css';
+/* import '../../../../assets/styles/modal.css'; */
 import AreaCard from './AreaCard';
 import HouseIcon from '../../../../assets/svgs/icons/house.svg';
 import RepairIcon from '../../../../assets/svgs/icons/repair.svg';
@@ -9,18 +9,25 @@ import CorruptionIcon from '../../../../assets/svgs/icons/corruption.svg';
 import PublicPropertyIcon from '../../../../assets/svgs/icons/public-property.svg';
 import FingerPrintLeft from '../../../../assets/svgs/fingerprints/fingerprint-areas-left.svg';
 import FingerPrintRight from '../../../../assets/svgs/fingerprints/fingerprint-areas-right.svg';
-import CloseIcon from '../../../../assets/svgs/icons/close.svg';
-import FingerPrintOnSelect from '../../../../assets/svgs/fingerprints/fingerprint-areas-have-selected.svg';
+/* import CloseIcon from '../../../../assets/svgs/icons/close.svg'; */
+//import FingerPrintOnSelect from '../../../../assets/svgs/fingerprints/fingerprint-areas-have-selected.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
-import { useTruncateText } from '../../../../hooks/useTruncateText';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 const AreasSection = () => {
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  /* const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [closingCard, setClosingCard] = useState<string | null>(null);
+  const [closingCard, setClosingCard] = useState<string | null>(null); */
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [ref, hasAnimated] = useSectionAnimation();
-  const { truncateText } = useTruncateText();
+  const hasAnimatedRef = useRef(false);
+  const { t } = useLanguage();
+
+  useEffect(() => {
+    if (hasAnimated) {
+      hasAnimatedRef.current = true;
+    }
+  }, [hasAnimated]);
 
   useLayoutEffect(() => {
     // Calculate scrollbar width
@@ -45,7 +52,7 @@ const AreasSection = () => {
     };
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (selectedCard && isMobile) {
       document.documentElement.classList.add('is-locked');
       document.body.classList.add('is-locked');
@@ -77,33 +84,33 @@ const AreasSection = () => {
       setClosingCard(null);
       setIsClosing(false);
     }
-  };
+  }; */
 
   const cards = [
     {
-      title: 'Громадська власність',
-      text: 'Цей напрямок стосується управління та використання майна, що належить державі або громадам (місцевому самоврядуванню).',
+      title: t('areas.publicProperty'),
+      text: t('areas.publicPropertyText'),
       icon: PublicPropertyIcon,
       iconClass: 'areas-public-property-icon',
       fingerprint: null,
     },
     {
-      title: 'Розвиток доброчесності, підтримка антикорупційної інфраструктури',
-      text: 'Антикорупційна діяльність в Україні спрямована на запобігання, виявлення та протидію корупції в державному та приватному секторах.',
+      title: t('areas.integrity'),
+      text: t('areas.integrityText'),
       icon: CorruptionIcon,
       iconClass: 'areas-corruption-icon',
       fingerprint: <FingerPrintLeft className="fingerprint-areas-left" />,
     },
     {
-      title: 'Сфера відновлення',
-      text: 'Сфера відновлення в Україні зосереджена на відбудові інфраструктури, житла, економіки та соціальних систем, зруйнованих внаслідок війни.',
+      title: t('areas.recovery'),
+      text: t('areas.recoveryText'),
       icon: RepairIcon,
       iconClass: 'areas-repair-icon',
       fingerprint: <FingerPrintRight className="fingerprint-areas-right" />,
     },
     {
-      title: 'Сфера публічних фінансів',
-      text: 'Сфера публічних фінансів охоплює управління державними коштами, включаючи бюджетування, державні закупівлі, оподаткування, управління боргом та фінансову звітність.',
+      title: t('areas.publicFinance'),
+      text: t('areas.publicFinanceText'),
       icon: HouseIcon,
       iconClass: 'areas-house-icon',
       fingerprint: null,
@@ -116,13 +123,21 @@ const AreasSection = () => {
   return (
     <section className="areas-section" id="work-areas" ref={ref}>
       <div className="areas-container">
-        <h2 className="areas-subtitle">/Напрями роботи</h2>
+        <h2 className="areas-subtitle">{t('areas.subtitle')}</h2>
         <div className="areas-cards">
           {cards.map((card, index) => (
             <motion.div
               key={card.title}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={hasAnimated ? { scale: 1, opacity: 1 } : {}}
+              initial={
+                hasAnimatedRef.current ? false : { scale: 0.8, opacity: 0 }
+              }
+              animate={
+                hasAnimated && !hasAnimatedRef.current
+                  ? { scale: 1, opacity: 1 }
+                  : hasAnimatedRef.current
+                  ? { scale: 1, opacity: 1 }
+                  : {}
+              }
               transition={{
                 duration: 0.6,
                 ease: 'easeOut',
@@ -132,23 +147,19 @@ const AreasSection = () => {
             >
               <AreaCard
                 title={card.title}
-                text={truncateText(card.text, 20)}
+                text={card.text}
                 icon={card.icon}
                 iconClass={card.iconClass}
-                isSelected={selectedCard === card.title}
-                onArrowClick={() => handleArrowClick(card.title)}
+                isSelected={false}
+                onArrowClick={() => {}}
               >
-                {selectedCard !== card.title ? (
-                  card.fingerprint
-                ) : (
-                  <FingerPrintOnSelect className="fingerprint-areas-have-selected" />
-                )}
+                {card.fingerprint}
               </AreaCard>
             </motion.div>
           ))}
         </div>
       </div>
-      {(selectedCard || closingCard) && (
+      {/* {(selectedCard || closingCard) && (
         <div className="modal-container details-container">
           <div
             className={`details-content ${isClosing ? 'closing' : ''}`}
@@ -168,7 +179,7 @@ const AreasSection = () => {
             )}
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 };

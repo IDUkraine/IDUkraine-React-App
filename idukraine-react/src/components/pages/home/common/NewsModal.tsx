@@ -4,6 +4,7 @@ import ArrowTop from '../../../../assets/svgs/icons/arrow-downward.svg';
 import { NewsItem } from '../../../../types/news';
 import '../../../../assets/styles/modal.css';
 import DOMPurify from 'dompurify';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 interface NewsModalProps {
   news: NewsItem;
@@ -14,6 +15,7 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     setIsVisible(true);
@@ -61,13 +63,9 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
     }
   };
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('uk-UA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  const title = language === 'en' ? news.titleEn : news.titleUk;
+  const text = language === 'en' ? news.textEn : news.textUk;
+  const category = language === 'en' ? news.categoryEn : news.categoryUk;
 
   return (
     <div
@@ -80,17 +78,19 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
           <CloseIcon className="news-modal-close-icon" />
         </div>
         <div className="news-modal-header">
-          <span className="news-modal-date">{formatDate(news.date)}</span>
-          <h2 className="news-modal-title">{news.title}</h2>
-          <span className="news-modal-category">{news.category}</span>
+          <span className="news-modal-date">
+            {new Date(news.date).toLocaleDateString(t('locale'), {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
+          <h2 className="news-modal-title">{title}</h2>
+          <span className="news-modal-category">{category}</span>
         </div>
         {news.image && (
           <div className="news-modal-image-container">
-            <img
-              src={news.image}
-              alt={news.title}
-              className="news-modal-image"
-            />
+            <img src={news.image} alt={title} className="news-modal-image" />
           </div>
         )}
         <div className="news-modal-body">
@@ -98,7 +98,7 @@ const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
             <div
               className="news-modal-text"
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(news.text),
+                __html: DOMPurify.sanitize(text),
               }}
             />
           </div>

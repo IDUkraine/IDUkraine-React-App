@@ -4,13 +4,15 @@ import PhoneIcon from '../../../../assets/svgs/icons/call.svg';
 import MailIcon from '../../../../assets/svgs/icons/mail.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 function ContactUsSection() {
   const [ref, hasAnimated] = useSectionAnimation();
+  const { t } = useLanguage();
 
   return (
-    <section className="contact-us-section" ref={ref}>
-      <h2 className="contact-us-title">/Як з нами зв’язатися</h2>
+    <section className="contact-us-section" id="contacts" ref={ref}>
+      <h2 className="contact-us-title">{t('contact.title')}</h2>
       <div className="contact-us-content">
         <motion.div
           className="contact-us-left"
@@ -18,11 +20,8 @@ function ContactUsSection() {
           animate={hasAnimated ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <h3 className="contact-us-main-heading">Зв'яжіться з нами</h3>
-          <p className="contact-us-subheading">
-            Звертайтеся до нас за будь-якими питаннями чи допомогою. Ми тут, щоб
-            допомогти!
-          </p>
+          <h3 className="contact-us-main-heading">{t('contact.heading')}</h3>
+          <p className="contact-us-subheading">{t('contact.subheading')}</p>
         </motion.div>
         <motion.div
           className="contact-us-right"
@@ -33,24 +32,24 @@ function ContactUsSection() {
           <div className="contact-card">
             <div className="contact-card-inner">
               <div className="contact-item">
-                <p className="contact-title">Phone</p>
+                <p className="contact-title">{t('contact.phone')}</p>
                 <div className="contact-content">
                   <PhoneIcon className="contact-icon" />
-                  <p className="contact-text">+380 73 091-08-24</p>
+                  <p className="contact-text">{t('contact.phone.number')}</p>
                 </div>
               </div>
               <div className="contact-item">
-                <p className="contact-title">Email</p>
+                <p className="contact-title">{t('contact.email')}</p>
                 <div className="contact-content">
                   <MailIcon className="contact-icon" />
-                  <p className="contact-text">example@gmail.com</p>
+                  <p className="contact-text">{t('contact.email.address')}</p>
                 </div>
               </div>
               <div className="contact-item">
-                <p className="contact-title">Socials</p>
+                <p className="contact-title">{t('contact.socials')}</p>
                 <div className="contact-content">
                   <FacebookIcon className="contact-icon" />
-                  <p className="contact-text">ID Ukraine</p>
+                  <p className="contact-text">{t('contact.facebook')}</p>
                 </div>
               </div>
             </div>

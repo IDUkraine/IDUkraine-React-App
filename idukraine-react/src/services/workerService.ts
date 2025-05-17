@@ -1,111 +1,79 @@
-import { Worker, WorkersData } from '../types/worker';
+import { Worker, WorkerFormData, WorkersData } from '../types/worker';
 
-const API_BASE_URL = import.meta.env.PROD ? '' : 'http://localhost:3001';
+const API_URL = 'http://localhost:3001/api';
 
 export const workerService = {
   async getWorkers(): Promise<WorkersData> {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/workers?t=${Date.now()}`,
-        {
-          headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      const response = await fetch(`${API_URL}/workers`);
       const data = await response.json();
-      console.log('Fetched workers data:', data);
       return data;
     } catch (error) {
-      console.error('Error loading workers:', error);
+      console.error('Error fetching workers:', error);
       throw error;
     }
   },
 
-  async saveWorkers(data: WorkersData): Promise<void> {
+  async saveWorkers(workers: Worker[]): Promise<void> {
     try {
-      console.log('Saving workers data:', data);
-      const response = await fetch(`${API_BASE_URL}/api/workers`, {
+      await fetch(`${API_URL}/workers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ employees: workers }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${
-            errorData?.error || 'Unknown error'
-          }`
-        );
-      }
-
-      console.log('Workers data saved successfully');
     } catch (error) {
       console.error('Error saving workers:', error);
       throw error;
     }
   },
 
-  async saveWorkerPhoto(photo: File): Promise<string> {
+  async uploadPhoto(file: File): Promise<string> {
     try {
       const formData = new FormData();
-      formData.append('file', photo);
+      formData.append('file', file);
 
-      const response = await fetch(`${API_BASE_URL}/api/upload?type=workers`, {
+      const response = await fetch(`${API_URL}/upload?type=workers`, {
         method: 'POST',
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${
-            errorData?.error || 'Unknown error'
-          }`
-        );
-      }
-
       const data = await response.json();
-      console.log('Photo saved successfully:', data.filePath);
       return data.filePath;
     } catch (error) {
-      console.error('Error saving photo:', error);
+      console.error('Error uploading photo:', error);
       throw error;
     }
   },
 
-  async deleteWorkerPhoto(photoPath: string): Promise<void> {
+  async deletePhoto(path: string): Promise<void> {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/file?path=${encodeURIComponent(photoPath)}`,
-        {
-          method: 'DELETE',
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${
-            errorData?.error || 'Unknown error'
-          }`
-        );
-      }
-
-      console.log('Photo deleted successfully:', photoPath);
+      await fetch(`${API_URL}/file?path=${encodeURIComponent(path)}`, {
+        method: 'DELETE',
+      });
     } catch (error) {
       console.error('Error deleting photo:', error);
       throw error;
     }
+  },
+
+  createEmptyWorker(): WorkerFormData {
+    return {
+      nameEn: '',
+      nameUk: '',
+      email: '',
+      positionEn: '',
+      positionUk: '',
+      specialtyEn: '',
+      specialtyUk: '',
+      years: 0,
+      descriptionEn: '',
+      descriptionUk: '',
+      iconPhotoOffsetY: '0',
+      links: {},
+      isDisplayedInCircle: false,
+    };
   },
 
   getDisplayedWorkers(workers: Worker[]): Worker[] {

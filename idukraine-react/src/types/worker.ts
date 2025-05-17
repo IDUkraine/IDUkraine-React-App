@@ -1,16 +1,21 @@
 export interface Worker {
   id: number;
-  name: string;
+  nameEn: string;
+  nameUk: string;
   email: string;
-  position: string;
-  specialty: string;
+  positionEn: string;
+  positionUk: string;
+  specialtyEn: string;
+  specialtyUk: string;
   years: number;
-  description: string;
+  descriptionEn: string;
+  descriptionUk: string;
   photo: string;
   iconPhotoOffsetY: string;
   links: {
     facebook?: string;
   };
+  facebook?: string;
   isDisplayedInCircle?: boolean;
 }
 

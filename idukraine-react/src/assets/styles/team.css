@@ -77,23 +77,14 @@
 }
 
 .worker-info-tooltip {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  margin-top: 4px;
-  z-index: 10;
-}
-
-.photo-dot-wrapper:hover .worker-info-tooltip {
   opacity: 1;
   visibility: visible;
+  margin-top: 4px;
+  z-index: 1000;
+  pointer-events: none;
 }
 
 .worker-info-text {
@@ -103,6 +94,19 @@
   text-align: center;
   color: #fff;
   border-radius: 10px;
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .worker-name {
@@ -164,8 +168,10 @@
 }
 
 .employee-specs-icon {
-  width: 20px;
-  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
   fill: #fd9f41;
 }
 
@@ -197,8 +203,7 @@
   white-space: pre-line;
 }
 
-.employee-description strong,
-.employee-description b {
+.employee-description strong {
   font-family: secondary-medium;
   font-weight: inherit;
 }
@@ -258,8 +263,8 @@
 }
 
 .employee-slide {
-  width: 255px !important;
-  height: 420px;
+  width: 300px !important;
+  height: 450px;
   background-color: rgba(21, 25, 33, 1);
   border-radius: 20px;
   padding: 10px;
@@ -415,8 +420,7 @@
   white-space: pre-line;
 }
 
-.modal-employee-description strong,
-.modal-employee-description b {
+.modal-employee-description strong {
   font-family: secondary-medium;
   font-weight: inherit;
 }
@@ -485,11 +489,6 @@
     gap: 3px;
   }
 
-  .employee-specs-icon {
-    width: 18px;
-    height: 18px;
-  }
-
   .employee-photo img {
     width: 280px;
     height: 400px;
@@ -515,7 +514,7 @@
 
   .employee-slide {
     flex: 0 0 230px;
-    height: 380px;
+    height: 400px;
     padding: 8px;
     gap: 10px;
   }
@@ -583,11 +582,6 @@
     gap: 2px;
   }
 
-  .employee-specs-icon {
-    width: 16px;
-    height: 16px;
-  }
-
   .employee-photo img {
     width: 260px;
     height: 380px;
@@ -613,7 +607,8 @@
 
   .employee-slide {
     flex: 0 0 210px;
-    height: 340px;
+    width: 310px !important;
+    height: 380px;
   }
 
   .employee-slide-photo {
@@ -694,11 +689,6 @@
     gap: 6px;
   }
 
-  .employee-specs-icon {
-    width: 14px;
-    height: 14px;
-  }
-
   .employee-photo img {
     width: 240px;
     height: 360px;
@@ -744,7 +734,7 @@
 
   .employee-slide {
     flex: 0 0 190px;
-    height: 300px;
+    height: 320px;
     padding: 6px;
     gap: 6px;
   }
@@ -834,7 +824,6 @@
   .employee-slide {
     flex: 0 0 180px;
     height: 290px;
-    padding: 5px;
     gap: 5px;
   }
 
@@ -931,11 +920,6 @@
     display: none;
   }
 
-  .employee-specs-icon {
-    width: 12px;
-    height: 12px;
-  }
-
   .show-all-container {
     margin-top: 20px;
   }
@@ -951,9 +935,7 @@
   }
 
   .employee-slide {
-    flex: 0 0 170px;
-    height: 270px;
-    padding: 5px;
+    height: 290px;
     gap: 5px;
     scroll-snap-align: none;
   }

@@ -114,6 +114,12 @@
   align-items: center;
 }
 
+.navbarControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .dashboardTitle {
   font-family: 'primary-medium', sans-serif;
   color: #2c2c2c;
@@ -229,4 +235,28 @@
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .navbarContent {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .navbarControls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    text-align: center;
+    min-width: 120px;
+  }
 }

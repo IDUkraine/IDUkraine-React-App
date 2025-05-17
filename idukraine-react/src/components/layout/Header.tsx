@@ -1,19 +1,21 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import TitledLogo from '../../assets/svgs/logos/header-logo.svg';
-import PhoneIcon from '../../assets/svgs/icons/call.svg';
 import NavigationOptions from './NavigationOptions';
 import IconedNavigationOptions from './IconedNavigationOptions';
 import '../../assets/styles/header.css';
 import CloseIcon from '../../assets/svgs/icons/close.svg';
 import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
 import MenuIcon from '../../assets/svgs/icons/menu-icon.svg';
+import LanguageToggle from '../common/LanguageToggle';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface HeaderProps {
   splashComplete: boolean;
 }
 
 const Header = ({ splashComplete }: HeaderProps) => {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -79,16 +81,18 @@ const Header = ({ splashComplete }: HeaderProps) => {
         onClick={scrollToTop}
         style={{ cursor: 'pointer' }}
       />
-      <div className="header-nav-options desktop-only">
-        <NavigationOptions />
+      <div className="header-right desktop-only">
+        <div className="header-nav-options desktop-only">
+          <NavigationOptions />
+        </div>
+        <LanguageToggle />
       </div>
-      <div className="header-phone-container desktop-only">
-        <PhoneIcon className="header-phone-icon" />
-        <p>+380 73 091-08-24</p>
+      <div className="mobile-controls mobile-only">
+        <LanguageToggle />
+        <button className="hamburger-menu" onClick={toggleMenu}>
+          <MenuIcon className="menu-icon" />
+        </button>
       </div>
-      <button className="hamburger-menu mobile-only" onClick={toggleMenu}>
-        <MenuIcon className="menu-icon" />
-      </button>
 
       <AnimatePresence>
         {isMenuOpen && (

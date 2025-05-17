@@ -1,0 +1,322 @@
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
+
+type Language = 'ua' | 'en';
+
+interface LanguageContextType {
+  language: Language;
+  activeLanguage: 'en' | 'ua';
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const translations = {
+  ua: {
+    'nav.about': 'Про нас',
+    'nav.team': 'Команда',
+    'nav.team.title': '/Наша команда',
+    'nav.news': 'Новини',
+    'nav.workAreas': 'Напрями роботи',
+    'team.showAll': 'Показати всіх',
+    'team.hideAll': 'Приховати',
+    'hero.title': 'Integrity & Development Ukraine',
+    'hero.motto': 'Розвивай добро чесно',
+    'hero.contacts': 'Контакти',
+    'hero.years': 'Років',
+    'hero.years.plural': 'Роки',
+    'hero.experience.integrity':
+      'Працюємо над розвитком доброчесності в Україні',
+    'hero.experience.finance': 'Досвіду роботи в сфері публічних фінансів',
+    'hero.experience.recovery': 'Досвіду роботи в сфері відновлення',
+    'team.years': 'р. досвіду',
+    'about.subtitle': '/Про нас',
+    'about.title':
+      'Розвиток <span>доброчесної України</span> через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та відновлення.',
+    'about.text':
+      'Діяльність громадської організації буде спрямована на створення  та адвокацію аналітичних, моніторингових, та законотворчих продуктів, які б комплексно вирішували правові питання.',
+    'contact.phone': 'Телефон',
+    'contact.email': 'Пошта',
+    'contact.socials': 'Соціальні мережі',
+    'contact.title': "/Як з нами зв'язатися",
+    'contact.footer-title': 'Наші контакти',
+    'contact.heading': "Зв'яжіться з нами",
+    'contact.subheading':
+      'Ми завжди готові відповісти на ваші запитання та допомогти вам',
+    'contact.phone.number': '+380 73 091-08-24',
+    'contact.email.address': 'example@gmail.com',
+    'contact.facebook': 'ID Ukraine',
+    'areas.subtitle': '/Напрями роботи',
+    'areas.publicProperty': 'Публічне майно',
+    'areas.publicPropertyText':
+      'Цей напрямок стосується управління та використання майна, що належить державі або громадам (місцевому самоврядуванню).',
+    'areas.integrity':
+      'Розвиток доброчесності, підтримка антикорупційної інфраструктури',
+    'areas.integrityText':
+      'Антикорупційна діяльність в Україні спрямована на запобігання, виявлення та протидію корупції в державному та приватному секторах.',
+    'areas.recovery': 'Сфера відновлення',
+    'areas.recoveryText':
+      'Сфера відновлення в Україні зосереджена на відбудові інфраструктури, житла, економіки та соціальних систем, зруйнованих внаслідок війни.',
+    'areas.publicFinance': 'Сфера публічних фінансів',
+    'areas.publicFinanceText':
+      'Сфера публічних фінансів охоплює управління державними коштами, включаючи бюджетування, державні закупівлі, оподаткування, управління боргом та фінансову звітність.',
+    'news.allNews': '/Всі новини',
+    'news.loading': 'Завантаження...',
+    'news.error': 'Помилка завантаження новин',
+    'news.empty': 'Новин поки немає',
+    'news.readMore': 'Читати далі',
+    'news.previous': 'Попередня новина',
+    'news.next': 'Наступна новина',
+    'news.topNews': '/Найважливіші новини',
+    'admin.login': 'Вхід адміністратора',
+    'admin.signIn': 'Увійти',
+    'admin.username': "Ім'я користувача",
+    'admin.password': 'Пароль',
+    'admin.invalidCredentials': 'Невірні дані',
+    'admin.dashboard': 'Панель адміністратора',
+    'admin.logout': 'Вийти',
+    'admin.workers': 'Управління працівниками',
+    'admin.news': 'Управління новинами',
+    'admin.settings': 'Налаштування',
+    'admin.news.title': 'Заголовок',
+    'admin.news.content': 'Зміст',
+    'admin.news.category': 'Категорія',
+    'admin.news.date': 'Дата',
+    'admin.news.image': 'Зображення',
+    'admin.news.currentImage': 'Поточне зображення',
+    'admin.news.newImage': 'Попередній перегляд нового зображення',
+    'admin.news.uploading': 'Завантаження...',
+    'admin.news.topNewsCheckbox': 'Відображати в головних новинах (максимум 3)',
+    'admin.news.cancel': 'Скасувати',
+    'admin.news.update': 'Оновити',
+    'admin.news.add': 'Додати',
+    'admin.news.addNews': 'Додати новину',
+    'admin.news.editNews': 'Редагувати новину',
+    'admin.news.delete': 'Видалити новину',
+    'admin.news.publish': 'Опублікувати',
+    'admin.news.unpublish': 'Зняти з публікації',
+    'admin.news.published': 'Опубліковано',
+    'admin.news.draft': 'Чернетка',
+    'admin.news.top': 'Головна',
+    'admin.news.regular': 'Звичайна',
+    'admin.news.removeFromTop': 'Прибрати з головних',
+    'admin.news.addToTop': 'Додати до головних',
+    'admin.news.deleteConfirm': 'Ви впевнені, що хочете видалити цю новину?',
+    'admin.worker.addNew': 'Додати нового працівника',
+    'admin.worker.edit': 'Редагувати',
+    'admin.worker.add': 'Додати працівника',
+    'admin.worker.name': "Ім'я",
+    'admin.worker.position': 'Посада',
+    'admin.worker.specialty': 'Спеціалізація',
+    'admin.worker.years': 'Роки досвіду',
+    'admin.worker.description': 'Опис',
+    'admin.worker.photo': 'Фото',
+    'admin.worker.currentPhoto': 'Поточне фото',
+    'admin.worker.newPhoto': 'Попередній перегляд нового фото',
+    'admin.worker.photoOffset': 'Зміщення фото',
+    'admin.worker.facebook': 'Посилання Facebook',
+    'admin.worker.displayInCircle': 'Відображати в колі (максимум 6)',
+    'admin.worker.cancel': 'Скасувати',
+    'admin.worker.save': 'Зберегти',
+    'admin.worker.delete': 'Видалити',
+    'admin.worker.deleteConfirm':
+      'Ви впевнені, що хочете видалити цього працівника?',
+    'admin.editor.bold': 'Жирний',
+    'admin.editor.h2': 'Заголовок 2',
+    'admin.editor.h3': 'Заголовок 3',
+    'admin.editor.paragraph': 'Параграф',
+    'admin.editor.addLink': 'Додати посилання',
+    'admin.editor.removeLink': 'Видалити посилання',
+    'admin.loading': 'Завантаження...',
+    'admin.settings.changePassword': 'Змінити пароль',
+    'admin.settings.oldPassword': 'Старий пароль',
+    'admin.settings.newPassword': 'Новий пароль',
+    'admin.settings.confirmPassword': 'Підтвердіть пароль',
+    'admin.settings.success': 'Пароль успішно змінено',
+    'error.404': 'Сторінку не знайдено',
+    'error.404.text': 'Сторінка, яку ви шукаєте, не існує або була переміщена.',
+    'error.404.back': 'Повернутися на головну',
+    'admin.settings.title': 'Налаштування',
+    locale: 'uk-UA',
+  },
+  en: {
+    'nav.about': 'About',
+    'nav.team': 'Team',
+    'nav.team.title': '/Our Team',
+    'nav.news': 'News',
+    'nav.workAreas': 'Work Areas',
+    'team.showAll': 'Show All',
+    'team.hideAll': 'Hide',
+    'hero.title': 'Integrity & Development Ukraine',
+    'hero.motto': 'Develop good honestly',
+    'hero.contacts': 'Contacts',
+    'hero.years': 'Years',
+    'hero.years.plural': 'Years',
+    'hero.experience.integrity': 'Working on integrity development in Ukraine',
+    'hero.experience.finance': 'Experience in public finance',
+    'hero.experience.recovery': 'Experience in recovery',
+    'team.years': 'years of experience',
+    'about.subtitle': '/About us',
+    'about.title':
+      'Development of a <span>virtuous Ukraine</span> through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and recovery.',
+    'about.text':
+      "The NGO's activities will be aimed at creating and advocating for analytical, monitoring, and legislative products that would comprehensively address legal issues.",
+    'contact.phone': 'Phone',
+    'contact.email': 'Email',
+    'contact.socials': 'Socials',
+    'contact.title': '/Contacts',
+    'contact.footer-title': 'Our Contacts',
+    'contact.heading': 'Get in touch',
+    'contact.subheading':
+      'We are always ready to answer your questions and help you',
+    'contact.phone.number': '+380 73 091-08-24',
+    'contact.email.address': 'example@gmail.com',
+    'contact.facebook': 'ID Ukraine',
+    'areas.subtitle': '/Work Areas',
+    'areas.publicProperty': 'Public Property',
+    'areas.publicPropertyText':
+      'This area concerns the management and use of property belonging to the state or communities (local government).',
+    'areas.integrity':
+      'Integrity Development, Support of Anti-corruption Infrastructure',
+    'areas.integrityText':
+      'Anti-corruption activities in Ukraine are aimed at preventing, detecting and combating corruption in the public and private sectors.',
+    'areas.recovery': 'Recovery Area',
+    'areas.recoveryText':
+      'The recovery area in Ukraine focuses on rebuilding infrastructure, housing, economy and social systems destroyed by the war.',
+    'areas.publicFinance': 'Public Finance Area',
+    'areas.publicFinanceText':
+      'The public finance area covers the management of public funds, including budgeting, public procurement, taxation, debt management and financial reporting.',
+    'news.allNews': '/All News',
+    'news.loading': 'Loading...',
+    'news.error': 'Error loading news',
+    'news.empty': 'No news available',
+    'news.readMore': 'Read more',
+    'news.previous': 'Previous news',
+    'news.next': 'Next news',
+    'news.topNews': '/Top News',
+    'admin.login': 'Admin Login',
+    'admin.signIn': 'Sign In',
+    'admin.username': 'Username',
+    'admin.password': 'Password',
+    'admin.invalidCredentials': 'Invalid credentials',
+    'admin.dashboard': 'Admin Dashboard',
+    'admin.logout': 'Logout',
+    'admin.workers': 'Workers Management',
+    'admin.news': 'News Management',
+    'admin.settings': 'Settings',
+    'admin.news.title': 'Title',
+    'admin.news.content': 'Content',
+    'admin.news.category': 'Category',
+    'admin.news.date': 'Date',
+    'admin.news.image': 'Image',
+    'admin.news.currentImage': 'Current Image',
+    'admin.news.newImage': 'New Image Preview',
+    'admin.news.uploading': 'Uploading...',
+    'admin.news.topNewsCheckbox': 'Display in Top News (max 3)',
+    'admin.news.cancel': 'Cancel',
+    'admin.news.update': 'Update',
+    'admin.news.add': 'Add',
+    'admin.news.addNews': 'Add News',
+    'admin.news.editNews': 'Edit News',
+    'admin.news.delete': 'Delete News',
+    'admin.news.publish': 'Publish',
+    'admin.news.unpublish': 'Unpublish',
+    'admin.news.published': 'Published',
+    'admin.news.draft': 'Draft',
+    'admin.news.top': 'Top',
+    'admin.news.regular': 'Regular',
+    'admin.news.removeFromTop': 'Remove from Top News',
+    'admin.news.addToTop': 'Add to Top News',
+    'admin.news.deleteConfirm':
+      'Are you sure you want to delete this news item?',
+    'admin.worker.addNew': 'Add New Worker',
+    'admin.worker.edit': 'Edit Worker',
+    'admin.worker.add': 'Add Worker',
+    'admin.worker.name': 'Name',
+    'admin.worker.position': 'Position',
+    'admin.worker.specialty': 'Specialty',
+    'admin.worker.years': 'Years of Experience',
+    'admin.worker.description': 'Description',
+    'admin.worker.photo': 'Photo',
+    'admin.worker.currentPhoto': 'Current Photo',
+    'admin.worker.newPhoto': 'New Photo Preview',
+    'admin.worker.photoOffset': 'Photo Offset',
+    'admin.worker.facebook': 'Facebook Link',
+    'admin.worker.displayInCircle': 'Display in Circle (max 6)',
+    'admin.worker.cancel': 'Cancel',
+    'admin.worker.save': 'Save',
+    'admin.worker.delete': 'Delete',
+    'admin.worker.deleteConfirm':
+      'Are you sure you want to delete this worker?',
+    'admin.editor.bold': 'Bold',
+    'admin.editor.h2': 'H2',
+    'admin.editor.h3': 'H3',
+    'admin.editor.paragraph': 'Paragraph',
+    'admin.editor.addLink': 'Add Link',
+    'admin.editor.removeLink': 'Remove Link',
+    'admin.loading': 'Loading...',
+    'admin.settings.changePassword': 'Change Password',
+    'admin.settings.oldPassword': 'Old Password',
+    'admin.settings.newPassword': 'New Password',
+    'admin.settings.confirmPassword': 'Confirm Password',
+    'admin.settings.success': 'Password changed successfully',
+    'error.404': 'Page Not Found',
+    'error.404.text':
+      'The page you are looking for does not exist or has been moved.',
+    'error.404.back': 'Back to Home',
+    'admin.settings.title': 'Settings',
+    locale: 'en-US',
+  },
+};
+
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined
+);
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguage] = useState<Language>('ua');
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage && (savedLanguage === 'ua' || savedLanguage === 'en')) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
+  const t = (key: string): string => {
+    return (
+      translations[language][
+        key as keyof (typeof translations)[typeof language]
+      ] || key
+    );
+  };
+
+  return (
+    <LanguageContext.Provider
+      value={{
+        language,
+        activeLanguage: language,
+        setLanguage,
+        t,
+      }}
+    >
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+}

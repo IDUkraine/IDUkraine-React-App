@@ -1,18 +1,24 @@
 export interface NewsItem {
   id: string;
-  title: string;
-  text: string;
+  titleEn: string;
+  titleUk: string;
+  textEn: string;
+  textUk: string;
   date: Date;
-  category: string;
+  categoryEn: string;
+  categoryUk: string;
   image: string;
   isPublished: boolean;
   isTopNews: boolean;
 }
 
 export interface NewsCreateInput {
-  title: string;
-  text: string;
-  category: string;
+  titleEn: string;
+  titleUk: string;
+  textEn: string;
+  textUk: string;
+  categoryEn: string;
+  categoryUk: string;
   image: string;
   date: string;
   isTopNews?: boolean;

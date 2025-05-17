@@ -42,9 +42,9 @@
   transition: background-color 0.5s ease-in-out;
 }
 
-.area-card:hover {
+/*.area-card:hover {
   cursor: pointer;
-}
+}*/
 
 .area-card-selected {
   background-color: #fd9f41;
@@ -83,7 +83,7 @@
 
 .area-card-title {
   font-family: primary-medium;
-  max-width: 90%;
+  max-width: 80%;
   font-size: 24px;
   color: #fff;
   letter-spacing: 120%;
@@ -100,12 +100,12 @@
   line-height: 120%;
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.5s ease-in-out;
-  overflow: hidden;
+  /*overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   line-clamp: 4;
   -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: vertical;*/
 }
 
 .area-card-arrow {
@@ -121,17 +121,15 @@
 
 .fingerprint-areas-left {
   position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
+  top: 50px;
+  right: 90px;
   width: auto;
 }
 
 .fingerprint-areas-right {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  height: 100%;
+  top: 40px;
+  right: 40px;
   width: auto;
 }
 
@@ -258,23 +256,32 @@
     gap: 20px;
     row-gap: 20px;
   }
+  .area-card {
+    height: 250px;
+  }
   .area-card-title {
     font-size: 16px;
   }
   .area-card-text {
     font-size: 14px;
   }
+  .fingerprint-areas-left {
+    top: 30px;
+    right: 30px;
+  }
+  .fingerprint-areas-right {
+    top: 20px;
+    right: 20px;
+  }
 }
 
 @media screen and (max-width: 1025px) {
   .area-card {
-    height: 200px;
-    gap: 10px;
-    padding: 12px;
+    height: 250px;
   }
   .areas-container {
-    width: calc(100% - 40px);
-    margin: 0 20px;
+    width: 100%;
+    margin: auto;
   }
   .area-card-icon {
     min-width: 50px;
@@ -282,15 +289,13 @@
     max-width: 50px;
     max-height: 50px;
   }
-  .area-card-content {
-    gap: 8px;
-  }
   .area-card-title {
     font-size: 16px;
+    max-width: 90%;
   }
   .area-card-text {
     font-size: 12px;
-    max-width: 90%;
+    max-width: 80%;
   }
   .area-card-arrow {
     width: 30px;
@@ -308,6 +313,15 @@
   }
   .details-text {
     font-size: 14px;
+  }
+  .fingerprint-areas-left {
+    top: 20px;
+    right: 20px;
+  }
+  .fingerprint-areas-right {
+    top: 0;
+    right: 0;
+    transform: scale(0.7);
   }
 }
 
@@ -332,6 +346,7 @@
     grid-column: span 12;
     padding: 12px;
     gap: 16px;
+    height: 200px;
   }
   .area-card-icon {
     min-width: 50px;
@@ -354,10 +369,10 @@
     max-width: 80%;
   }
   .area-card-text {
-    max-width: 80%;
+    max-width: 90%;
     font-size: 16px;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;
+    /*line-clamp: 3;
+    -webkit-line-clamp: 3;*/
   }
   .area-card-arrow {
     position: absolute;
@@ -366,11 +381,15 @@
     width: 40px;
     height: 40px;
   }
-  .fingerprint-areas-left,
+  .fingerprint-areas-left {
+    transform: scale(0.7);
+    right: 0;
+    top: 20px;
+  }
   .fingerprint-areas-right {
-    transform: scale(0.8);
-    right: -5px;
-    top: -5px;
+    top: -30px;
+    right: -20px;
+    transform: scale(0.6);
   }
   .fingerprint-areas-have-selected {
     transform: scale(0.8);
@@ -425,14 +444,10 @@
     align-items: flex-start;
     gap: 6px;
   }
-  .area-card-text {
+  /*.area-card-text {
     line-clamp: 3;
     -webkit-line-clamp: 3;
-  }
-  .fingerprint-areas-left,
-  .fingerprint-areas-right {
-    display: none;
-  }
+  }*/
   .fingerprint-areas-have-selected {
     display: none;
   }
@@ -482,9 +497,13 @@
   }
   .area-card-text {
     font-size: 14px;
-    max-width: 95%;
-    line-clamp: 4;
-    -webkit-line-clamp: 4;
+    max-width: 100%;
+    /*line-clamp: 4;
+    -webkit-line-clamp: 4;*/
+  }
+  .fingerprint-areas-left {
+    top: -20px;
+    right: -10px;
   }
   .area-card-arrow {
     width: 30px;

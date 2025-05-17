@@ -1,9 +1,13 @@
+import { useLanguage } from '../../context/LanguageContext';
+
 const NavigationOptions = () => {
+  const { t } = useLanguage();
+
   const navItems = [
-    { label: 'Про нас', id: 'about' },
-    { label: 'Команда', id: 'team' },
-    { label: 'Новини', id: 'news' },
-    { label: 'Напрями роботи', id: 'work-areas' },
+    { label: t('nav.about'), id: 'about' },
+    { label: t('nav.team'), id: 'team' },
+    { label: t('nav.news'), id: 'news' },
+    { label: t('nav.workAreas'), id: 'work-areas' },
   ];
 
   return (

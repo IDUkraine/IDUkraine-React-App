@@ -1,29 +1,41 @@
 import ArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
 import '../../../../assets/styles/top-news.css';
+import { useLanguage } from '../../../../context/LanguageContext';
 
 interface NewsCardProps {
-  title: string;
-  text: string;
+  titleEn: string;
+  titleUk: string;
+  textEn: string;
+  textUk: string;
   date: string;
-  category: string;
+  categoryEn: string;
+  categoryUk: string;
   image?: string;
   onClick: () => void;
 }
 
 function TopNewsCard({
-  title,
-  text,
+  titleEn,
+  titleUk,
+  textEn,
+  textUk,
   date,
-  category,
+  categoryEn,
+  categoryUk,
   image,
   onClick,
 }: NewsCardProps) {
+  const { language } = useLanguage();
+
   const stripHtml = (html: string) => {
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || '';
   };
 
+  const title = language === 'en' ? titleEn : titleUk;
+  const text = language === 'en' ? textEn : textUk;
+  const category = language === 'en' ? categoryEn : categoryUk;
   const plainText = stripHtml(text);
 
   return (

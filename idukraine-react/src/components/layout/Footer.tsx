@@ -8,10 +8,12 @@ import FooterFingerprint from '../../assets/svgs/fingerprints/fingerprint-footer
 import NavigationOptions from './NavigationOptions';
 import { useSectionAnimation } from '../../hooks/useSectionAnimation';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
   const [ref, hasAnimated] = useSectionAnimation();
   const [initialY, setInitialY] = useState(window.innerWidth < 480 ? 50 : 160);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,7 +46,7 @@ const Footer = () => {
             <NavigationOptions />
           </div>
           <div className="footer-contacts">
-            <p className="footer-contacts-title">Наші контакти</p>
+            <p className="footer-contacts-title">{t('contact.footer-title')}</p>
             <div className="footer-contacts-container">
               <div className="footer-contacts-item">
                 <PhoneIcon className="footer-phone-icon" />

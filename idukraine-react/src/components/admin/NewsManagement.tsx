@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NewsItem } from '../../types/news';
 import { newsService } from '../../services/newsService';
+import { useLanguage } from '../../context/LanguageContext';
 import '../../assets/styles/news-management.css';
 import NewsFormModal from './NewsFormModal';
 
@@ -9,6 +10,7 @@ const NewsManagement: React.FC = () => {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     loadNews();
@@ -30,7 +32,7 @@ const NewsManagement: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this news item?')) {
+    if (window.confirm(t('admin.news.deleteConfirm'))) {
       try {
         await newsService.deleteNews(id);
         await loadNews();
@@ -92,7 +94,7 @@ const NewsManagement: React.FC = () => {
         className="toggle-form-button"
         onClick={() => setIsModalOpen(true)}
       >
-        Add New News
+        {t('admin.news.addNews')}
       </button>
 
       {error && <div className="error-message">{error}</div>}
@@ -101,27 +103,38 @@ const NewsManagement: React.FC = () => {
         {news.map((item) => (
           <div key={item.id} className="news-card">
             {item.image && (
-              <img src={item.image} alt={item.title} className="news-image" />
+              <img src={item.image} alt={item.titleUk} className="news-image" />
             )}
             <div className="news-content">
-              <h3 className="news-title">{item.title}</h3>
+              <div className="news-title-container">
+                <h3 className="news-title">
+                  <span className="lang-label">UK:</span> {item.titleUk}
+                </h3>
+                <h3 className="news-title">
+                  <span className="lang-label">EN:</span> {item.titleEn}
+                </h3>
+              </div>
               <p className="news-meta">
-                Category: {item.category}
+                {t('admin.news.category')}:
                 <br />
-                Date: {formatDate(new Date(item.date))}
+                <span className="lang-label">UK:</span> {item.categoryUk}
+                <br />
+                <span className="lang-label">EN:</span> {item.categoryEn}
+                <br />
+                {t('admin.news.date')}: {formatDate(new Date(item.date))}
               </p>
               <div className="news-actions">
                 <button
                   onClick={() => handleEdit(item)}
                   className="edit-button"
                 >
-                  Edit
+                  {t('admin.news.editNews')}
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}
                   className="delete-button"
                 >
-                  Delete
+                  {t('admin.news.delete')}
                 </button>
                 <button
                   onClick={() => handleTogglePublish(item.id)}
@@ -129,7 +142,9 @@ const NewsManagement: React.FC = () => {
                     item.isPublished ? 'published' : 'draft'
                   }`}
                 >
-                  {item.isPublished ? 'Published' : 'Draft'}
+                  {item.isPublished
+                    ? t('admin.news.published')
+                    : t('admin.news.draft')}
                 </button>
                 <button
                   onClick={() => handleToggleTopNews(item.id)}
@@ -137,10 +152,14 @@ const NewsManagement: React.FC = () => {
                     item.isTopNews ? 'active' : ''
                   }`}
                   title={
-                    item.isTopNews ? 'Remove from Top News' : 'Add to Top News'
+                    item.isTopNews
+                      ? t('admin.news.removeFromTop')
+                      : t('admin.news.addToTop')
                   }
                 >
-                  {item.isTopNews ? 'Top' : 'Regular'}
+                  {item.isTopNews
+                    ? t('admin.news.top')
+                    : t('admin.news.regular')}
                 </button>
               </div>
             </div>

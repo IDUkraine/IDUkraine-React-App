@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { authService } from '../../../services/authService';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const ChangePasswordTab: React.FC = () => {
+  const { t } = useLanguage();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,7 +25,7 @@ const ChangePasswordTab: React.FC = () => {
       newPassword
     );
     if (isChanged) {
-      setSuccess('Password changed successfully');
+      setSuccess(t('admin.settings.success'));
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
@@ -36,15 +38,14 @@ const ChangePasswordTab: React.FC = () => {
     <div className="settingsSection">
       <div className="loginBox">
         <div className="loginHeader">
-          <h2 className="loginTitle">Change Password</h2>
-          <p className="loginSubtitle">Enter your current and new password</p>
+          <h2 className="loginTitle">{t('admin.settings.changePassword')}</h2>
         </div>
         <form onSubmit={handleSubmit} className="form">
           {error && <div className="error">{error}</div>}
           {success && <div className="success">{success}</div>}
           <div className="inputGroup">
             <label className="label" htmlFor="currentPassword">
-              Current Password
+              {t('admin.settings.oldPassword')}
             </label>
             <input
               id="currentPassword"
@@ -57,7 +58,7 @@ const ChangePasswordTab: React.FC = () => {
           </div>
           <div className="inputGroup">
             <label className="label" htmlFor="newPassword">
-              New Password
+              {t('admin.settings.newPassword')}
             </label>
             <input
               id="newPassword"
@@ -70,7 +71,7 @@ const ChangePasswordTab: React.FC = () => {
           </div>
           <div className="inputGroup">
             <label className="label" htmlFor="confirmPassword">
-              Confirm New Password
+              {t('admin.settings.confirmPassword')}
             </label>
             <input
               id="confirmPassword"
@@ -82,7 +83,7 @@ const ChangePasswordTab: React.FC = () => {
             />
           </div>
           <button type="submit" className="button">
-            Change Password
+            {t('admin.settings.changePassword')}
           </button>
         </form>
       </div>

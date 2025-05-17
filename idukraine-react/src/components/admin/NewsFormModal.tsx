@@ -6,6 +6,7 @@ import '../../assets/styles/news-management.css';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface NewsFormModalProps {
   isOpen: boolean;
@@ -20,13 +21,14 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
   selectedNews,
   onSuccess,
 }) => {
+  const { t } = useLanguage();
   const isEditing = !!selectedNews;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tempImagePath, setTempImagePath] = useState<string | null>(null);
 
-  const editor = useEditor({
+  const editorEn = useEditor({
     extensions: [
       StarterKit,
       Link.configure({
@@ -42,15 +44,39 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
     onUpdate: ({ editor }) => {
       setFormData((prev) => ({
         ...prev,
-        text: editor.getHTML(),
+        textEn: editor.getHTML(),
+      }));
+    },
+  });
+
+  const editorUk = useEditor({
+    extensions: [
+      StarterKit,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'news-content-link',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        },
+      }),
+    ],
+    content: '',
+    onUpdate: ({ editor }) => {
+      setFormData((prev) => ({
+        ...prev,
+        textUk: editor.getHTML(),
       }));
     },
   });
 
   const initialFormState = {
-    title: '',
-    text: '',
-    category: '',
+    titleEn: '',
+    titleUk: '',
+    textEn: '',
+    textUk: '',
+    categoryEn: '',
+    categoryUk: '',
     image: '',
     isTopNews: false,
     date: new Date().toISOString().split('T')[0],
@@ -61,21 +87,25 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
   useEffect(() => {
     if (selectedNews) {
       setFormData({
-        title: selectedNews.title,
-        text: selectedNews.text,
-        category: selectedNews.category,
+        titleEn: selectedNews.titleEn,
+        titleUk: selectedNews.titleUk,
+        textEn: selectedNews.textEn,
+        textUk: selectedNews.textUk,
+        categoryEn: selectedNews.categoryEn,
+        categoryUk: selectedNews.categoryUk,
         image: selectedNews.image,
         isTopNews: selectedNews.isTopNews,
         date: new Date(selectedNews.date).toISOString().split('T')[0],
       });
-      if (editor) {
-        editor.commands.setContent(selectedNews.text);
+      if (editorEn && editorUk) {
+        editorEn.commands.setContent(selectedNews.textEn);
+        editorUk.commands.setContent(selectedNews.textUk);
       }
       setTempImagePath(null);
     } else {
       resetForm();
     }
-  }, [selectedNews, isOpen, editor]);
+  }, [selectedNews, isOpen, editorEn, editorUk]);
 
   const resetForm = () => {
     setFormData(initialFormState);
@@ -83,6 +113,12 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+    if (editorEn) {
+      editorEn.commands.setContent('');
+    }
+    if (editorUk) {
+      editorUk.commands.setContent('');
     }
   };
 
@@ -187,6 +223,7 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
       }
 
       setTempImagePath(null);
+      resetForm();
 
       onSuccess();
       onClose();
@@ -195,124 +232,214 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
     }
   };
 
-  const setLink = () => {
-    const url = window.prompt('Enter URL:');
-    if (url && editor) {
-      editor.chain().focus().setLink({ href: url }).run();
-    }
-  };
-
-  const removeLink = () => {
-    if (editor) {
-      editor.chain().focus().unsetLink().run();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
     <div className="modalOverlay">
       <div className="modalContent">
-        <h2 className="modalTitle">{isEditing ? 'Edit News' : 'Add News'}</h2>
+        <h2 className="modalTitle">
+          {isEditing ? t('admin.news.editNews') : t('admin.news.addNews')}
+        </h2>
         <button className="modal-close-btn" onClick={handleClose}>
           ×
         </button>
         <form onSubmit={handleSubmit} className="news-form">
           {error && <div className="error-message">{error}</div>}
 
-          <div className="form-group">
-            <label className="label">Title:</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              className="input"
-              required
-            />
+          <div className="form-row">
+            <div className="form-group">
+              <label className="label">{t('admin.news.title')} (UK):</label>
+              <input
+                type="text"
+                name="titleUk"
+                value={formData.titleUk}
+                onChange={handleInputChange}
+                className="input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="label">{t('admin.news.title')} (EN):</label>
+              <input
+                type="text"
+                name="titleEn"
+                value={formData.titleEn}
+                onChange={handleInputChange}
+                className="input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label className="label">{t('admin.news.category')} (UK):</label>
+              <input
+                type="text"
+                name="categoryUk"
+                value={formData.categoryUk}
+                onChange={handleInputChange}
+                className="input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="label">{t('admin.news.category')} (EN):</label>
+              <input
+                type="text"
+                name="categoryEn"
+                value={formData.categoryEn}
+                onChange={handleInputChange}
+                className="input"
+                required
+              />
+            </div>
           </div>
 
           <div className="form-group">
-            <label className="label">Content:</label>
-            <div className="editor-controls">
+            <label className="label">{t('admin.news.content')} (UK):</label>
+            <div className="editor-buttons">
               <button
                 type="button"
-                onClick={() => editor?.chain().focus().toggleBold().run()}
+                onClick={() => editorUk?.chain().focus().toggleBold().run()}
                 className={`editor-button ${
-                  editor?.isActive('bold') ? 'active' : ''
+                  editorUk?.isActive('bold') ? 'active' : ''
                 }`}
               >
-                Bold
+                {t('admin.editor.bold')}
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  editor?.chain().focus().toggleHeading({ level: 2 }).run()
+                  editorUk?.chain().focus().toggleHeading({ level: 2 }).run()
                 }
                 className={`editor-button ${
-                  editor?.isActive('heading', { level: 2 }) ? 'active' : ''
+                  editorUk?.isActive('heading', { level: 2 }) ? 'active' : ''
                 }`}
               >
-                H2
+                {t('admin.editor.h2')}
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  editor?.chain().focus().toggleHeading({ level: 3 }).run()
+                  editorUk?.chain().focus().toggleHeading({ level: 3 }).run()
                 }
                 className={`editor-button ${
-                  editor?.isActive('heading', { level: 3 }) ? 'active' : ''
+                  editorUk?.isActive('heading', { level: 3 }) ? 'active' : ''
                 }`}
               >
-                H3
+                {t('admin.editor.h3')}
               </button>
               <button
                 type="button"
-                onClick={() => editor?.chain().focus().setParagraph().run()}
+                onClick={() => editorUk?.chain().focus().setParagraph().run()}
                 className={`editor-button ${
-                  editor?.isActive('paragraph') ? 'active' : ''
+                  editorUk?.isActive('paragraph') ? 'active' : ''
                 }`}
               >
-                Paragraph
+                {t('admin.editor.paragraph')}
               </button>
               <button
                 type="button"
-                onClick={setLink}
+                onClick={() => {
+                  const url = window.prompt('Enter URL:');
+                  if (url && editorUk) {
+                    editorUk.chain().focus().setLink({ href: url }).run();
+                  }
+                }}
                 className={`editor-button ${
-                  editor?.isActive('link') ? 'active' : ''
+                  editorUk?.isActive('link') ? 'active' : ''
                 }`}
               >
-                Add Link
+                {t('admin.editor.addLink')}
               </button>
-              {editor?.isActive('link') && (
-                <button
-                  type="button"
-                  onClick={removeLink}
-                  className="editor-button"
-                >
-                  Remove Link
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => editorUk?.chain().focus().unsetLink().run()}
+                className="editor-button"
+                disabled={!editorUk?.isActive('link')}
+              >
+                {t('admin.editor.removeLink')}
+              </button>
             </div>
             <div className="editor-container">
-              <EditorContent editor={editor} />
+              <EditorContent editor={editorUk} className="editor-content" />
             </div>
           </div>
 
           <div className="form-group">
-            <label className="label">Category:</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-              className="input"
-              required
-            />
+            <label className="label">{t('admin.news.content')} (EN):</label>
+            <div className="editor-buttons">
+              <button
+                type="button"
+                onClick={() => editorEn?.chain().focus().toggleBold().run()}
+                className={`editor-button ${
+                  editorEn?.isActive('bold') ? 'active' : ''
+                }`}
+              >
+                {t('admin.editor.bold')}
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  editorEn?.chain().focus().toggleHeading({ level: 2 }).run()
+                }
+                className={`editor-button ${
+                  editorEn?.isActive('heading', { level: 2 }) ? 'active' : ''
+                }`}
+              >
+                {t('admin.editor.h2')}
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  editorEn?.chain().focus().toggleHeading({ level: 3 }).run()
+                }
+                className={`editor-button ${
+                  editorEn?.isActive('heading', { level: 3 }) ? 'active' : ''
+                }`}
+              >
+                {t('admin.editor.h3')}
+              </button>
+              <button
+                type="button"
+                onClick={() => editorEn?.chain().focus().setParagraph().run()}
+                className={`editor-button ${
+                  editorEn?.isActive('paragraph') ? 'active' : ''
+                }`}
+              >
+                {t('admin.editor.paragraph')}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const url = window.prompt('Enter URL:');
+                  if (url && editorEn) {
+                    editorEn.chain().focus().setLink({ href: url }).run();
+                  }
+                }}
+                className={`editor-button ${
+                  editorEn?.isActive('link') ? 'active' : ''
+                }`}
+              >
+                {t('admin.editor.addLink')}
+              </button>
+              <button
+                type="button"
+                onClick={() => editorEn?.chain().focus().unsetLink().run()}
+                className="editor-button"
+                disabled={!editorEn?.isActive('link')}
+              >
+                {t('admin.editor.removeLink')}
+              </button>
+            </div>
+            <div className="editor-container">
+              <EditorContent editor={editorEn} className="editor-content" />
+            </div>
           </div>
 
           <div className="form-group">
-            <label className="label">Date:</label>
+            <label className="label">{t('admin.news.date')}:</label>
             <input
               type="date"
               name="date"
@@ -324,7 +451,7 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
           </div>
 
           <div className="form-group">
-            <label className="label">Image:</label>
+            <label className="label">{t('admin.news.image')}:</label>
             <input
               type="file"
               accept="image/*"
@@ -333,13 +460,17 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
               className="input"
               disabled={isUploading}
             />
-            {isUploading && <div className="upload-status">Uploading...</div>}
+            {isUploading && (
+              <div className="upload-status">{t('admin.news.uploading')}</div>
+            )}
             {(formData.image || selectedNews?.image) && (
               <div className="image-preview">
                 {selectedNews?.image &&
                   formData.image === selectedNews.image && (
                     <div className="imageContainer">
-                      <span className="imageLabel">Current Image:</span>
+                      <span className="imageLabel">
+                        {t('admin.news.currentImage')}:
+                      </span>
                       <img
                         src={selectedNews.image}
                         alt="Current"
@@ -349,7 +480,9 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                   )}
                 {formData.image && formData.image !== selectedNews?.image && (
                   <div className="imageContainer">
-                    <span className="imageLabel">New Image Preview:</span>
+                    <span className="imageLabel">
+                      {t('admin.news.newImage')}:
+                    </span>
                     <img
                       src={formData.image}
                       alt="Preview"
@@ -369,23 +502,25 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
               onChange={handleInputChange}
               className="checkboxInput"
             />
-            <span className="checkboxLabel">Display in Top News (max 3)</span>
+            <span className="checkboxLabel">
+              {t('admin.news.topNewsCheckbox')}
+            </span>
           </div>
 
-          <div className="button-group">
+          <div className="form-actions">
             <button
               type="button"
               onClick={handleClose}
               className="cancel-button"
             >
-              Cancel
+              {t('admin.news.cancel')}
             </button>
             <button
               type="submit"
               className="submit-button"
               disabled={isUploading}
             >
-              {isEditing ? 'Update' : 'Add'} News
+              {isEditing ? t('admin.news.update') : t('admin.news.add')}
             </button>
           </div>
         </form>

@@ -463,7 +463,16 @@
   margin: 0.5rem 0;
   font-size: 0.875rem;
   color: #666;
-  white-space: pre-wrap;
+}
+
+.cardDescription div {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .editor-controls {

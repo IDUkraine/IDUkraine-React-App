@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import WorkersTab from './tabs/WorkersTab';
 import NewsTab from './tabs/NewsTab';
 import ChangePasswordTab from './tabs/ChangePasswordTab';
+import LanguageToggle from '../common/LanguageToggle';
 import '../../assets/styles/admin-page.css';
 
 const AdminPage: React.FC = () => {
   const { isAdmin, login, logout } = useAuth();
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('workers');
@@ -20,7 +23,7 @@ const AdminPage: React.FC = () => {
       setUsername('');
       setPassword('');
     } else {
-      setError('Invalid credentials');
+      setError(t('admin.invalidCredentials'));
     }
   };
 
@@ -29,8 +32,8 @@ const AdminPage: React.FC = () => {
       <div className="loginContainer">
         <div className="loginBox">
           <div className="loginHeader">
-            <h1 className="loginTitle">Admin Login</h1>
-            <p className="loginSubtitle">Please sign in to continue</p>
+            <h1 className="loginTitle">{t('admin.login')}</h1>
+            <p className="loginSubtitle">{t('admin.signIn')}</p>
           </div>
           <form
             onSubmit={handleLogin}
@@ -48,7 +51,7 @@ const AdminPage: React.FC = () => {
             {error && <div className="error">{error}</div>}
             <div className="inputGroup">
               <label className="label" htmlFor="username">
-                Username
+                {t('admin.username')}
               </label>
               <input
                 id="username"
@@ -63,7 +66,7 @@ const AdminPage: React.FC = () => {
             </div>
             <div className="inputGroup">
               <label className="label" htmlFor="password">
-                Password
+                {t('admin.password')}
               </label>
               <input
                 id="password"
@@ -77,7 +80,7 @@ const AdminPage: React.FC = () => {
               />
             </div>
             <button type="submit" className="button">
-              Sign In
+              {t('admin.signIn')}
             </button>
           </form>
         </div>
@@ -89,10 +92,13 @@ const AdminPage: React.FC = () => {
     <div className="dashboardContainer">
       <nav className="navbar">
         <div className="navbarContent">
-          <h1 className="dashboardTitle">Admin Dashboard</h1>
-          <button onClick={logout} className="logoutButton">
-            Logout
-          </button>
+          <h1 className="dashboardTitle">{t('admin.dashboard')}</h1>
+          <div className="navbarControls">
+            <LanguageToggle />
+            <button onClick={logout} className="logoutButton">
+              {t('admin.logout')}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -103,19 +109,19 @@ const AdminPage: React.FC = () => {
               className={`tab ${activeTab === 'workers' ? 'tabActive' : ''}`}
               onClick={() => setActiveTab('workers')}
             >
-              Workers Management
+              {t('admin.workers')}
             </button>
             <button
               className={`tab ${activeTab === 'news' ? 'tabActive' : ''}`}
               onClick={() => setActiveTab('news')}
             >
-              News Management
+              {t('admin.news')}
             </button>
             <button
               className={`tab ${activeTab === 'settings' ? 'tabActive' : ''}`}
               onClick={() => setActiveTab('settings')}
             >
-              Settings
+              {t('admin.settings')}
             </button>
           </div>
 

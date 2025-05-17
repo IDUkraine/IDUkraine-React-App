@@ -2,15 +2,15 @@
   "employees": [
     {
       "id": 1,
-      "name": "Andrii Denysiuk",
-      "email": "example3@gmail.com",
-      "position": "Founder",
-      "specialty": "Law",
+      "name": "Андрій Денисюк",
+      "email": "example@gmail.com",
+      "position": "Член правління",
+      "specialty": "Розвиток доброчесності, підтримка антикорупційної інфраструктури",
       "years": 13,
       "description": "<p>13 years of experience in criminal justice system. Assistant to a member of the Ukrainian Parliament. Experience in drafting laws, public speaking and implementing educational projects.</p><p>Specialist in anti-corruption, procurement and projects in the field of IT, cryptocurrency, public procurement.</p>",
       "iconPhotoOffsetY": "20%",
       "links": {
-        "facebook": "https://www.facebook.com/andrii.denysiuk"
+        "facebook": "https://www.facebook.com/AndreDenOnly?locale=uk_UA"
       },
       "currentPhotoPath": "/workers/andrii-denysiuk.jpg",
       "isDisplayedInCircle": true,
@@ -18,45 +18,47 @@
     },
     {
       "id": 2,
-      "name": "Nadiia Burdiei",
+      "name": "Надія Бурдєй",
       "email": "example@gmail.com",
-      "position": "Founder",
-      "specialty": "Lawyer",
+      "position": "Член правління",
+      "specialty": "Відновлення",
       "years": 10,
-      "description": "Experience in the field of corruption prevention, in particular, in assessing corruption risks, monitoring the lifestyle of officials, identifying public officials and their assets in positions at the National Agency for the Prevention of Corruption, the State Agency for Infrastructure Reconstruction and Development, and the Anti-Corruption Action Center. Experience in media.",
-      "photo": "/workers/nadia-burdiei.jpeg",
+      "description": "<p>Experience in the field of corruption prevention, in particular, in assessing corruption risks, monitoring the lifestyle of officials, identifying public officials and their assets in positions at the National Agency for the Prevention of Corruption, the State Agency for Infrastructure Reconstruction and Development, and the Anti-Corruption Action Center. Experience in media.</p>",
       "iconPhotoOffsetY": "50%",
       "links": {
-        "facebook": "https://www.facebook.com/nadiia.burdiei"
+        "facebook": "https://www.facebook.com/burdiei?locale=uk_UA"
       },
-      "isDisplayedInCircle": true
+      "isDisplayedInCircle": true,
+      "currentPhotoPath": "/workers/nadia-burdiei.jpeg",
+      "photo": "/workers/nadia-burdiei.jpeg"
     },
     {
       "id": 3,
-      "name": "Stanislav Bronevytskyy",
+      "name": "Станіслав Броневицький",
       "email": "example@gmail.com",
-      "position": "Founder",
-      "specialty": "Lawyer",
+      "position": "Член правління",
+      "specialty": "Розвиток доброчесності, підтримка антикорупційної інфраструктури",
       "years": 20,
-      "description": "<strong>20 years of experience in criminal justice system.</strong> \n\nUntil November 2024 - prosecutor at the SAPO. Expert in investigating white-collar crimes and corruption crimes committed by top officials. Experience in international technical assistance project on institutional development of the NACP.",
-      "photo": "/workers/stanislav-bronevytskyy.jpeg",
+      "description": "<p><strong>20 years of experience in criminal justice system.</strong> Until November 2024 - prosecutor at the SAPO. Expert in investigating white-collar crimes and corruption crimes committed by top officials. Experience in international technical assistance project on institutional development of the NACP.</p>",
       "iconPhotoOffsetY": "20%",
       "links": {
-        "facebook": "https://www.facebook.com/stanislav.bronevytskyy"
+        "facebook": "https://www.facebook.com/stas.bronevytskyy?locale=uk_UA"
       },
-      "isDisplayedInCircle": true
+      "isDisplayedInCircle": true,
+      "currentPhotoPath": "/workers/stanislav-bronevytskyy.jpeg",
+      "photo": "/workers/stanislav-bronevytskyy.jpeg"
     },
     {
       "id": 4,
-      "name": "Serhii Rokun",
+      "name": "Сергій Рокунь",
       "email": "example@gmail.com",
-      "position": "Founder",
-      "specialty": "Lawyer",
+      "position": "Голова правління",
+      "specialty": "Публічні фінанси",
       "years": 15.5,
-      "description": "<p><strong>7 years of experience of management of teams.</strong> 8.5 years of experience in the NABU and international technical assistance projects in the field of institutional development of anti-corruption agencies. </p><p><strong>Expert in financial investigations, international cooperation and troubleshooting.</strong></p>",
+      "description": "<p><strong>7 years of experience of management of teams.</strong> 8.5 years of experience in the NABU and international technical assistance projects in the field of institutional development of anti-corruption agencies.</p><p><strong>Expert in financial investigations, international cooperation and troubleshooting.</strong></p>",
       "iconPhotoOffsetY": "30%",
       "links": {
-        "facebook": "https://www.facebook.com/serhii.rokun"
+        "facebook": "https://www.facebook.com/sergiy.rockun?locale=uk_UA"
       },
       "isDisplayedInCircle": true,
       "currentPhotoPath": "/workers/serhii-rokun.jpeg",
@@ -64,59 +66,97 @@
     },
     {
       "id": 5,
-      "name": "Andrii Sotnyk",
+      "name": "Андрій Сотник",
       "email": "example@gmail.com",
-      "position": "Founder",
-      "specialty": "Lawyer",
+      "position": "Учасник ГО",
+      "specialty": "Розвиток доброчесності, підтримка антикорупційної інфраструктури",
       "years": 12,
-      "description": "A lawyer with over 12 years of professional experience in the field of law, including work in government bodies, international technical assistance projects, and the civil society sector. <strong>Expert in the legislative regulation</strong> of the judiciary and law enforcement agencies in Ukraine, with deep expertise in anti-corruption policy, development of regulatory legal acts, and legislative analysis.",
+      "description": "<p>A lawyer with over 12 years of professional experience in the field of law, including work in government bodies, international technical assistance projects, and the civil society sector. <strong>Expert in the legislative regulation</strong> of the judiciary and law enforcement agencies in Ukraine, with deep expertise in anti-corruption policy, development of regulatory legal acts, and legislative analysis.</p>",
       "iconPhotoOffsetY": "10%",
       "links": {
-        "facebook": "https://www.facebook.com/andrii.sotnyk"
+        "facebook": "https://www.facebook.com/profile.php?id=61554711070397&locale=uk_UA"
       },
-      "isDisplayedInCircle": true,
+      "isDisplayedInCircle": false,
       "currentPhotoPath": "/workers/andrii-sotnyk.jpeg",
       "photo": "/workers/andrii-sotnyk.jpeg"
     },
     {
       "id": 6,
-      "name": "Serhii Verenchuk",
+      "name": "Сергій Веренчук",
       "email": "example@gmail.com",
-      "position": "Founder",
-      "specialty": "Lawyer",
+      "position": "Член правління",
+      "specialty": "Відновлення, санкції, приватизація",
       "years": 8.5,
       "description": "<p><strong>8.5 years of experience as a NABU detective</strong> and international technical assistance projects in the field of state-owned enterprises, corporate governance. Expert in conducting investigations in criminal proceedings on economic crimes.</p><p></p><p>test</p>",
       "iconPhotoOffsetY": "0%",
       "links": {
-        "facebook": "https://www.facebook.com/serhii.verenchuk"
+        "facebook": " https://www.facebook.com/sergiy.verenchuk?locale=uk_UA"
       },
       "isDisplayedInCircle": true,
       "currentPhotoPath": "/workers/serhii-verenchuk.jpeg",
       "photo": "/workers/serhii-verenchuk.jpeg"
     },
     {
-      "name": "test",
-      "email": "maxtomusiak315@gmail.com",
-      "position": "test",
-      "specialty": "test",
-      "years": 1.5,
-      "description": "<p>Lore<strong>lkjljljk</strong>lklj</p>",
-      "iconPhotoOffsetY": "0%",
+      "name": "Іван Шевчик",
+      "email": "example@gmail.com",
+      "position": "Учасник ГО",
+      "specialty": "Публічні Фінанси",
+      "years": 2,
+      "description": "<p>2 years of combined work experience and practice in law enforcement agencies (NABU, BES), law firms (lawyers' offices), public initiatives and international technical assistance projects.</p>",
+      "iconPhotoOffsetY": "30%",
       "links": {
-        "facebook": "https:/test.com.ua"
+        "facebook": "https://www.facebook.com/ivan.sheva.5036?locale=uk_UA"
       },
       "isDisplayedInCircle": false,
       "id": 7,
-      "currentPhotoPath": "/workers/1747294992017-274453656.png",
-      "photo": "/workers/1747294992017-274453656.png"
+      "currentPhotoPath": "/workers/1747304308029-796455062.jpeg",
+      "photo": "/workers/1747304308029-796455062.jpeg"
+    },
+    {
+      "name": "Василь Орєшкін",
+      "email": "example@gmail.com",
+      "position": "Учасник ГО",
+      "specialty": "Публічні фінанси",
+      "years": 5,
+      "description": "<p><strong>2 years in the private legal business</strong></p><p>and 3 years of experience working with international technical assistance projects.</p><p>Due diligence expert with experience in establishing cooperation between international partners, business, civil society, and the state.</p>",
+      "iconPhotoOffsetY": "0%",
+      "links": {
+        "facebook": "https://www.facebook.com/profile.php?id=100025913020021&locale=uk_UA"
+      },
+      "isDisplayedInCircle": false,
+      "photo": "/workers/1747304531662-568780987.jpeg",
+      "id": 8
+    },
+    {
+      "name": "Андрій Дягілєв",
+      "email": "example@gmail.com",
+      "position": "Учасник ГО",
+      "specialty": "Публічні фінанси",
+      "years": 20,
+      "description": "<p>20 years of experience in the financial sector and international technical assistance projects. Experience in preparing strategic studies and draft laws, transforming public financial institutions.</p><p>Expert in financial monitoring, financial services regulation, internal control systems, and operational risk management.</p>",
+      "iconPhotoOffsetY": "0%",
+      "links": {
+        "facebook": "https://www.facebook.com/share/1FhXrn2JV1/"
+      },
+      "isDisplayedInCircle": false,
+      "photo": "/workers/1747304657078-821698400.jpeg",
+      "id": 9
+    },
+    {
+      "name": "Олександр Курілець",
+      "email": "example@gmail.com",
+      "position": "Член правління",
+      "specialty": "Відновлення",
+      "years": 11,
+      "description": "<p>Attorney at law, 11 years of experience in law enforcement, 6 of which in the NABU, experience in international technical assistance projects on institutional development of the SARDI</p><p>Area of expertise: risk management, development of compliance policies, internal investigations, preparation of public investment projects,</p>",
+      "iconPhotoOffsetY": "0%",
+      "links": {
+        "facebook": "https://www.facebook.com/sasha.kurilets?locale=uk_UA"
+      },
+      "isDisplayedInCircle": true,
+      "photo": "/workers/1747304994044-98969790.jpeg",
+      "id": 10
     }
   ],
-  "radiuses": [
-    190,
-    180,
-    230,
-    190,
-    210,
-    190
-  ]
+  "radiuses": [190, 180, 230, 190, 210, 190]
 }
