@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
 import '../../../../assets/styles/swiper-custom.css';
 import '../../../../assets/styles/team.css';
+import '../../../../assets/styles/modal.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/icons/person-play.svg';
@@ -11,42 +13,92 @@ import MailIcon from '../../../../assets/svgs/icons/mail.svg';
 import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
-import employeesData from '../../../../data/emplyees.json';
+import { useLanguage } from '../../../../context/LanguageContext';
+import { workerService } from '../../../../services/workerService';
+import { Worker } from '../../../../types/worker';
 
-interface Employee {
-  id: number;
-  name: string;
-  position: string;
-  specialty: string;
-  years: number;
-  email: string;
-  description: string;
-  photo: string;
-  iconPhotoOffsetY?: string;
-  links: {
-    [key: string]: string;
-  };
+interface TooltipPortalProps {
+  children: ReactNode;
+  targetRect: DOMRect;
 }
 
-const headEmployees: Employee[] = employeesData.employees;
-const radiuses: number[] = employeesData.radiuses;
-const allEmployees: Employee[] = [...headEmployees];
+const TooltipPortal = ({ children, targetRect }: TooltipPortalProps) => {
+  return createPortal(
+    <div
+      style={{
+        position: 'fixed',
+        top: targetRect.top + targetRect.height,
+        left: targetRect.left + targetRect.width / 2,
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+      }}
+    >
+      {children}
+    </div>,
+    document.body
+  );
+};
 
 function TeamSection() {
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee>(
-    headEmployees[0]
-  );
+  const [selectedEmployee, setSelectedEmployee] = useState<Worker | null>(null);
+  const [circleEmployees, setCircleEmployees] = useState<Worker[]>([]);
+  const [allEmployees, setAllEmployees] = useState<Worker[]>([]);
   const [showAll, setShowAll] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scale, setScale] = useState<number>(1);
   const [radiusScale, setRadiusScale] = useState<number>(1);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const [isLoading, setIsLoading] = useState(true);
+  const { t, activeLanguage } = useLanguage();
+  const [tooltipRect, setTooltipRect] = useState<DOMRect | null>(null);
+  const [activeEmployee, setActiveEmployee] = useState<Worker | null>(null);
 
   const baseCenter = { x: 225, y: 240 };
   const baseWidth = 450;
+  const radiuses = [190, 180, 230, 190, 210, 190];
 
   const [leftRef, leftVisible] = useSectionAnimation();
   const [rightRef, rightVisible] = useSectionAnimation();
+
+  useEffect(() => {
+    const loadWorkers = async () => {
+      try {
+        setIsLoading(true);
+        const data = await workerService.getWorkers();
+        const workers = data.employees;
+        setAllEmployees(workers);
+        const displayedWorkers = workerService.getDisplayedWorkers(workers);
+        setCircleEmployees(
+          displayedWorkers.filter(
+            (worker) => worker.isDisplayedInCircle == true
+          )
+        );
+        if (displayedWorkers.length > 0) {
+          if (
+            displayedWorkers.find(
+              (worker) => worker.positionUk === 'Голова правління'
+            )
+          ) {
+            setSelectedEmployee(
+              displayedWorkers[
+                displayedWorkers.findIndex(
+                  (worker) => worker.positionUk === 'Голова правління'
+                )
+              ]
+            );
+          } else {
+            setSelectedEmployee(displayedWorkers[0]);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading workers:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadWorkers();
+  }, []);
 
   useEffect(() => {
     const updateScale = () => {
@@ -89,14 +141,8 @@ function TeamSection() {
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleResize);
-
     handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -116,7 +162,7 @@ function TeamSection() {
     y: baseCenter.y * scale,
   };
 
-  const openModal = (employee: Employee) => {
+  const openModal = (employee: Worker) => {
     setSelectedEmployee(employee);
     setIsModalOpen(true);
   };
@@ -125,9 +171,22 @@ function TeamSection() {
     setIsModalOpen(false);
   };
 
+  const getName = (worker: Worker) =>
+    activeLanguage === 'en' ? worker.nameEn : worker.nameUk;
+  const getPosition = (worker: Worker) =>
+    activeLanguage === 'en' ? worker.positionEn : worker.positionUk;
+  const getSpecialty = (worker: Worker) =>
+    activeLanguage === 'en' ? worker.specialtyEn : worker.specialtyUk;
+  const getDescription = (worker: Worker) =>
+    activeLanguage === 'en' ? worker.descriptionEn : worker.descriptionUk;
+
+  if (!selectedEmployee && !isLoading) {
+    return null;
+  }
+
   return (
     <section className="team-section" id="team">
-      <h2 className="team-title">/Наша команда</h2>
+      <h2 className="team-title">{t('nav.team.title')}</h2>
       <div className="team-content">
         <motion.div
           className="team-left"
@@ -138,53 +197,74 @@ function TeamSection() {
         >
           <div className="team-fingerprint-container">
             <TeamLogo className="team-fingerprint" />
-            <div className="photo-dots">
-              {headEmployees.map((emp, index) => {
-                const angle = (2 * Math.PI * index) / headEmployees.length;
-                const radius = radiuses[index] * scale * radiusScale;
-                const x = center.x + radius * Math.cos(angle) - 45 * scale;
-                const y = center.y + radius * Math.sin(angle) - 45 * scale;
+            {isLoading ? (
+              <div className="loading">{t('admin.loading')}</div>
+            ) : (
+              <div className="photo-dots">
+                {circleEmployees.map((emp, index) => {
+                  const angle = (2 * Math.PI * index) / circleEmployees.length;
+                  const radius =
+                    radiuses[index % radiuses.length] * scale * radiusScale;
+                  const x = center.x + radius * Math.cos(angle) - 45 * scale;
+                  const y = center.y + radius * Math.sin(angle) - 45 * scale;
 
-                return (
-                  <div
-                    key={emp.id}
-                    className={`photo-dot-wrapper ${
-                      selectedEmployee.id === emp.id ? 'active' : ''
-                    }`}
-                    style={{ top: `${y}px`, left: `${x}px` }}
-                    onClick={() => {
-                      if (window.innerWidth <= 769) {
-                        openModal(emp);
-                      } else {
-                        setSelectedEmployee(emp);
-                      }
-                    }}
-                  >
-                    <div className="photo-dot">
-                      <img
-                        src={emp.photo}
-                        alt={emp.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          objectPosition: `center ${
-                            emp.iconPhotoOffsetY ?? '0%'
-                          }`,
-                          borderRadius: '50%',
-                        }}
-                      />
-                    </div>
-                    <div className="worker-info-tooltip">
-                      <div className="worker-info-text">
-                        <p className="worker-name">{emp.name}</p>
-                        <p className="worker-position">{emp.position}</p>
+                  return (
+                    <div
+                      key={emp.id}
+                      className={`photo-dot-wrapper ${
+                        selectedEmployee?.id === emp.id ? 'active' : ''
+                      }`}
+                      style={{ top: `${y}px`, left: `${x}px` }}
+                      onClick={() => {
+                        if (window.innerWidth <= 769) {
+                          openModal(emp);
+                        } else {
+                          setSelectedEmployee(emp);
+                        }
+                      }}
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setTooltipRect(rect);
+                        setActiveEmployee(emp);
+                      }}
+                      onMouseLeave={() => {
+                        setTooltipRect(null);
+                        setActiveEmployee(null);
+                      }}
+                    >
+                      <div className="photo-dot">
+                        <img
+                          src={emp.photo}
+                          alt={getName(emp)}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: `center ${emp.iconPhotoOffsetY}`,
+                            borderRadius: '50%',
+                          }}
+                        />
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+                {tooltipRect && activeEmployee && (
+                  <TooltipPortal targetRect={tooltipRect}>
+                    <div
+                      className="worker-info-tooltip"
+                      style={{ position: 'static', transform: 'none' }}
+                    >
+                      <div className="worker-info-text">
+                        <p className="worker-name">{getName(activeEmployee)}</p>
+                        <p className="worker-position">
+                          {getPosition(activeEmployee)}
+                        </p>
+                      </div>
+                    </div>
+                  </TooltipPortal>
+                )}
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -195,38 +275,63 @@ function TeamSection() {
           animate={rightVisible ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
         >
-          <div className="employee-info">
-            <div>
-              <h3>{selectedEmployee.name}</h3>
-              <p className="position">{selectedEmployee.position}</p>
-            </div>
-            <div className="employee-specs-container">
-              <div className="employee-specs">
-                <SpecialtyIcon className="employee-specs-icon" />
-                <p>{selectedEmployee.specialty}</p>
+          {isLoading ? (
+            <div className="loading">{t('admin.loading')}</div>
+          ) : selectedEmployee ? (
+            <>
+              <div className="employee-info">
+                <div>
+                  <h3>{getName(selectedEmployee)}</h3>
+                  <p className="position">{getPosition(selectedEmployee)}</p>
+                </div>
+                <div className="employee-specs-container">
+                  <div className="employee-specs">
+                    <SpecialtyIcon className="employee-specs-icon" />
+                    <p>{getSpecialty(selectedEmployee)}</p>
+                  </div>
+                  <div className="employee-specs">
+                    <ExperienceIcon className="employee-specs-icon" />
+                    <p>
+                      {selectedEmployee.years} {t('team.years')}
+                    </p>
+                  </div>
+                  <div className="employee-specs">
+                    <MailIcon className="employee-specs-icon" />
+                    <p>{selectedEmployee.email}</p>
+                  </div>
+                </div>
+                <div className="employee-links">
+                  {selectedEmployee.links?.facebook && (
+                    <a
+                      href={selectedEmployee.links.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FacebookIcon className="employee-links-icon" />
+                    </a>
+                  )}
+                </div>
+                <p
+                  className="employee-description"
+                  dangerouslySetInnerHTML={{
+                    __html: getDescription(selectedEmployee),
+                  }}
+                />
               </div>
-              <div className="employee-specs">
-                <ExperienceIcon className="employee-specs-icon" />
-                <p>{selectedEmployee.years} years of experience</p>
+              <div className="employee-photo">
+                <img
+                  src={selectedEmployee.photo}
+                  alt={getName(selectedEmployee)}
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: `center ${
+                      selectedEmployee.iconPhotoOffsetY ?? '0%'
+                    }`,
+                  }}
+                />
               </div>
-              <div className="employee-specs">
-                <MailIcon className="employee-specs-icon" />
-                <p>{selectedEmployee.email}</p>
-              </div>
-            </div>
-            <div className="employee-links">
-              {selectedEmployee.links['facebook'] && (
-                <FacebookIcon className="employee-links-icon" />
-              )}
-            </div>
-            <p
-              className="employee-description"
-              dangerouslySetInnerHTML={{ __html: selectedEmployee.description }}
-            />
-          </div>
-          <div className="employee-photo">
-            <img src={selectedEmployee.photo} alt={selectedEmployee.name} />
-          </div>
+            </>
+          ) : null}
         </motion.div>
       </div>
 
@@ -235,7 +340,7 @@ function TeamSection() {
           className="show-all-button"
           onClick={() => setShowAll((prev) => !prev)}
         >
-          {showAll ? 'Приховати' : 'Показати всіх'}
+          {showAll ? t('team.hideAll') : t('team.showAll')}
         </button>
       </div>
 
@@ -265,22 +370,41 @@ function TeamSection() {
               >
                 <img
                   src={emp.photo}
-                  alt={emp.name}
+                  alt={getName(emp)}
                   className="employee-slide-photo"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: `center ${emp.iconPhotoOffsetY ?? '0%'}`,
+                  }}
                 />
                 <div className="employee-slide-info">
                   <div>
-                    <p className="employee-slide-name">{emp.name}</p>
-                    <p className="employee-slide-position">{emp.position}</p>
+                    <p className="employee-slide-name">{getName(emp)}</p>
+                    <p className="employee-slide-position">
+                      {getPosition(emp)}
+                    </p>
                   </div>
                   <div className="employee-specs-container">
                     <div className="employee-specs">
                       <SpecialtyIcon className="employee-specs-icon" />
-                      <p>{emp.specialty}</p>
+                      <p
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          margin: 0,
+                        }}
+                      >
+                        {getSpecialty(emp)}
+                      </p>
                     </div>
                     <div className="employee-specs">
                       <ExperienceIcon className="employee-specs-icon" />
-                      <p>{emp.years} years of experience</p>
+                      <p>
+                        {emp.years} {t('team.years')}
+                      </p>
                     </div>
                     <div className="employee-specs">
                       <MailIcon className="employee-specs-icon" />
@@ -295,9 +419,9 @@ function TeamSection() {
       )}
 
       <AnimatePresence>
-        {isModalOpen && (
+        {isModalOpen && selectedEmployee && (
           <motion.div
-            className="modal-overlay"
+            className="modal-container modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -321,33 +445,46 @@ function TeamSection() {
                     }`,
                   }}
                   src={selectedEmployee.photo}
-                  alt={selectedEmployee.name}
+                  alt={getName(selectedEmployee)}
                 />
               </div>
               <CloseIcon className="modal-close" onClick={closeModal} />
               <div className="modal-employee-info">
                 <div className="modal-employee-header">
-                  <h3>{selectedEmployee.name}</h3>
-                  <p className="position">{selectedEmployee.position}</p>
+                  <h3>{getName(selectedEmployee)}</h3>
+                  <p className="position">{getPosition(selectedEmployee)}</p>
                 </div>
                 <div className="modal-employee-specs-container">
                   <div className="modal-employee-specs">
                     <SpecialtyIcon className="modal-employee-specs-icon" />
-                    <p>{selectedEmployee.specialty}</p>
+                    <p>{getSpecialty(selectedEmployee)}</p>
                   </div>
                   <div className="modal-employee-specs">
                     <ExperienceIcon className="modal-employee-specs-icon" />
-                    <p>{selectedEmployee.years} years of experience</p>
+                    <p>
+                      {selectedEmployee.years} {t('team.years')}
+                    </p>
                   </div>
                   <div className="modal-employee-specs">
                     <MailIcon className="modal-employee-specs-icon" />
                     <p>{selectedEmployee.email}</p>
                   </div>
                 </div>
+                <div className="employee-links">
+                  {selectedEmployee.links?.facebook && (
+                    <a
+                      href={selectedEmployee.links.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FacebookIcon className="employee-links-icon" />
+                    </a>
+                  )}
+                </div>
                 <p
                   className="modal-employee-description"
                   dangerouslySetInnerHTML={{
-                    __html: selectedEmployee.description,
+                    __html: getDescription(selectedEmployee),
                   }}
                 />
               </div>

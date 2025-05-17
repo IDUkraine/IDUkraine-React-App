@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Lorem ipsum dolor sit amet",
+    "text": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.\n\nLorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.\n\nLorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.",
+    "category": "Антикорупційна діяльність",
+    "image": "/news/1747291811130-664542103.png",
+    "isTopNews": true,
+    "date": "2025-05-15T00:00:00.000Z",
+    "id": "fc1972d3-f0cb-4b34-a28e-ad3d404fd257",
+    "isPublished": true
+  },
+  {
+    "title": "Lorem ipsum dolor sit amet",
+    "text": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.\n\nLorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.\n\nLorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.",
+    "category": "Антикорупційна діяльність",
+    "image": "/news/1747291855683-9492935.png",
+    "isTopNews": true,
+    "date": "2025-05-12T00:00:00.000Z",
+    "id": "c2e91a59-e4eb-4b5c-9b31-ff91be02cb90",
+    "isPublished": true
+  },
+  {
+    "title": "Lorem ipsum dolor sit amet",
+    "text": "<h3>Lorem ipsum dolor sit amet consectetur adipiscing elit.</h3><p>Quisque faucibus ex sapien vitae pellentesque sem placerat.</p><h2>In id cursus mi pretium tellus duis convallis.</h2><p>Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"news-content-link\" href=\"https://web.telegram.org/a/#835197789\">hendrerit </a>semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p><p>lkjl</p><p></p>",
+    "category": "Антикорупційна діяльність",
+    "image": "/news/1747294112150-171132808.png",
+    "isTopNews": true,
+    "date": "2025-05-15T00:00:00.000Z",
+    "id": "fa46f309-bc2d-4574-ad30-4b57c5caa11a",
+    "isPublished": true
+  }
+]

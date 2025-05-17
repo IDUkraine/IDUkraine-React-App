@@ -1,5 +1,5 @@
 import '../../../../assets/styles/areas.css';
-import RightArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
+//import RightArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
 
 interface AreaCardProps {
   title: string;
@@ -31,7 +31,7 @@ const AreaCard = ({
           <h3 className="area-card-title">{title}</h3>
           <p className="area-card-text">{text}</p>
         </div>
-        <RightArrowIcon className="area-card-arrow" />
+        {/*<RightArrowIcon className="area-card-arrow" />*/}
       </div>
       {children}
     </div>

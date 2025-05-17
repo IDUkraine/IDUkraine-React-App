@@ -90,14 +90,14 @@
   position: absolute;
   right: 0px;
   top: 0;
-  width: 211px;
-  height: 305px;
+  height: 100%;
+  width: fit-content;
   overflow: hidden;
 }
 
 .footer-fingerprint-icon {
-  width: 211px;
-  height: 305px;
+  width: auto;
+  height: 100%;
 }
 
 .footer-animation-wrapper {

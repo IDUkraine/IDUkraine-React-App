@@ -60,6 +60,13 @@
   color: #151921;
 }
 
+.header-right {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 20px;
+}
+
 .iconed-navigation-options {
   display: flex;
   flex-direction: column;
@@ -101,6 +108,12 @@
 .header-phone-container p {
   font-size: 18px;
   font-family: secondary-medium;
+}
+
+.mobile-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .hamburger-menu {
@@ -220,6 +233,11 @@
   .header-logo {
     width: 120px;
     height: auto;
+  }
+
+  .mobile-menu {
+    width: 100%;
+    max-width: 400px;
   }
 }
 

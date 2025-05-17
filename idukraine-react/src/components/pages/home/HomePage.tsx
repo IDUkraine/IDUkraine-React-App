@@ -24,7 +24,6 @@ function HomePage() {
   useEffect(() => {
     if (showSplash) {
       sessionStorage.setItem('hasSeenSplash', 'true');
-      // Reset splash complete state when splash is shown
       setSplashComplete(false);
     }
   }, [showSplash]);
@@ -38,6 +37,7 @@ function HomePage() {
       document.body.style.paddingRight = '';
     }
 
+    // Очищення при демонтуванні
     return () => {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
@@ -46,17 +46,15 @@ function HomePage() {
 
   const handleFadeStart = () => {
     setIsSplashFading(true);
-    // Start the animations when fade begins
     setSplashComplete(true);
     onSplashComplete();
   };
 
   const handleSplashComplete = () => {
-    // Remove the splash screen component after fade animation completes
     setTimeout(() => {
       setShowSplash(false);
       setIsSplashFading(false);
-    }, 900); // Match the fade-out duration in splash-screen.css
+    }, 900);
   };
 
   return (

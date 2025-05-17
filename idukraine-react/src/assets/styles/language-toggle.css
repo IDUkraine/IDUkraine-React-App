@@ -1,0 +1,30 @@
+.language-toggle {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.language-btn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  font-family: secondary-regular;
+  font-size: 14px;
+  color: #151921;
+  transition: color 0.2s ease;
+}
+
+.language-btn:hover {
+  color: #fd9f41;
+}
+
+.language-btn.active {
+  color: #fd9f41;
+}
+
+.language-separator {
+  color: #fd9f41;
+  opacity: 0.5;
+  font-size: 14px;
+}

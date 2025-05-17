@@ -2,14 +2,17 @@ import { motion } from 'framer-motion';
 import '../../../../assets/styles/about.css';
 import FingerPrintAbout from '../../../../assets/svgs/fingerprints/fingerprint-about.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
+import { useLanguage } from '../../../../context/LanguageContext';
+import DOMPurify from 'dompurify';
 
 const AboutSection = () => {
   const [ref, hasAnimated] = useSectionAnimation();
+  const { t } = useLanguage();
 
   return (
     <section className="about-section" id="about" ref={ref}>
       <div className="about-container">
-        <h2 className="about-subtitle">/Про нас</h2>
+        <h2 className="about-subtitle">{t('about.subtitle')}</h2>
         <div className="about-content">
           <motion.div
             className="about-image-container"
@@ -19,7 +22,7 @@ const AboutSection = () => {
           >
             <img
               src="./about-image.jpg"
-              alt="About Image"
+              alt={t('about.subtitle')}
               className="about-image"
             />
             <FingerPrintAbout className="about-fingerprint" />
@@ -31,20 +34,13 @@ const AboutSection = () => {
             animate={hasAnimated ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
           >
-            <h1 className="about-title">
-              Integrity & Development Ukraine will focus on{' '}
-              <span className="about-title-orange">
-                activities that involve the creation of a comprehensive strategy{' '}
-              </span>
-              for certain areas of state development, namely in terms of
-              anti-corruption, public finance, public property management and
-              recovery.
-            </h1>
-            <p className="about-text">
-              The NGO's activities will be aimed at creating analytical,
-              monitoring, and legislative products that would comprehensively
-              address legal issues.
-            </p>
+            <h1
+              className="about-title"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(t('about.title')),
+              }}
+            />
+            <p className="about-text">{t('about.text')}</p>
           </motion.div>
         </div>
       </div>

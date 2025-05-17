@@ -3,6 +3,7 @@ import TeamIcon from '../../assets/svgs/icons/team.svg';
 import NewsIcon from '../../assets/svgs/icons/news.svg';
 import AreasIcon from '../../assets/svgs/icons/areas.svg';
 import { FC } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface IconedNavigationOptionsProps {
   onNavClick?: () => void;
@@ -11,11 +12,13 @@ interface IconedNavigationOptionsProps {
 const IconedNavigationOptions: FC<IconedNavigationOptionsProps> = ({
   onNavClick,
 }) => {
+  const { t } = useLanguage();
+
   const navItems = [
-    { label: 'Про нас', id: 'about', icon: AboutIcon },
-    { label: 'Команда', id: 'team', icon: TeamIcon },
-    { label: 'Новини', id: 'news', icon: NewsIcon },
-    { label: 'Напрями роботи', id: 'work-areas', icon: AreasIcon },
+    { label: t('nav.about'), id: 'about', icon: AboutIcon },
+    { label: t('nav.team'), id: 'team', icon: TeamIcon },
+    { label: t('nav.news'), id: 'news', icon: NewsIcon },
+    { label: t('nav.workAreas'), id: 'work-areas', icon: AreasIcon },
   ];
 
   const handleClick = (href: string) => {

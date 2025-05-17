@@ -1,13 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import TitledLogo from '../../assets/svgs/logos/header-logo.svg';
-import PhoneIcon from '../../assets/svgs/icons/call.svg';
 import NavigationOptions from './NavigationOptions';
 import IconedNavigationOptions from './IconedNavigationOptions';
 import '../../assets/styles/header.css';
 import CloseIcon from '../../assets/svgs/icons/close.svg';
 import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
 import MenuIcon from '../../assets/svgs/icons/menu-icon.svg';
+import LanguageToggle from '../common/LanguageToggle';
 
 interface HeaderProps {
   splashComplete: boolean;
@@ -70,7 +70,7 @@ const Header = ({ splashComplete }: HeaderProps) => {
           ? { y: 0, opacity: 1 }
           : { y: -100, opacity: 0 }
       }
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -79,16 +79,18 @@ const Header = ({ splashComplete }: HeaderProps) => {
         onClick={scrollToTop}
         style={{ cursor: 'pointer' }}
       />
-      <div className="header-nav-options desktop-only">
-        <NavigationOptions />
+      <div className="header-right desktop-only">
+        <div className="header-nav-options desktop-only">
+          <NavigationOptions />
+        </div>
+        <LanguageToggle />
       </div>
-      <div className="header-phone-container desktop-only">
-        <PhoneIcon className="header-phone-icon" />
-        <p>+380 73 091-08-24</p>
+      <div className="mobile-controls mobile-only">
+        <LanguageToggle />
+        <button className="hamburger-menu" onClick={toggleMenu}>
+          <MenuIcon className="menu-icon" />
+        </button>
       </div>
-      <button className="hamburger-menu mobile-only" onClick={toggleMenu}>
-        <MenuIcon className="menu-icon" />
-      </button>
 
       <AnimatePresence>
         {isMenuOpen && (
