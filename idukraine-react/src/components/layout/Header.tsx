@@ -8,14 +8,12 @@ import CloseIcon from '../../assets/svgs/icons/close.svg';
 import MenuLogo from '../../assets/svgs/logos/menu-logo.svg';
 import MenuIcon from '../../assets/svgs/icons/menu-icon.svg';
 import LanguageToggle from '../common/LanguageToggle';
-import { useLanguage } from '../../context/LanguageContext';
 
 interface HeaderProps {
   splashComplete: boolean;
 }
 
 const Header = ({ splashComplete }: HeaderProps) => {
-  const { t } = useLanguage();
   const [visible, setVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
