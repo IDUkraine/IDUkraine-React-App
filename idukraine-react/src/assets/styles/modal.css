@@ -139,6 +139,7 @@
   font-size: 24px;
   color: #2c2c2c;
   margin: 0.5em 0 0.5em;
+  line-height: normal;
 }
 
 .news-modal-text h3 {
@@ -146,6 +147,7 @@
   font-size: 20px;
   color: #2c2c2c;
   margin: 0.2em 0 0.5em;
+  line-height: normal;
 }
 
 .news-modal-text p {
