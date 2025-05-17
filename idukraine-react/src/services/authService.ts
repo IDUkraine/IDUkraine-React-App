@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
+import { API_URL } from '../config/api';
 
 const SALT_ROUNDS = 12;
-const API_URL = 'http://localhost:3001/api';
 
 interface StoredCredentials {
   username: string;

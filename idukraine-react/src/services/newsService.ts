@@ -1,6 +1,6 @@
 import { NewsItem, NewsCreateInput, NewsUpdateInput } from '../types/news';
+import { API_URL } from '../config/api';
 
-const API_URL = 'http://localhost:3001/api';
 const MAX_TOP_NEWS = 3;
 
 class NewsService {

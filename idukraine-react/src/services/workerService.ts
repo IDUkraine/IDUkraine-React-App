@@ -1,6 +1,5 @@
 import { Worker, WorkerFormData, WorkersData } from '../types/worker';
-
-const API_URL = 'http://localhost:3001/api';
+import { API_URL } from '../config/api';
 
 export const workerService = {
   async getWorkers(): Promise<WorkersData> {
