@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import WorkersTab from './tabs/WorkersTab';
@@ -14,6 +14,8 @@ const AdminPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('workers');
   const [error, setError] = useState('');
+
+  const memoizedLanguageToggle = useMemo(() => <LanguageToggle />, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +96,7 @@ const AdminPage: React.FC = () => {
         <div className="navbarContent">
           <h1 className="dashboardTitle">{t('admin.dashboard')}</h1>
           <div className="navbarControls">
-            <LanguageToggle />
+            {memoizedLanguageToggle}
             <button onClick={logout} className="logoutButton">
               {t('admin.logout')}
             </button>

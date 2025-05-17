@@ -7,8 +7,9 @@ import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import pool from './config/database.js';
 import initializeDatabase from './config/init-db.js';
-import { promises as fs } from 'fs';
 import dotenv from 'dotenv';
+import { s3Client, BUCKET_NAME } from './config/aws.js';
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 dotenv.config();
 
@@ -23,23 +24,8 @@ console.log('Data directory:', path.join(__dirname, '../src/data'));
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Configure multer for handling file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const type = req.query.type || 'workers';
-    const uploadDir = path.join(__dirname, `../public/${type}`);
-    console.log('Upload directory:', uploadDir);
-    fs.mkdir(uploadDir, { recursive: true })
-      .then(() => cb(null, uploadDir))
-      .catch((err) => cb(err));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const ext = path.extname(file.originalname);
-    cb(null, `${uniqueSuffix}${ext}`);
-  },
-});
-
+// Configure multer for memory storage instead of disk
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Middleware
@@ -186,9 +172,22 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     if (!req.file) {
       throw new Error('No file uploaded');
     }
+
     const type = req.query.type || 'workers';
-    const filePath = `/${type}/${req.file.filename}`;
-    res.json({ filePath });
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const ext = path.extname(req.file.originalname);
+    const key = `${type}/${uniqueSuffix}${ext}`;
+
+    const uploadParams = {
+      Bucket: BUCKET_NAME,
+      Key: key,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    await s3Client.send(new PutObjectCommand(uploadParams));
+    const fileUrl = `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`;
+    res.json({ filePath: fileUrl });
   } catch (error) {
     console.error('Error uploading file:', error);
     res.status(500).json({ error: 'Failed to upload file' });
@@ -197,15 +196,24 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 
 app.delete('/api/file', async (req, res) => {
   try {
-    const filePath = req.query.path;
-    if (!filePath) {
-      throw new Error('No file path provided');
+    const fileUrl = req.query.path;
+    if (!fileUrl) {
+      throw new Error('No file URL provided');
     }
 
-    const fullPath = path.join(__dirname, '../public', filePath);
-    console.log('Deleting file at:', fullPath);
-    await fs.unlink(fullPath);
-    console.log('Successfully deleted file');
+    // Extract the key from the S3 URL
+    const key = fileUrl.split('.s3.amazonaws.com/')[1];
+    if (!key) {
+      throw new Error('Invalid S3 URL');
+    }
+
+    const deleteParams = {
+      Bucket: BUCKET_NAME,
+      Key: key,
+    };
+
+    await s3Client.send(new DeleteObjectCommand(deleteParams));
+    console.log('Successfully deleted file from S3:', key);
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting file:', error);

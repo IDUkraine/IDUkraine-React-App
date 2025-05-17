@@ -15,6 +15,16 @@ interface NewsFormModalProps {
   onSuccess: () => void;
 }
 
+interface ValidationErrors {
+  titleEn?: string;
+  titleUk?: string;
+  categoryEn?: string;
+  categoryUk?: string;
+  textEn?: string;
+  textUk?: string;
+  date?: string;
+}
+
 const NewsFormModal: React.FC<NewsFormModalProps> = ({
   isOpen,
   onClose,
@@ -25,8 +35,13 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
   const isEditing = !!selectedNews;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tempImagePath, setTempImagePath] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {}
+  );
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const editorEn = useEditor({
     extensions: [
@@ -107,32 +122,41 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
     }
   }, [selectedNews, isOpen, editorEn, editorUk]);
 
-  const resetForm = () => {
-    setFormData(initialFormState);
-    setTempImagePath(null);
-    setError(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+  const validateField = (value: any): string | undefined => {
+    if (!value || (typeof value === 'string' && !value.trim())) {
+      return t('admin.validation.required');
     }
-    if (editorEn) {
-      editorEn.commands.setContent('');
-    }
-    if (editorUk) {
-      editorUk.commands.setContent('');
-    }
+    return undefined;
   };
 
-  const handleClose = async () => {
-    if (tempImagePath) {
-      try {
-        await newsService.deleteImage(tempImagePath);
-        console.log('Temporary image deleted:', tempImagePath);
-      } catch (err) {
-        console.error('Failed to delete temporary image:', tempImagePath, err);
+  const validateForm = (): boolean => {
+    const errors: ValidationErrors = {};
+    let isValid = true;
+
+    // Fields to validate
+    const fields = ['titleEn', 'titleUk', 'categoryEn', 'categoryUk', 'date'];
+
+    fields.forEach((field) => {
+      const error = validateField(formData[field as keyof NewsCreateInput]);
+      if (error) {
+        errors[field as keyof ValidationErrors] = error;
+        isValid = false;
       }
+    });
+
+    // Validate rich text editors
+    if (!editorEn?.getHTML() || editorEn.getHTML() === '<p></p>') {
+      errors.textEn = t('admin.validation.required');
+      isValid = false;
     }
-    resetForm();
-    onClose();
+
+    if (!editorUk?.getHTML() || editorUk.getHTML() === '<p></p>') {
+      errors.textUk = t('admin.validation.required');
+      isValid = false;
+    }
+
+    setValidationErrors(errors);
+    return isValid;
   };
 
   const handleInputChange = (
@@ -149,6 +173,81 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+
+    // Validate the changed field if it was previously touched
+    if (touched[name]) {
+      const error = validateField(value);
+      setValidationErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+
+    // Validate the field on blur
+    const value = formData[field as keyof NewsCreateInput];
+    const error = validateField(value);
+    setValidationErrors((prev) => ({
+      ...prev,
+      [field]: error,
+    }));
+  };
+
+  // Update editor content validation on change
+  useEffect(() => {
+    if (touched.textEn) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        textEn:
+          !editorEn?.getHTML() || editorEn.getHTML() === '<p></p>'
+            ? t('admin.validation.required')
+            : undefined,
+      }));
+    }
+  }, [editorEn?.getHTML(), touched.textEn, t]);
+
+  useEffect(() => {
+    if (touched.textUk) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        textUk:
+          !editorUk?.getHTML() || editorUk.getHTML() === '<p></p>'
+            ? t('admin.validation.required')
+            : undefined,
+      }));
+    }
+  }, [editorUk?.getHTML(), touched.textUk, t]);
+
+  const resetForm = () => {
+    setFormData(initialFormState);
+    setTempImagePath(null);
+    setError(null);
+    setValidationErrors({});
+    setTouched({});
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    if (editorEn) {
+      editorEn.commands.setContent('');
+    }
+    if (editorUk) {
+      editorUk.commands.setContent('');
+    }
+  };
+
+  const handleClose = async () => {
+    if (tempImagePath) {
+      try {
+        await newsService.deleteImage(tempImagePath);
+      } catch (err) {
+        console.error('Failed to delete temporary image:', tempImagePath, err);
+      }
+    }
+    resetForm();
+    onClose();
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +256,6 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
       if (tempImagePath) {
         try {
           await newsService.deleteImage(tempImagePath);
-          console.log('Cleared previous temp image:', tempImagePath);
         } catch (err) {
           console.error(
             'Failed to delete image during file input clear:',
@@ -178,10 +276,6 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
       if (tempImagePath) {
         try {
           await newsService.deleteImage(tempImagePath);
-          console.log(
-            'Deleted previous temp image before new upload:',
-            tempImagePath
-          );
         } catch (err) {
           console.error(
             'Failed to delete previous temporary image:',
@@ -212,6 +306,27 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
     e.preventDefault();
     setError(null);
 
+    // Mark all fields as touched when submitting
+    const allFields = [
+      'titleEn',
+      'titleUk',
+      'categoryEn',
+      'categoryUk',
+      'textEn',
+      'textUk',
+      'date',
+    ];
+    setTouched(
+      allFields.reduce((acc, field) => ({ ...acc, [field]: true }), {})
+    );
+
+    if (!validateForm()) {
+      setError(t('admin.validation.checkFields'));
+      return;
+    }
+
+    setIsSaving(true);
+
     try {
       if (isEditing && selectedNews) {
         await newsService.updateNews(
@@ -224,11 +339,12 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
 
       setTempImagePath(null);
       resetForm();
-
       onSuccess();
       onClose();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -254,9 +370,15 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 name="titleUk"
                 value={formData.titleUk}
                 onChange={handleInputChange}
-                className="input"
+                onBlur={() => handleBlur('titleUk')}
+                className={`input ${
+                  touched.titleUk && validationErrors.titleUk ? 'error' : ''
+                }`}
                 required
               />
+              {touched.titleUk && validationErrors.titleUk && (
+                <span className="error-text">{validationErrors.titleUk}</span>
+              )}
             </div>
             <div className="form-group">
               <label className="label">{t('admin.news.title')} (EN):</label>
@@ -265,9 +387,15 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 name="titleEn"
                 value={formData.titleEn}
                 onChange={handleInputChange}
-                className="input"
+                onBlur={() => handleBlur('titleEn')}
+                className={`input ${
+                  touched.titleEn && validationErrors.titleEn ? 'error' : ''
+                }`}
                 required
               />
+              {touched.titleEn && validationErrors.titleEn && (
+                <span className="error-text">{validationErrors.titleEn}</span>
+              )}
             </div>
           </div>
 
@@ -279,9 +407,19 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 name="categoryUk"
                 value={formData.categoryUk}
                 onChange={handleInputChange}
-                className="input"
+                onBlur={() => handleBlur('categoryUk')}
+                className={`input ${
+                  touched.categoryUk && validationErrors.categoryUk
+                    ? 'error'
+                    : ''
+                }`}
                 required
               />
+              {touched.categoryUk && validationErrors.categoryUk && (
+                <span className="error-text">
+                  {validationErrors.categoryUk}
+                </span>
+              )}
             </div>
             <div className="form-group">
               <label className="label">{t('admin.news.category')} (EN):</label>
@@ -290,9 +428,19 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 name="categoryEn"
                 value={formData.categoryEn}
                 onChange={handleInputChange}
-                className="input"
+                onBlur={() => handleBlur('categoryEn')}
+                className={`input ${
+                  touched.categoryEn && validationErrors.categoryEn
+                    ? 'error'
+                    : ''
+                }`}
                 required
               />
+              {touched.categoryEn && validationErrors.categoryEn && (
+                <span className="error-text">
+                  {validationErrors.categoryEn}
+                </span>
+              )}
             </div>
           </div>
 
@@ -362,9 +510,20 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 {t('admin.editor.removeLink')}
               </button>
             </div>
-            <div className="editor-container">
-              <EditorContent editor={editorUk} className="editor-content" />
+            <div
+              className={`editor-container ${
+                touched.textUk && validationErrors.textUk ? 'error' : ''
+              }`}
+            >
+              <EditorContent
+                editor={editorUk}
+                className="editor-content"
+                onBlur={() => handleBlur('textUk')}
+              />
             </div>
+            {touched.textUk && validationErrors.textUk && (
+              <span className="error-text">{validationErrors.textUk}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -433,9 +592,20 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
                 {t('admin.editor.removeLink')}
               </button>
             </div>
-            <div className="editor-container">
-              <EditorContent editor={editorEn} className="editor-content" />
+            <div
+              className={`editor-container ${
+                touched.textEn && validationErrors.textEn ? 'error' : ''
+              }`}
+            >
+              <EditorContent
+                editor={editorEn}
+                className="editor-content"
+                onBlur={() => handleBlur('textEn')}
+              />
             </div>
+            {touched.textEn && validationErrors.textEn && (
+              <span className="error-text">{validationErrors.textEn}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -445,53 +615,62 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
               name="date"
               value={formData.date}
               onChange={handleInputChange}
-              className="input"
+              onBlur={() => handleBlur('date')}
+              className={`input ${
+                touched.date && validationErrors.date ? 'error' : ''
+              }`}
               required
             />
+            {touched.date && validationErrors.date && (
+              <span className="error-text">{validationErrors.date}</span>
+            )}
           </div>
 
           <div className="form-group">
             <label className="label">{t('admin.news.image')}:</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              className="input"
-              disabled={isUploading}
-            />
-            {isUploading && (
-              <div className="upload-status">{t('admin.news.uploading')}</div>
-            )}
-            {(formData.image || selectedNews?.image) && (
-              <div className="image-preview">
-                {selectedNews?.image &&
-                  formData.image === selectedNews.image && (
+            <div className={`form-group ${isUploading ? 'uploading' : ''}`}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                className="input"
+                disabled={isUploading}
+                data-choose-text={t('admin.news.chooseFile')}
+              />
+              {isUploading && (
+                <div className="upload-status">{t('admin.news.uploading')}</div>
+              )}
+              {(formData.image || selectedNews?.image) && (
+                <div className="image-preview">
+                  {selectedNews?.image &&
+                    formData.image === selectedNews.image && (
+                      <div className="imageContainer">
+                        <span className="imageLabel">
+                          {t('admin.news.currentImage')}:
+                        </span>
+                        <img
+                          src={selectedNews.image}
+                          alt="Current"
+                          className="previewImage"
+                        />
+                      </div>
+                    )}
+                  {formData.image && formData.image !== selectedNews?.image && (
                     <div className="imageContainer">
                       <span className="imageLabel">
-                        {t('admin.news.currentImage')}:
+                        {t('admin.news.newImage')}:
                       </span>
                       <img
-                        src={selectedNews.image}
-                        alt="Current"
+                        src={formData.image}
+                        alt="Preview"
                         className="previewImage"
                       />
                     </div>
                   )}
-                {formData.image && formData.image !== selectedNews?.image && (
-                  <div className="imageContainer">
-                    <span className="imageLabel">
-                      {t('admin.news.newImage')}:
-                    </span>
-                    <img
-                      src={formData.image}
-                      alt="Preview"
-                      className="previewImage"
-                    />
-                  </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="checkbox-group">
@@ -512,13 +691,14 @@ const NewsFormModal: React.FC<NewsFormModalProps> = ({
               type="button"
               onClick={handleClose}
               className="cancel-button"
+              disabled={isSaving}
             >
               {t('admin.news.cancel')}
             </button>
             <button
               type="submit"
-              className="submit-button"
-              disabled={isUploading}
+              className={`submit-button ${isSaving ? 'loading' : ''}`}
+              disabled={isUploading || isSaving}
             >
               {isEditing ? t('admin.news.update') : t('admin.news.add')}
             </button>
