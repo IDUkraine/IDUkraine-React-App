@@ -1,5 +1,5 @@
 import '../../../../assets/styles/areas.css';
-import RightArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
+//import RightArrowIcon from '../../../../assets/svgs/icons/arrow-right-alt.svg';
 
 interface AreaCardProps {
   title: string;
