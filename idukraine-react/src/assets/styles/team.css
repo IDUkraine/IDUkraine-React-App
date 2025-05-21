@@ -139,6 +139,12 @@
   gap: 16px;
 }
 
+.employee-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
 .employee-info h3 {
   font-size: 20px;
   line-height: 120%;
@@ -181,10 +187,18 @@
 }
 
 .employee-links-icon {
-  min-width: 24px;
-  min-height: 24px;
-  max-width: 24px;
-  max-height: 24px;
+  min-width: 32px;
+  min-height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+  fill: #fd9f41;
+}
+
+.modal-employee-links-icon {
+  min-width: 32px;
+  min-height: 32px;
+  max-width: 32px;
+  max-height: 32px;
   fill: #fd9f41;
 }
 
@@ -263,8 +277,9 @@
 }
 
 .employee-slide {
-  width: 300px !important;
-  height: 450px;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  height: 430px;
   background-color: rgba(21, 25, 33, 1);
   border-radius: 20px;
   padding: 10px;
@@ -312,8 +327,9 @@
 .employee-slide-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 10px;
   flex: 1;
+  justify-content: space-evenly;
 }
 
 .modal-overlay {
@@ -399,8 +415,10 @@
 }
 
 .modal-employee-specs-icon {
-  width: 20px;
-  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
   fill: #fd9f41;
 }
 
@@ -411,6 +429,12 @@
   object-fit: cover;
   margin: 0 auto;
   display: block;
+}
+
+.modal-employee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
 }
 
 .modal-employee-description {
@@ -513,14 +537,16 @@
   }
 
   .employee-slide {
+    min-width: 260px !important;
+    max-width: 260px !important;
     flex: 0 0 230px;
-    height: 400px;
+    height: 390px;
     padding: 8px;
     gap: 10px;
   }
 
   .employee-slide-photo {
-    height: 210px;
+    height: 220px;
   }
 
   .employee-slide-name {
@@ -607,8 +633,13 @@
 
   .employee-slide {
     flex: 0 0 210px;
-    width: 310px !important;
-    height: 380px;
+    min-width: 240px !important;
+    max-width: 240px !important;
+    height: 370px;
+  }
+
+  .employee-slide-info {
+    gap: 10px;
   }
 
   .employee-slide-photo {
@@ -672,6 +703,13 @@
     gap: 20px;
   }
 
+  .employee-links-icon {
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+  }
+
   .employee-info {
     gap: 8px;
   }
@@ -685,7 +723,6 @@
   }
 
   .employee-specs-container {
-    font-size: 12px;
     gap: 6px;
   }
 
@@ -733,22 +770,12 @@
   }
 
   .employee-slide {
+    min-width: 220px !important;
+    max-width: 220px !important;
     flex: 0 0 190px;
-    height: 320px;
+    height: 350px;
     padding: 6px;
     gap: 6px;
-  }
-
-  .employee-slide-photo {
-    height: 170px;
-  }
-
-  .employee-slide-name {
-    font-size: 14px;
-  }
-
-  .employee-slide-position {
-    font-size: 10px;
   }
 }
 
@@ -823,21 +850,11 @@
 
   .employee-slide {
     flex: 0 0 180px;
-    height: 290px;
     gap: 5px;
-  }
-
-  .employee-slide-photo {
-    height: 160px;
-  }
-
-  .employee-slide-position {
-    font-size: 10px;
   }
 
   .modal-content {
     padding: 18px;
-    gap: 14px;
   }
 
   .modal-employee-info h3 {
@@ -935,24 +952,15 @@
   }
 
   .employee-slide {
-    height: 290px;
+    height: 350px;
     gap: 5px;
     scroll-snap-align: none;
-  }
-
-  .employee-slide-name {
-    font-size: 12px;
-  }
-
-  .employee-slide-position {
-    font-size: 10px;
   }
 
   .modal-content {
     width: 100%;
     min-height: 100vh;
     padding: 15px;
-    gap: 12px;
     border-radius: 0;
     margin: 0;
   }
@@ -1012,16 +1020,6 @@
   }
   .employee-slide {
     flex: 0 0 160px;
-    height: 260px;
-  }
-  .employee-slide-photo {
-    height: 140px;
-  }
-  .employee-slide-position {
-    font-size: 9px;
-  }
-  .employee-specs-container {
-    font-size: 10px;
   }
 }
 

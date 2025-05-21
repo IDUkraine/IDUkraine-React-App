@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import '../../../../assets/styles/areas.css';
-/* import '../../../../assets/styles/modal.css'; */
+import '../../../../assets/styles/modal.css';
 import AreaCard from './AreaCard';
 import HouseIcon from '../../../../assets/svgs/icons/house.svg';
 import RepairIcon from '../../../../assets/svgs/icons/repair.svg';
@@ -9,15 +9,15 @@ import CorruptionIcon from '../../../../assets/svgs/icons/corruption.svg';
 import PublicPropertyIcon from '../../../../assets/svgs/icons/public-property.svg';
 import FingerPrintLeft from '../../../../assets/svgs/fingerprints/fingerprint-areas-left.svg';
 import FingerPrintRight from '../../../../assets/svgs/fingerprints/fingerprint-areas-right.svg';
-/* import CloseIcon from '../../../../assets/svgs/icons/close.svg'; */
+import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 //import FingerPrintOnSelect from '../../../../assets/svgs/fingerprints/fingerprint-areas-have-selected.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
 import { useLanguage } from '../../../../context/LanguageContext';
 
 const AreasSection = () => {
-  /* const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [closingCard, setClosingCard] = useState<string | null>(null); */
+  const [closingCard, setClosingCard] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [ref, hasAnimated] = useSectionAnimation();
   const hasAnimatedRef = useRef(false);
@@ -52,8 +52,8 @@ const AreasSection = () => {
     };
   }, []);
 
-  /* useEffect(() => {
-    if (selectedCard && isMobile) {
+  useEffect(() => {
+    if (selectedCard) {
       document.documentElement.classList.add('is-locked');
       document.body.classList.add('is-locked');
     } else {
@@ -65,7 +65,7 @@ const AreasSection = () => {
       document.documentElement.classList.remove('is-locked');
       document.body.classList.remove('is-locked');
     };
-  }, [selectedCard, isMobile]);
+  }, [selectedCard]);
 
   const handleArrowClick = (title: string) => {
     setIsClosing(false);
@@ -84,7 +84,7 @@ const AreasSection = () => {
       setClosingCard(null);
       setIsClosing(false);
     }
-  }; */
+  };
 
   const cards = [
     {
@@ -150,8 +150,8 @@ const AreasSection = () => {
                 text={card.text}
                 icon={card.icon}
                 iconClass={card.iconClass}
-                isSelected={false}
-                onArrowClick={() => {}}
+                isSelected={selectedCard === card.title}
+                onArrowClick={() => handleArrowClick(card.title)}
               >
                 {card.fingerprint}
               </AreaCard>
@@ -159,7 +159,7 @@ const AreasSection = () => {
           ))}
         </div>
       </div>
-      {/* {(selectedCard || closingCard) && (
+      {(selectedCard || closingCard) && (
         <div className="modal-container details-container">
           <div
             className={`details-content ${isClosing ? 'closing' : ''}`}
@@ -179,7 +179,7 @@ const AreasSection = () => {
             )}
           </div>
         </div>
-      )} */}
+      )}
     </section>
   );
 };

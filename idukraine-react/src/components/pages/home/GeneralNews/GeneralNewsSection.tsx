@@ -10,6 +10,7 @@ import NewsModal from '../common/NewsModal';
 import { NewsItem } from '../../../../types/news';
 import { newsService } from '../../../../services/newsService';
 import { useLanguage } from '../../../../context/LanguageContext';
+import DOMPurify from 'dompurify';
 
 const GeneralNewsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,7 +18,7 @@ const GeneralNewsSection = () => {
   const [isHovered, setIsHovered] = useState(false);
   const newsSectionRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
-  const { truncateText } = useTruncateText();
+  const { truncateText, truncateHtml } = useTruncateText();
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -184,9 +185,41 @@ const GeneralNewsSection = () => {
   }, [selectedNews]);
 
   const stripHtml = (html: string) => {
+    // Create a temporary container for the HTML content
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
+
+    // Function to recursively process nodes and keep <a> and <strong> tags
+    const processNode = (node: Node): string => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent || '';
+      }
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as HTMLElement;
+        const tagName = element.tagName.toLowerCase();
+
+        // Preserve <a> and <strong> tags
+        if (tagName === 'a' || tagName === 'strong') {
+          const attributes =
+            tagName === 'a'
+              ? ` href="${element.getAttribute('href') || ''}"`
+              : '';
+          const innerContent = Array.from(element.childNodes)
+            .map(processNode)
+            .join('');
+          return `<${tagName}${attributes}>${innerContent}</${tagName}>`;
+        }
+
+        // For other elements, process their children and discard the outer tag
+        return Array.from(element.childNodes).map(processNode).join('');
+      }
+
+      return '';
+    };
+
+    // Process all child nodes of the temporary container
+    return Array.from(tmp.childNodes).map(processNode).join('');
   };
 
   if (isLoading) {
@@ -266,14 +299,20 @@ const GeneralNewsSection = () => {
                     />
                   )}
                   <div className="general-news-text">
-                    <p>
-                      {truncateText(
-                        stripHtml(
-                          language === 'en' ? news.textEn : news.textUk
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          DOMPurify.sanitize(
+                            truncateHtml(
+                              stripHtml(
+                                language === 'en' ? news.textEn : news.textUk
+                              ),
+                              480
+                            )
+                          )
                         ),
-                        70
-                      )}
-                    </p>
+                      }}
+                    ></p>
                     <p
                       className="general-news-read-more"
                       onClick={() => openModal(news)}

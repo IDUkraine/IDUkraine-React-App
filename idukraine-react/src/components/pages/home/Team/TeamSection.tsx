@@ -280,9 +280,22 @@ function TeamSection() {
           ) : selectedEmployee ? (
             <>
               <div className="employee-info">
-                <div>
-                  <h3>{getName(selectedEmployee)}</h3>
-                  <p className="position">{getPosition(selectedEmployee)}</p>
+                <div className="employee-info-header">
+                  <div>
+                    <h3>{getName(selectedEmployee)}</h3>
+                    <p className="position">{getPosition(selectedEmployee)}</p>
+                  </div>
+                  <div className="employee-links">
+                    {selectedEmployee.links?.facebook && (
+                      <a
+                        href={selectedEmployee.links.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FacebookIcon className="employee-links-icon" />
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="employee-specs-container">
                   <div className="employee-specs">
@@ -299,17 +312,6 @@ function TeamSection() {
                     <MailIcon className="employee-specs-icon" />
                     <p>{selectedEmployee.email}</p>
                   </div>
-                </div>
-                <div className="employee-links">
-                  {selectedEmployee.links?.facebook && (
-                    <a
-                      href={selectedEmployee.links.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FacebookIcon className="employee-links-icon" />
-                    </a>
-                  )}
                 </div>
                 <p
                   className="employee-description"
@@ -451,8 +453,21 @@ function TeamSection() {
               <CloseIcon className="modal-close" onClick={closeModal} />
               <div className="modal-employee-info">
                 <div className="modal-employee-header">
-                  <h3>{getName(selectedEmployee)}</h3>
-                  <p className="position">{getPosition(selectedEmployee)}</p>
+                  <div>
+                    <h3>{getName(selectedEmployee)}</h3>
+                    <p className="position">{getPosition(selectedEmployee)}</p>
+                  </div>
+                  <div className="employee-links">
+                    {selectedEmployee.links?.facebook && (
+                      <a
+                        href={selectedEmployee.links.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FacebookIcon className="modal-employee-links-icon" />
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="modal-employee-specs-container">
                   <div className="modal-employee-specs">
@@ -469,17 +484,6 @@ function TeamSection() {
                     <MailIcon className="modal-employee-specs-icon" />
                     <p>{selectedEmployee.email}</p>
                   </div>
-                </div>
-                <div className="employee-links">
-                  {selectedEmployee.links?.facebook && (
-                    <a
-                      href={selectedEmployee.links.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FacebookIcon className="employee-links-icon" />
-                    </a>
-                  )}
                 </div>
                 <p
                   className="modal-employee-description"

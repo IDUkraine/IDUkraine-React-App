@@ -19,7 +19,7 @@ const translations = {
   ua: {
     'nav.about': 'Про нас',
     'nav.team': 'Команда',
-    'nav.team.title': '/Наша команда',
+    'nav.team.title': 'Наша команда',
     'nav.news': 'Новини',
     'nav.workAreas': 'Напрями роботи',
     'team.showAll': 'Показати всіх',
@@ -34,7 +34,7 @@ const translations = {
     'hero.experience.finance': 'Досвіду роботи в сфері публічних фінансів',
     'hero.experience.recovery': 'Досвіду роботи в сфері відновлення',
     'team.years': 'р. досвіду',
-    'about.subtitle': '/Про нас',
+    'about.subtitle': 'Про нас',
     'about.title':
       'Розвиток <span>доброчесної України</span> через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та відновлення.',
     'about.text':
@@ -42,7 +42,7 @@ const translations = {
     'contact.phone': 'Телефон',
     'contact.email': 'Пошта',
     'contact.socials': 'Соціальні мережі',
-    'contact.title': "/Як з нами зв'язатися",
+    'contact.title': 'Контакти',
     'contact.footer-title': 'Наші контакти',
     'contact.heading': "Зв'яжіться з нами",
     'contact.subheading':
@@ -50,28 +50,28 @@ const translations = {
     'contact.phone.number': '+380 73 091-08-24',
     'contact.email.address': 'example@gmail.com',
     'contact.facebook': 'ID Ukraine',
-    'areas.subtitle': '/Напрями роботи',
+    'areas.subtitle': 'Напрями роботи',
     'areas.publicProperty': 'Публічне майно',
     'areas.publicPropertyText':
-      'Цей напрямок стосується управління та використання майна, що належить державі або громадам (місцевому самоврядуванню).',
+      'З метою сприяння виконанню рекомендацій Організації економічного співробітництва і розвитку, а також на виконання реформи українського законодавства ми створюємо експертну платформу щодо реформування корпоративного управління на державних підприємствах (розробка систем комплаєнсу, ризик менеджменту, внутрішнього аудиту, політики проведення внутрішніх розслідувань, тощо). Окрім того, задля покращення процесів приватизації державних активів, а також розпоряджання майном, вилученим у підсанкційних осіб, “ID Ukraine” надаватиме відповідну експертну та медійну  підтримку уповноваженим державним органам та інституціям.',
     'areas.integrity':
       'Розвиток доброчесності, підтримка антикорупційної інфраструктури',
     'areas.integrityText':
-      'Антикорупційна діяльність в Україні спрямована на запобігання, виявлення та протидію корупції в державному та приватному секторах.',
+      ' Ми забезпечуєм системні зміни у розвитку розумної та співмірної доброчесності через експертну підтримку антикорупційних інституцій (НАБУ, НАЗК, САП, ВАКС, АРМА), підготовку та впровадження більш прозорих механізмів державного управління та активну участь у формуванні державної політики, задля забезпечення зміни парадигми сприйняття цього явища, яка обовʼязкового та бажаного критерія державних діячів.',
     'areas.recovery': 'Сфера відновлення',
     'areas.recoveryText':
-      'Сфера відновлення в Україні зосереджена на відбудові інфраструктури, житла, економіки та соціальних систем, зруйнованих внаслідок війни.',
+      'Ми супроводжуємо повний цикл “Build Back Better”: від оцінки проблем, аналізу потреб та напрацювання рішень,  до розробки нормативно-правових актів, стратегій і процедур, моніторингу виконання проєктів відновлення й пост-аудиту соціально-економічного впливу.',
     'areas.publicFinance': 'Сфера публічних фінансів',
     'areas.publicFinanceText':
-      'Сфера публічних фінансів охоплює управління державними коштами, включаючи бюджетування, державні закупівлі, оподаткування, управління боргом та фінансову звітність.',
-    'news.allNews': '/Всі новини',
+      'Ми формуємо фаховий майданчик, присвячений вдосконаленню фінансових розслідувань, протидії відмиванню коштів і підвищенню інституційної спроможності системи фінансового моніторингу. У фокусі — аналітика законодавства, створення освітніх стандартів і впровадження інноваційних механізмів прозорості та відповідальності у сфері публічних фінансів.',
+    'news.allNews': 'Всі новини',
     'news.loading': 'Завантаження...',
     'news.error': 'Помилка завантаження новин',
     'news.empty': 'Новин поки немає',
     'news.readMore': 'Читати далі',
     'news.previous': 'Попередня новина',
     'news.next': 'Наступна новина',
-    'news.topNews': '/Найважливіші новини',
+    'news.topNews': 'Найважливіші новини',
     'admin.login': 'Вхід адміністратора',
     'admin.signIn': 'Увійти',
     'admin.username': "Ім'я користувача",
@@ -149,7 +149,7 @@ const translations = {
   en: {
     'nav.about': 'About',
     'nav.team': 'Team',
-    'nav.team.title': '/Our Team',
+    'nav.team.title': 'Our Team',
     'nav.news': 'News',
     'nav.workAreas': 'Work Areas',
     'team.showAll': 'Show All',
@@ -163,7 +163,7 @@ const translations = {
     'hero.experience.finance': 'Experience in public finance',
     'hero.experience.recovery': 'Experience in recovery',
     'team.years': 'years of experience',
-    'about.subtitle': '/About us',
+    'about.subtitle': 'About us',
     'about.title':
       'Development of a <span>virtuous Ukraine</span> through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and recovery.',
     'about.text':
@@ -171,7 +171,7 @@ const translations = {
     'contact.phone': 'Phone',
     'contact.email': 'Email',
     'contact.socials': 'Socials',
-    'contact.title': '/Contacts',
+    'contact.title': 'Contacts',
     'contact.footer-title': 'Our Contacts',
     'contact.heading': 'Get in touch',
     'contact.subheading':
@@ -179,28 +179,28 @@ const translations = {
     'contact.phone.number': '+380 73 091-08-24',
     'contact.email.address': 'example@gmail.com',
     'contact.facebook': 'ID Ukraine',
-    'areas.subtitle': '/Work Areas',
+    'areas.subtitle': 'Work Areas',
     'areas.publicProperty': 'Public Property',
     'areas.publicPropertyText':
-      'This area concerns the management and use of property belonging to the state or communities (local government).',
+      'In order to facilitate the implementation of the recommendations of the Organization for Economic Cooperation and Development, as well as to implement the reform of Ukrainian legislation, we are creating an expert platform for reforming corporate governance at state-owned enterprises (development of compliance systems, risk management, internal audit, internal investigation policy, etc.). In addition, in order to improve the privatization of state assets and the disposal of property seized from sanctioned persons, ID Ukraine will provide relevant expert and media support to authorized state bodies and institutions.',
     'areas.integrity':
       'Integrity Development, Support of Anti-corruption Infrastructure',
     'areas.integrityText':
-      'Anti-corruption activities in Ukraine are aimed at preventing, detecting and combating corruption in the public and private sectors.',
+      'We ensure systemic changes in the development of reasonable and proportionate integrity through expert support of anti-corruption institutions (NABU, NAPC, SAP, HACC, ARMA), preparation and implementation of more transparent public administration mechanisms, and active participation in public policy making to ensure a paradigm shift in the perception of this phenomenon as a mandatory and desirable criterion for public figures.',
     'areas.recovery': 'Recovery Area',
     'areas.recoveryText':
-      'The recovery area in Ukraine focuses on rebuilding infrastructure, housing, economy and social systems destroyed by the war.',
+      'We support the full cycle of Build Back Better: from problem assessment, needs analysis, and solution development to the development of regulations, policies, and procedures, monitoring of recovery projects, and post-audit of socioeconomic impact.',
     'areas.publicFinance': 'Public Finance Area',
     'areas.publicFinanceText':
-      'The public finance area covers the management of public funds, including budgeting, public procurement, taxation, debt management and financial reporting.',
-    'news.allNews': '/All News',
+      'We are creating a professional platform dedicated to improving financial investigations, combating money laundering and enhancing the institutional capacity of the financial monitoring system. Our focus is on legislative analysis, creation of educational standards, and implementation of innovative mechanisms of transparency and accountability in public finance.',
+    'news.allNews': 'All News',
     'news.loading': 'Loading...',
     'news.error': 'Error loading news',
     'news.empty': 'No news available',
     'news.readMore': 'Read more',
     'news.previous': 'Previous news',
     'news.next': 'Next news',
-    'news.topNews': '/Top News',
+    'news.topNews': 'Top News',
     'admin.login': 'Admin Login',
     'admin.signIn': 'Sign In',
     'admin.username': 'Username',
