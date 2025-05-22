@@ -23,23 +23,14 @@ function TopNewsSection() {
       try {
         const data = await newsService.getTopNews();
         setNewsItems(data);
-        // Data is loaded, but give React/DOM a moment to render the cards
-        // before marking content as ready for animation
-        // A small timeout can help ensure elements are in the DOM
-        setTimeout(() => {
+        // Add a small delay to ensure DOM is ready
+        requestAnimationFrame(() => {
           setIsContentReady(true);
-        }, 50); // You might need to adjust this delay
+        });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load news');
-        setIsLoading(false); // Ensure loading is false on error
       } finally {
-        // Only set isLoading to false after content is ready for animation,
-        // or manage loading state separately if you need a loading indicator shown longer
-        // For animation timing, setting content ready state is key
-        if (!error) {
-          // Only set loading false if no error
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     };
 
@@ -100,13 +91,16 @@ function TopNewsSection() {
       <div className="top-news-container">
         {newsItems.map((news, index) => (
           <motion.div
-            key={news.id} // Using news.id is correct for keys
+            key={news.id}
             initial={{ opacity: 0, scale: 0.8 }}
-            // Animate only if the section is visible AND the content is marked as ready
             animate={
               hasAnimated && isContentReady ? { opacity: 1, scale: 1 } : {}
             }
-            transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.2 }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeOut',
+              delay: index * 0.2,
+            }}
           >
             <TopNewsCard
               key={news.id}
