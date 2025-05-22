@@ -29,7 +29,17 @@ const AreaCard = ({
       <div className="area-card-content-container">
         <div className="area-card-content">
           <h3 className="area-card-title">{title}</h3>
-          <p className="area-card-text">{text}</p>
+          <p
+            style={{
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            className="area-card-text"
+          >
+            {text}
+          </p>
         </div>
         {<RightArrowIcon className="area-card-arrow" />}
       </div>
