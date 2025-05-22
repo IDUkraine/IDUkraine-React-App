@@ -47,6 +47,7 @@
   gap: 24px;
   position: relative;
   transition: background-color 0.5s ease-in-out;
+  overflow: hidden;
 }
 
 .area-card:hover {
@@ -79,6 +80,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 0;
 }
 
 .area-card-content {
@@ -86,6 +88,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-height: 0;
 }
 
 .area-card-title {
@@ -110,10 +113,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  max-height: 3.6em; /* 3 lines * 1.2 line-height */
+  max-height: 3.6em;
 }
 
 .area-card-arrow {
@@ -371,6 +373,7 @@
   .area-card-content {
     gap: 12px;
     flex: 1;
+    min-height: 0;
   }
   .area-card-title {
     font-size: 16px;
@@ -379,7 +382,6 @@
   .area-card-text {
     max-width: 90%;
     font-size: 16px;
-    line-clamp: 3;
     -webkit-line-clamp: 3;
     max-height: 3.6em;
     display: -webkit-box;
@@ -509,13 +511,8 @@
   .area-card-text {
     font-size: 14px;
     max-width: 100%;
-    line-clamp: 4;
     -webkit-line-clamp: 4;
-    max-height: 4.8em; /* 4 lines * 1.2 line-height */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-height: 4.8em;
   }
   .fingerprint-areas-left {
     top: -20px;

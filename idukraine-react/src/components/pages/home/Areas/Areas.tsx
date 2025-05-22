@@ -18,16 +18,10 @@ const AreasSection = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [closingCard, setClosingCard] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
   const [ref, hasAnimated] = useSectionAnimation();
   const hasAnimatedRef = useRef(false);
   const { t } = useLanguage();
-
-  // Handle hydration
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   useEffect(() => {
     if (hasAnimated) {
@@ -36,15 +30,25 @@ const AreasSection = () => {
   }, [hasAnimated]);
 
   useLayoutEffect(() => {
-    const checkMobile = () => {
+    // Calculate scrollbar width
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty(
+      '--scrollbar-width',
+      `${scrollbarWidth}px`
+    );
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
       setIsMobile(window.innerWidth < 769);
     };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', handleResize);
+    handleResize();
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -115,10 +119,6 @@ const AreasSection = () => {
 
   const animationDelays = isMobile ? [0, 0.2, 0.4, 0.6] : [0, 0.2, 0.6, 0.4];
   const spanValues = isMobile ? [1, 1, 1, 1] : [5, 7, 6, 6];
-
-  if (!isHydrated) {
-    return null; // Prevent flash of unstyled content
-  }
 
   return (
     <section className="areas-section" id="work-areas" ref={ref}>
