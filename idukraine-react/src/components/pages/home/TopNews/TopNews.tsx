@@ -9,21 +9,26 @@ import { newsService } from '../../../../services/newsService';
 import { useLanguage } from '../../../../context/LanguageContext';
 
 function TopNewsSection() {
-  const [ref, hasAnimated] = useSectionAnimation(); // hasAnimated tells us when the section is visible
+  const [ref, hasAnimated] = useSectionAnimation();
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // New state to indicate the content is loaded AND ready for animation
   const [isContentReady, setIsContentReady] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const { t } = useLanguage();
+
+  // Handle hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     const loadTopNews = async () => {
       try {
         const data = await newsService.getTopNews();
         setNewsItems(data);
-        // Add a small delay to ensure DOM is ready
+        // Use requestAnimationFrame to ensure DOM is ready
         requestAnimationFrame(() => {
           setIsContentReady(true);
         });
@@ -35,7 +40,7 @@ function TopNewsSection() {
     };
 
     loadTopNews();
-  }, []); // Effect runs once on mount for data fetching
+  }, []);
 
   const openModal = (news: NewsItem) => {
     setSelectedNews(news);
@@ -45,7 +50,6 @@ function TopNewsSection() {
     setSelectedNews(null);
   };
 
-  // Prevent body scrolling when modal is open
   useEffect(() => {
     if (selectedNews) {
       document.body.style.overflow = 'hidden';
@@ -57,9 +61,11 @@ function TopNewsSection() {
     };
   }, [selectedNews]);
 
+  if (!isHydrated) {
+    return null; // Prevent flash of unstyled content
+  }
+
   if (isLoading && !isContentReady) {
-    // You might want to render the section wrapper even when loading
-    // so the ref is attached early, but ensure it has minimal height
     return (
       <section className="top-news-section" id="news" ref={ref}>
         <div className="loading">{t('news.loading')}</div>
@@ -83,8 +89,6 @@ function TopNewsSection() {
     );
   }
 
-  // Render the section and cards only after data is loaded (or on error)
-  // The animation will be controlled by hasAnimated AND isContentReady
   return (
     <section className="top-news-section" id="news" ref={ref}>
       <h2 className="top-news-section-title">{t('news.topNews')}</h2>
@@ -101,6 +105,7 @@ function TopNewsSection() {
               ease: 'easeOut',
               delay: index * 0.2,
             }}
+            style={{ width: '100%', maxWidth: '400px' }}
           >
             <TopNewsCard
               key={news.id}
