@@ -50,6 +50,16 @@
   color: #fd9f41;
 }
 
+.footer-contacts-item a {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.2s ease-in-out;
+}
+
+.footer-contacts-item a:hover {
+  color: #fd9f41;
+}
+
 .footer-contacts {
   display: flex;
   flex-direction: column;

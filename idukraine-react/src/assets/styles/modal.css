@@ -159,7 +159,7 @@
 }
 
 .news-modal-text a {
-  color: #3b82f6;
+  color: rgba(253, 159, 65, 1);
   text-decoration: underline;
   transition: color 0.2s ease;
 }

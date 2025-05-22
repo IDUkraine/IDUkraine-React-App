@@ -8,7 +8,6 @@ import { useLanguage } from '../../context/LanguageContext';
 interface ValidationErrors {
   nameEn?: string;
   nameUk?: string;
-  email?: string;
   positionEn?: string;
   positionUk?: string;
   specialtyEn?: string;
@@ -144,13 +143,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
   };
 
   const validateField = (name: string, value: any): string | undefined => {
-    if (name === 'email' && value?.trim()) {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        return t('admin.validation.invalidEmail');
-      }
-      return undefined;
-    }
-
     if (!value || (typeof value === 'string' && !value.trim())) {
       return t('admin.validation.required');
     }
@@ -232,14 +224,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
       isValid = false;
     }
 
-    if (!worker.email?.trim()) {
-      errors.email = t('admin.validation.required');
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(worker.email)) {
-      errors.email = t('admin.validation.invalidEmail');
-      isValid = false;
-    }
-
     if (!worker.positionEn?.trim()) {
       errors.positionEn = t('admin.validation.required');
       isValid = false;
@@ -286,7 +270,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
     const allFields = [
       'nameEn',
       'nameUk',
-      'email',
       'positionEn',
       'positionUk',
       'specialtyEn',
@@ -405,24 +388,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
             />
             {touched.nameUk && validationErrors.nameUk && (
               <span className="error-text">{validationErrors.nameUk}</span>
-            )}
-          </div>
-
-          <div className="formGroup">
-            <label className="label">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={worker.email}
-              onChange={handleInputChange}
-              onBlur={() => handleBlur('email')}
-              className={`input ${
-                touched.email && validationErrors.email ? 'error' : ''
-              }`}
-              required
-            />
-            {touched.email && validationErrors.email && (
-              <span className="error-text">{validationErrors.email}</span>
             )}
           </div>
 

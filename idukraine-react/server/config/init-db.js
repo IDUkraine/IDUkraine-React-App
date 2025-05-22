@@ -27,7 +27,6 @@ async function initializeDatabase() {
         id INT AUTO_INCREMENT PRIMARY KEY,
         nameEn VARCHAR(255) NOT NULL,
         nameUk VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
         positionEn VARCHAR(255) NOT NULL,
         positionUk VARCHAR(255) NOT NULL,
         specialtyEn VARCHAR(255) NOT NULL,

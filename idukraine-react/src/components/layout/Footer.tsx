@@ -50,15 +50,21 @@ const Footer = () => {
             <div className="footer-contacts-container">
               <div className="footer-contacts-item">
                 <PhoneIcon className="footer-phone-icon" />
-                <p>+380 73 091-08-24</p>
+                <a href="tel:+380730910824">+380 73 091-08-24</a>
               </div>
               <div className="footer-contacts-item">
                 <MailIcon className="footer-mail-icon" />
-                <p>example@gmail.com</p>
+                <a href="mailto:IDUKRAINE91@GMAIL.COM">IDUKRAINE91@GMAIL.COM</a>
               </div>
               <div className="footer-contacts-item">
                 <FacebookIcon className="footer-facebook-icon" />
-                <p>ID Ukraine</p>
+                <a
+                  href="https://www.facebook.com/share/15xt6pDzqH/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('contact.facebook')}
+                </a>
               </div>
             </div>
           </div>

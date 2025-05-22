@@ -141,13 +141,19 @@
 }
 
 .general-news-image-placeholder {
-  width: 300px;
+  width: 500px;
   height: 300px;
   background-color: #4a4a4a;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.general-news-image-placeholder img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -301,21 +307,20 @@
 
 .news-modal-image-container {
   width: 100%;
-  max-width: 1000px;
-  min-height: 500px;
-  margin: 30px auto 0;
-  border-radius: 12px;
+  margin: 10px auto 0;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  min-height: 500px;
 }
 
 .news-modal-image {
   width: 100%;
   height: auto;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 20px;
   display: block;
 }
 
@@ -405,7 +410,7 @@
     gap: 20px;
   }
   .general-news-image-placeholder {
-    width: 270px;
+    width: 450px;
     height: 270px;
   }
   .general-news-text {
@@ -504,12 +509,12 @@
     gap: 16px;
   }
   .general-news-image-placeholder {
-    width: 240px;
+    width: 330px;
     height: 240px;
   }
   .general-news-text {
     font-size: 16px;
-    width: 45%;
+    max-width: 40%;
   }
   .general-news-read-more {
     font-size: 12px;
@@ -550,6 +555,9 @@
   .news-modal-scroll-top {
     bottom: 24px;
     min-height: 44px;
+  }
+  .news-modal-image-container {
+    min-height: auto;
   }
 }
 
@@ -651,7 +659,6 @@
     max-width: 100%;
   }
   .news-modal-image-container {
-    min-height: 400px;
     max-height: fit-content;
   }
   .news-modal-title {
@@ -723,7 +730,6 @@
     min-height: 36px;
   }
   .news-modal-image-container {
-    min-height: 300px;
     max-height: fit-content;
   }
 }
@@ -773,7 +779,7 @@
     gap: 8px;
   }
   .general-news-image-placeholder {
-    height: 230px;
+    height: 180px;
     width: 100%;
   }
   .general-news-text {
@@ -800,9 +806,6 @@
   .news-modal-main {
     padding: 6px 0;
     gap: 6px;
-  }
-  .news-modal-image-container {
-    min-height: 200px;
   }
   .news-modal-image {
     max-height: 40vh;

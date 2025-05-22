@@ -184,6 +184,8 @@
   gap: 12px;
   font-size: 16px;
   font-family: secondary-regular;
+  flex: 1;
+  justify-content: space-around;
 }
 
 .employee-specs {
@@ -298,10 +300,10 @@
 .employee-slide {
   min-width: 280px !important;
   max-width: 280px !important;
-  height: 430px;
+  height: 420px;
   background-color: rgba(21, 25, 33, 1);
   border-radius: 20px;
-  padding: 10px;
+  padding: 10px 10px 15px 10px;
   color: #fff;
   text-align: left;
   display: flex;
@@ -324,7 +326,7 @@
 
 .employee-slide-photo {
   width: 100%;
-  height: 235px;
+  height: 255px;
   object-fit: cover;
   border-radius: 12px;
   object-position: top;
@@ -346,9 +348,8 @@
 .employee-slide-info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 24px;
   flex: 1;
-  justify-content: space-evenly;
 }
 
 .modal-overlay {
@@ -559,8 +560,7 @@
     min-width: 260px !important;
     max-width: 260px !important;
     flex: 0 0 230px;
-    height: 390px;
-    padding: 8px;
+    height: 370px;
     gap: 10px;
   }
 
@@ -652,13 +652,13 @@
 
   .employee-slide {
     flex: 0 0 210px;
-    min-width: 240px !important;
-    max-width: 240px !important;
-    height: 370px;
+    min-width: 220px !important;
+    max-width: 220px !important;
+    height: 340px;
   }
 
   .employee-slide-info {
-    gap: 10px;
+    gap: 16px;
   }
 
   .employee-slide-photo {
@@ -789,11 +789,11 @@
   }
 
   .employee-slide {
-    min-width: 220px !important;
-    max-width: 220px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
     flex: 0 0 190px;
-    height: 350px;
-    padding: 6px;
+    height: 340px;
+    padding: 8px 8px 12px 8px;
     gap: 6px;
   }
 }
@@ -843,6 +843,10 @@
 
   .employee-specs-container {
     gap: 5px;
+  }
+
+  employee-slide-info {
+    gap: 16px;
   }
 
   .employee-specs {
@@ -968,6 +972,10 @@
   .employee-slider-inner {
     gap: 16px;
     scroll-snap-type: none;
+  }
+
+  .employee-slide-info {
+    gap: 8px;
   }
 
   .employee-slide {

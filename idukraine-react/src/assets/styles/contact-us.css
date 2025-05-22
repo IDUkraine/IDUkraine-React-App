@@ -84,6 +84,15 @@
   gap: 6px;
 }
 
+.contact-content a {
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.contact-content a:hover {
+  color: #fd9f41;
+}
+
 .contact-icon {
   width: 24px;
   height: 24px;

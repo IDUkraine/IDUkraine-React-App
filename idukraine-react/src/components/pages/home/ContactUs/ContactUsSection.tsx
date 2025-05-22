@@ -35,21 +35,35 @@ function ContactUsSection() {
                 <p className="contact-title">{t('contact.phone')}</p>
                 <div className="contact-content">
                   <PhoneIcon className="contact-icon" />
-                  <p className="contact-text">{t('contact.phone.number')}</p>
+                  <a href="tel:+380730910824" className="contact-text">
+                    +380 73 091-08-24
+                  </a>
                 </div>
               </div>
               <div className="contact-item">
                 <p className="contact-title">{t('contact.email')}</p>
                 <div className="contact-content">
                   <MailIcon className="contact-icon" />
-                  <p className="contact-text">{t('contact.email.address')}</p>
+                  <a
+                    href="mailto:IDUKRAINE91@GMAIL.COM"
+                    className="contact-text"
+                  >
+                    IDUKRAINE91@GMAIL.COM
+                  </a>
                 </div>
               </div>
               <div className="contact-item">
                 <p className="contact-title">{t('contact.socials')}</p>
                 <div className="contact-content">
                   <FacebookIcon className="contact-icon" />
-                  <p className="contact-text">{t('contact.facebook')}</p>
+                  <a
+                    href="https://www.facebook.com/share/15xt6pDzqH/?mibextid=wwXIfr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-text"
+                  >
+                    {t('contact.facebook')}
+                  </a>
                 </div>
               </div>
             </div>

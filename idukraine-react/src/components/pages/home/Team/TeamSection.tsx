@@ -9,7 +9,6 @@ import '../../../../assets/styles/modal.css';
 import TeamLogo from '../../../../assets/svgs/logos/team-logo.svg';
 import SpecialtyIcon from '../../../../assets/svgs/icons/hail.svg';
 import ExperienceIcon from '../../../../assets/svgs/icons/person-play.svg';
-import MailIcon from '../../../../assets/svgs/icons/mail.svg';
 import CloseIcon from '../../../../assets/svgs/icons/close.svg';
 import FacebookIcon from '../../../../assets/svgs/icons/facebook.svg';
 import { useSectionAnimation } from '../../../../hooks/useSectionAnimation';
@@ -308,10 +307,6 @@ function TeamSection() {
                       {selectedEmployee.years} {t('team.years')}
                     </p>
                   </div>
-                  <div className="employee-specs">
-                    <MailIcon className="employee-specs-icon" />
-                    <p>{selectedEmployee.email}</p>
-                  </div>
                 </div>
                 <p
                   className="employee-description"
@@ -408,10 +403,6 @@ function TeamSection() {
                         {emp.years} {t('team.years')}
                       </p>
                     </div>
-                    <div className="employee-specs">
-                      <MailIcon className="employee-specs-icon" />
-                      <p>{emp.email}</p>
-                    </div>
                   </div>
                 </div>
               </SwiperSlide>
@@ -479,10 +470,6 @@ function TeamSection() {
                     <p>
                       {selectedEmployee.years} {t('team.years')}
                     </p>
-                  </div>
-                  <div className="modal-employee-specs">
-                    <MailIcon className="modal-employee-specs-icon" />
-                    <p>{selectedEmployee.email}</p>
                   </div>
                 </div>
                 <p

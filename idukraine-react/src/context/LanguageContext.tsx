@@ -47,7 +47,6 @@ const translations = {
     'contact.heading': "Зв'яжіться з нами",
     'contact.subheading':
       'Ми завжди готові відповісти на ваші запитання та допомогти вам',
-    'contact.phone.number': '+380 73 091-08-24',
     'contact.email.address': 'example@gmail.com',
     'contact.facebook': 'ID Ukraine',
     'areas.subtitle': 'Напрями роботи',
@@ -155,7 +154,7 @@ const translations = {
     'team.showAll': 'Show All',
     'team.hideAll': 'Hide',
     'hero.title': 'Integrity & Development Ukraine',
-    'hero.motto': 'Develop good honestly',
+    'hero.motto': 'Integrity as Ukrainian reality',
     'hero.contacts': 'Contacts',
     'hero.years': 'Years',
     'hero.years.plural': 'Years',
@@ -176,7 +175,6 @@ const translations = {
     'contact.heading': 'Get in touch',
     'contact.subheading':
       'We are always ready to answer your questions and help you',
-    'contact.phone.number': '+380 73 091-08-24',
     'contact.email.address': 'example@gmail.com',
     'contact.facebook': 'ID Ukraine',
     'areas.subtitle': 'Work Areas',

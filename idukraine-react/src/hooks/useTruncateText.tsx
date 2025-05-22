@@ -18,8 +18,9 @@ export const useTruncateText = () => {
       if (!html || html.length <= maxLength) return html;
 
       let result = '';
-      let charCount = 0;
+      let visibleCharCount = 0;
       let insideTag = false;
+      let insideAttribute = false;
       let tagName = '';
       let tagContent = '';
       let tagStartIndex = -1;
@@ -28,8 +29,9 @@ export const useTruncateText = () => {
       // Parse the HTML character by character
       for (let i = 0; i < html.length; i++) {
         const char = html[i];
+        const nextChar = html[i + 1];
 
-        if (char === '<' && html[i + 1] !== '/') {
+        if (char === '<' && nextChar !== '/') {
           // Start of an opening tag
           insideTag = true;
           tagStartIndex = i;
@@ -42,6 +44,7 @@ export const useTruncateText = () => {
           if (char === '>') {
             // End of a tag
             insideTag = false;
+            insideAttribute = false;
             // Check if it's a valid tag we want to keep (<a> or <strong>)
             if (
               tagName.toLowerCase() === 'a' ||
@@ -52,12 +55,19 @@ export const useTruncateText = () => {
             }
             continue;
           }
-          tagName += char;
+
+          if (char === '"' || char === "'") {
+            insideAttribute = !insideAttribute;
+          }
+
+          if (!insideAttribute) {
+            tagName += char;
+          }
           tagContent += char;
           continue;
         }
 
-        if (char === '<' && html[i + 1] === '/') {
+        if (char === '<' && nextChar === '/') {
           // Start of a closing tag
           insideTag = true;
           tagStartIndex = i;
@@ -80,10 +90,10 @@ export const useTruncateText = () => {
           continue;
         }
 
-        // Count characters outside of tags
-        if (!insideTag) {
-          charCount++;
-          if (charCount <= maxLength) {
+        // Count characters outside of tags and attributes
+        if (!insideTag && !insideAttribute) {
+          visibleCharCount++;
+          if (visibleCharCount <= maxLength) {
             result += char;
           } else {
             // Stop adding characters once maxLength is reached
@@ -99,7 +109,7 @@ export const useTruncateText = () => {
       }
 
       // Add ellipsis if truncation occurred
-      if (charCount > maxLength || html.length > result.length) {
+      if (visibleCharCount > maxLength || html.length > result.length) {
         result += '...';
       }
 

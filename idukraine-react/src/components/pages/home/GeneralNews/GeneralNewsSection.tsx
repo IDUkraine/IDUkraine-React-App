@@ -293,10 +293,13 @@ const GeneralNewsSection = () => {
               <div className="general-news-card">
                 <div className="general-news-content">
                   {news.image && (
-                    <div
-                      className="general-news-image-placeholder"
-                      style={{ backgroundImage: `url(${news.image})` }}
-                    />
+                    <div className="general-news-image-placeholder">
+                      <img
+                        src={news.image}
+                        alt={news.titleEn}
+                        className="general-news-image"
+                      />
+                    </div>
                   )}
                   <div className="general-news-text">
                     <p
@@ -307,7 +310,7 @@ const GeneralNewsSection = () => {
                               stripHtml(
                                 language === 'en' ? news.textEn : news.textUk
                               ),
-                              480
+                              400
                             )
                           )
                         ),

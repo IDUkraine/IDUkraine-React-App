@@ -86,7 +86,6 @@ app.post('/api/workers', async (req, res) => {
       const values = employees.map((worker) => [
         worker.nameEn,
         worker.nameUk,
-        worker.email,
         worker.positionEn,
         worker.positionUk,
         worker.specialtyEn,
@@ -102,7 +101,7 @@ app.post('/api/workers', async (req, res) => {
 
       await pool.query(
         `INSERT INTO workers 
-        (nameEn, nameUk, email, positionEn, positionUk, specialtyEn, specialtyUk, 
+        (nameEn, nameUk, positionEn, positionUk, specialtyEn, specialtyUk, 
          years, descriptionEn, descriptionUk, photo, iconPhotoOffsetY, facebook, isDisplayedInCircle)
         VALUES ?`,
         [values]
