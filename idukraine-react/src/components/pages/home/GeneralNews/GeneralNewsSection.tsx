@@ -325,11 +325,13 @@ const GeneralNewsSection = () => {
                   </div>
 
                   <span className="general-news-date">
-                    {new Date(news.date).toLocaleDateString(t('locale'), {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    {new Date(news.date)
+                      .toLocaleDateString(t('locale'), {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                      .replace(/(\d{4}) р./, '$1\u00A0р.')}
                   </span>
 
                   <FingerPrintGeneralNews className="general-news-fingerprint" />
