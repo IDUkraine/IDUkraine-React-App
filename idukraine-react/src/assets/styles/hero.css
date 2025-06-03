@@ -73,6 +73,7 @@
   object-fit: cover;
   display: block;
   border-radius: 20px;
+  object-position: center 10%;
 }
 
 .milestone-container {
@@ -341,7 +342,7 @@
     align-items: center;
   }
   .hero-image {
-    height: 260px;
+    height: 220px;
   }
 
   .milestone-text {

@@ -53,7 +53,7 @@ const HeroSection = ({ splashComplete }: HeroSectionProps) => {
   }, [milestones.length]);
 
   const handleButtonClick = () => {
-    const aboutSection = document.getElementById('contacts');
+    const aboutSection = document.getElementById('footer');
     if (aboutSection) {
       aboutSection.scrollIntoView({ behavior: 'smooth' });
     }

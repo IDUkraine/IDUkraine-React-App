@@ -5,7 +5,6 @@ import AboutSection from './About/AboutSection';
 import AreasSection from './Areas/Areas';
 import GeneralNewsSection from './GeneralNews/GeneralNewsSection';
 import TeamSection from './Team/TeamSection';
-import ContactUsSection from './ContactUs/ContactUsSection';
 import TopNewsSection from './TopNews/TopNews';
 import SplashScreen from './common/SplashScreen';
 
@@ -75,7 +74,6 @@ function HomePage() {
       <TopNewsSection />
       <GeneralNewsSection />
       <AreasSection />
-      <ContactUsSection />
     </div>
   );
 }

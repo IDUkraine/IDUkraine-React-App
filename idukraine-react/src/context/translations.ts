@@ -21,9 +21,9 @@ export const translations = {
     'team.years': 'р. досвіду',
     'about.subtitle': 'Про нас',
     'about.title':
-      'Розвиток <span>доброчесної України</span> через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та відновлення.',
+      'Розбудова доброчесної та самодостатньої Української держави через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та відновлення.',
     'about.text':
-      'Діяльність громадської організації буде спрямована на створення  та адвокацію аналітичних, моніторингових, та законотворчих продуктів, які б комплексно вирішували правові питання.',
+      'Ми прагнемо побудувати в державі культуру доброчесності, яка стане ключовим та фундаментальним принципом існування та роботи державного сектору.',
     'contact.phone': 'Телефон',
     'contact.email': 'Пошта',
     'contact.socials': 'Соціальні мережі',
@@ -37,12 +37,11 @@ export const translations = {
     'areas.subtitle': 'Напрями роботи',
     'areas.publicProperty': 'Публічне майно',
     'areas.publicPropertyText':
-      'З метою сприяння виконанню рекомендацій Організації економічного співробітництва і розвитку, а також на виконання реформи українського законодавства ми створюємо експертну платформу щодо реформування корпоративного управління на державних підприємствах (розробка систем комплаєнсу, ризик менеджменту, внутрішнього аудиту, політики проведення внутрішніх розслідувань, тощо). Окрім того, задля покращення процесів приватизації державних активів, а також розпоряджання майном, вилученим у підсанкційних осіб, "ID Ukraine" надаватиме відповідну експертну та медійну  підтримку уповноваженим державним органам та інституціям.',
-    'areas.integrity':
-      'Розвиток доброчесності, підтримка антикорупційної інфраструктури',
+      'Ми створюємо експертну платформу щодо реформування корпоративного управління на державних підприємствах (розробка систем комплаєнсу, ризик менеджменту, внутрішнього аудиту, політики проведення внутрішніх розслідувань, тощо). Окрім того, задля покращення процесів приватизації державних активів, а також розпоряджання майном, вилученим у підсанкційних осіб, "ID Ukraine" надаватиме відповідну експертну та медійну  підтримку уповноваженим державним органам та інституціям.',
+    'areas.integrity': 'Доброчесність та антикорупційна інфраструктура',
     'areas.integrityText':
-      ' Ми забезпечуєм системні зміни у розвитку розумної та співмірної доброчесності через експертну підтримку антикорупційних інституцій (НАБУ, НАЗК, САП, ВАКС, АРМА), підготовку та впровадження більш прозорих механізмів державного управління та активну участь у формуванні державної політики, задля забезпечення зміни парадигми сприйняття цього явища, яка обовʼязкового та бажаного критерія державних діячів.',
-    'areas.recovery': 'Сфера відновлення',
+      ' Ми забезпечуєм системні зміни у розвитку розумної та співмірної доброчесності через експертну підтримку антикорупційних інституцій (НАБУ, НАЗК, САП, ВАКС, АРМА), підготовку та впровадження більш прозорих механізмів державного управління та активну участь у формуванні державної політики, задля забезпечення зміни парадигми сприйняття цього явища, як обовʼязкового та бажаного критерія державних діячів.',
+    'areas.recovery': 'Повоєнне відновлення України',
     'areas.recoveryText':
       'Ми супроводжуємо повний цикл "Build Back Better": від оцінки проблем, аналізу потреб та напрацювання рішень,  до розробки нормативно-правових актів, стратегій і процедур, моніторингу виконання проєктів відновлення й пост-аудиту соціально-економічного впливу.',
     'areas.publicFinance': 'Сфера публічних фінансів',
@@ -149,9 +148,9 @@ export const translations = {
     'team.years': 'years of experience',
     'about.subtitle': 'About us',
     'about.title':
-      'Development of a <span>virtuous Ukraine</span> through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and recovery.',
+      'Building a virtuous and self-sufficient Ukrainian state through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and recovery.',
     'about.text':
-      "The NGO's activities will be aimed at creating and advocating for analytical, monitoring, and legislative products that would comprehensively address legal issues.",
+      "We strive to build a culture of integrity in the state, which will become a key and fundamental principle of the public sector's existence and operation.",
     'contact.phone': 'Phone',
     'contact.email': 'Email',
     'contact.socials': 'Socials',
@@ -165,12 +164,11 @@ export const translations = {
     'areas.subtitle': 'Work Areas',
     'areas.publicProperty': 'Public Property',
     'areas.publicPropertyText':
-      'In order to facilitate the implementation of the recommendations of the Organization for Economic Cooperation and Development, as well as to implement the reform of Ukrainian legislation, we are creating an expert platform for reforming corporate governance at state-owned enterprises (development of compliance systems, risk management, internal audit, internal investigation policy, etc.). In addition, in order to improve the privatization of state assets and the disposal of property seized from sanctioned persons, ID Ukraine will provide relevant expert and media support to authorized state bodies and institutions.',
-    'areas.integrity':
-      'Integrity Development, Support of Anti-corruption Infrastructure',
+      'We are creating an expert platform for reforming corporate governance at state-owned enterprises (development of compliance systems, risk management, internal audit, internal investigation policy, etc.) In addition, in order to improve the privatization of state assets and the disposal of property seized from sanctioned persons, ID Ukraine will provide relevant expert and media support to authorized state bodies and institutions.',
+    'areas.integrity': 'Integrity and anti-corruption infrastructure',
     'areas.integrityText':
-      'We ensure systemic changes in the development of reasonable and proportionate integrity through expert support of anti-corruption institutions (NABU, NAPC, SAP, HACC, ARMA), preparation and implementation of more transparent public administration mechanisms, and active participation in public policy making to ensure a paradigm shift in the perception of this phenomenon as a mandatory and desirable criterion for public figures.',
-    'areas.recovery': 'Recovery Area',
+      'We ensure systemic changes in the development of reasonable and proportionate integrity through expert support of anti-corruption institutions (NABU, NACP, SAPO, HACC, ARMA), preparation and implementation of more transparent public administration mechanisms, and active participation in public policy making to ensure a paradigm shift in the perception of this phenomenon as a mandatory and desirable criterion for public figures.',
+    'areas.recovery': 'Post-war reconstruction of Ukraine',
     'areas.recoveryText':
       'We support the full cycle of Build Back Better: from problem assessment, needs analysis, and solution development to the development of regulations, policies, and procedures, monitoring of recovery projects, and post-audit of socioeconomic impact.',
     'areas.publicFinance': 'Public Finance Area',

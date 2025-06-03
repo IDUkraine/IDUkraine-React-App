@@ -133,12 +133,6 @@
     width: 200px;
     height: 60px;
   }
-  .footer-nav-options .navigation-options {
-    font-size: 16px;
-  }
-  .footer-contacts-title {
-    font-size: 16px;
-  }
   .footer-fingerprint-container {
     width: 140px;
     height: 200px;
@@ -165,22 +159,26 @@
   .footer-container {
     width: 100%;
     margin: 0 auto;
-    height: 200px;
-    padding: 24px 25px;
+    height: auto;
+    min-height: 200px;
+    padding: 24px 25px 12px 25px;
   }
   .footer-animation-wrapper {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 16px;
+    justify-content: flex-start;
+    gap: 24px;
   }
   .footer-content {
     min-width: 100%;
     flex-direction: column;
     align-items: center;
+    order: 1;
+    gap: 24px;
   }
   .footer-nav-options {
     width: 100%;
+    order: 1;
   }
   .footer-nav-options .navigation-options {
     width: 100%;
@@ -193,9 +191,22 @@
   .footer-logo {
     width: 300px;
     height: 80px;
+    order: 4;
   }
   .footer-contacts {
+    display: flex;
+    width: 100%;
+    order: 3;
+  }
+  .footer-contacts-title {
     display: none;
+  }
+  .footer-contacts-container {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   .footer-fingerprint-container {
     display: none;
@@ -207,31 +218,39 @@
     border-radius: 5px;
     border: none;
     background-color: rgba(253, 159, 65, 1);
+    margin: 8px 0;
+    order: 2;
+  }
+  .footer-contacts-container a {
+    font-size: 14px;
+  }
+  .footer-phone-icon,
+  .footer-mail-icon,
+  .footer-facebook-icon {
+    width: 20px;
+    height: 20px;
   }
 }
 
 @media screen and (max-width: 601px) {
-  .footer-animation-wrapper {
-    gap: 12px;
-  }
   .footer-nav-options .navigation-options {
     font-size: 16px;
+  }
+  .footer-animation-wrapper,
+  .footer-content {
+    gap: 16px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .footer-container {
-    height: 175px;
-    padding: 10px 8px;
-  }
-  .footer-animation-wrapper {
-    gap: 10px;
-  }
   .footer-logo {
     width: 200px;
     height: 60px;
   }
-  .footer-nav-options .navigation-options {
-    font-size: 14px;
+}
+
+@media screen and (max-width: 346px) {
+  .footer-contacts-container a {
+    font-size: 12px;
   }
 }

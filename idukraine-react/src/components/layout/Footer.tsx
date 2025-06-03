@@ -31,7 +31,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <div className="footer-container">
+    <div className="footer-container" id="footer">
       <motion.div
         initial={{ y: initialY, opacity: 0 }}
         animate={hasAnimated ? { y: 0, opacity: 1 } : {}}
@@ -40,21 +40,21 @@ const Footer = () => {
         className="footer-animation-wrapper"
       >
         <FooterLogo className="footer-logo" />
-        <hr className="footer-line" />
         <div className="footer-content">
           <div className="footer-nav-options">
             <NavigationOptions />
           </div>
+          <hr className="footer-line" />
           <div className="footer-contacts">
             <p className="footer-contacts-title">{t('contact.footer-title')}</p>
             <div className="footer-contacts-container">
               <div className="footer-contacts-item">
-                <PhoneIcon className="footer-phone-icon" />
-                <a href="tel:+380730910824">+380 73 091-08-24</a>
-              </div>
-              <div className="footer-contacts-item">
                 <MailIcon className="footer-mail-icon" />
                 <a href="mailto:IDUKRAINE91@GMAIL.COM">IDUKRAINE91@GMAIL.COM</a>
+              </div>
+              <div className="footer-contacts-item">
+                <PhoneIcon className="footer-phone-icon" />
+                <a href="tel:+380730910824">+380 73 091-08-24</a>
               </div>
               <div className="footer-contacts-item">
                 <FacebookIcon className="footer-facebook-icon" />
