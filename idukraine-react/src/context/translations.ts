@@ -44,7 +44,7 @@ export const translations = {
     'areas.recovery': 'Повоєнне відновлення України',
     'areas.recoveryText':
       'Ми супроводжуємо повний цикл "Build Back Better": від оцінки проблем, аналізу потреб та напрацювання рішень,  до розробки нормативно-правових актів, стратегій і процедур, моніторингу виконання проєктів відновлення й пост-аудиту соціально-економічного впливу.',
-    'areas.publicFinance': 'Сфера публічних фінансів',
+    'areas.publicFinance': 'Публічних фінансів',
     'areas.publicFinanceText':
       'Ми формуємо фаховий майданчик, присвячений вдосконаленню фінансових розслідувань, протидії відмиванню коштів і підвищенню інституційної спроможності системи фінансового моніторингу. У фокусі — аналітика законодавства, створення освітніх стандартів і впровадження інноваційних механізмів прозорості та відповідальності у сфері публічних фінансів.',
     'news.allNews': 'Всі новини',
@@ -171,7 +171,7 @@ export const translations = {
     'areas.recovery': 'Post-war reconstruction of Ukraine',
     'areas.recoveryText':
       'We support the full cycle of Build Back Better: from problem assessment, needs analysis, and solution development to the development of regulations, policies, and procedures, monitoring of recovery projects, and post-audit of socioeconomic impact.',
-    'areas.publicFinance': 'Public Finance Area',
+    'areas.publicFinance': 'Public Finance',
     'areas.publicFinanceText':
       'We are creating a professional platform dedicated to improving financial investigations, combating money laundering and enhancing the institutional capacity of the financial monitoring system. Our focus is on legislative analysis, creation of educational standards, and implementation of innovative mechanisms of transparency and accountability in public finance.',
     'news.allNews': 'All News',
