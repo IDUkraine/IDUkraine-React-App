@@ -73,8 +73,8 @@ const AboutSection = () => {
         <div className="about-content">
           <motion.div
             className="about-image-container"
-            initial={{ opacity: 0, x: 60 }}
-            animate={hasAnimated ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
+            initial={{ opacity: 0, y: 60 }}
+            animate={hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <AnimatePresence mode="wait">
@@ -83,11 +83,11 @@ const AboutSection = () => {
                 src={aboutImages[currentImageIndex].src}
                 alt={aboutImages[currentImageIndex].alt}
                 className="about-image"
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={
-                  hasAnimated ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }
+                  hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                 }
-                exit={{ opacity: 0, x: -20 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
               />
             </AnimatePresence>
