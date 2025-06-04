@@ -183,8 +183,6 @@ function TeamSection() {
     return null;
   }
 
-  console.log(circleEmployees);
-
   return (
     <section className="team-section" id="team">
       <h2 className="team-title">{t('nav.team.title')}</h2>
