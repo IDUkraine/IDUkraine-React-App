@@ -104,11 +104,9 @@
   font-size: 16px;
   font-family: secondary-regular;
   color: rgba(255, 255, 255, 0.8);
-  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  line-clamp: 5;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
 }

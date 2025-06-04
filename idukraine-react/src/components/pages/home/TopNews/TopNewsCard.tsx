@@ -50,7 +50,7 @@ function TopNewsCard({
           <h3 className="top-news-title">{title}</h3>
           <p className="top-news-category">{category}</p>
         </div>
-        <p className="top-news-text">{plainText.slice(0, 190)}...</p>
+        <p className="top-news-text">{plainText}</p>
       </div>
       <div className="top-news-footer">
         <span className="top-news-date">{date}</span>
