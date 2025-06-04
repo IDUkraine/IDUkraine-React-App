@@ -41,7 +41,7 @@
 
 .about-title {
   font-family: secondary-medium;
-  font-size: 36px;
+  font-size: 32px;
   color: #fff;
 }
 
@@ -61,7 +61,7 @@
 .about-right-content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .about-fingerprint {
@@ -81,6 +81,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  object-position: center 0%;
 }
 
 @media screen and (max-width: 1381px) {

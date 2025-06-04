@@ -2,7 +2,7 @@ import { useState, useEffect, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
+import { FreeMode, Mousewheel } from 'swiper/modules';
 import '../../../../assets/styles/swiper-custom.css';
 import '../../../../assets/styles/team.css';
 import '../../../../assets/styles/modal.css';
@@ -341,13 +341,21 @@ function TeamSection() {
       {showAll && (
         <div className="employee-slider">
           <Swiper
+            direction="horizontal"
+            simulateTouch={true}
+            allowTouchMove={true}
+            mousewheel={{
+              forceToAxis: true,
+              releaseOnEdges: true, // Це вивільняє прокрутку за межами слайдера
+              invert: false, // Напрямок прокрутки
+            }}
             slidesPerView="auto"
             spaceBetween={20}
             freeMode={{
               enabled: true,
               sticky: false,
             }}
-            modules={[FreeMode]}
+            modules={[FreeMode, Mousewheel]}
             className="employee-slider-inner"
           >
             {allEmployees.map((emp) => (

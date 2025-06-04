@@ -22,8 +22,6 @@ const WorkersTab: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState<string>('');
 
-  console.log(workers);
-
   useEffect(() => {
     loadWorkers();
   }, []);

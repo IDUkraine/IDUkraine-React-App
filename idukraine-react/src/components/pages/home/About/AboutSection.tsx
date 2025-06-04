@@ -17,7 +17,7 @@ const AboutSection = () => {
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-2.jpg',
+      src: './about-image-2.jpeg',
       alt: t('about.subtitle'),
     },
     {
@@ -25,7 +25,7 @@ const AboutSection = () => {
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-4.jpg',
+      src: './about-image-4.jpeg',
       alt: t('about.subtitle'),
     },
     {

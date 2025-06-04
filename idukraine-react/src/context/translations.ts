@@ -21,7 +21,7 @@ export const translations = {
     'team.years': 'р. досвіду',
     'about.subtitle': 'Про нас',
     'about.title':
-      'ГО “ID Ukraine” створена з метою розбудови доброчесної та самодостатньої Української держави через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та відновлення.',
+      'ГО “ID Ukraine” створена з метою розбудови доброчесної та самодостатньої Української держави через правове, аналітичне та інституційне посилення сфер управління публічними фінансами, державної власності, антикорупційної політики та повоєнного відновлення.',
     'about.text':
       'Ми прагнемо побудувати в державі культуру доброчесності, яка стане ключовим та фундаментальним принципом існування та роботи державного сектору.',
     'contact.phone': 'Телефон',
@@ -148,7 +148,7 @@ export const translations = {
     'team.years': 'years of experience',
     'about.subtitle': 'About us',
     'about.title':
-      'Civil organization “ID Ukraine” was created to build a virtuous and self-sufficient Ukrainian state through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and recovery.',
+      'Civil organization “ID Ukraine” was created to build a virtuous and self-sufficient Ukrainian state through legal, analytical and institutional strengthening of public finance management, state property, anti-corruption policy and postwar reconstruction.',
     'about.text':
       "We strive to build a culture of integrity in the state, which will become a key and fundamental principle of the public sector's existence and operation.",
     'contact.phone': 'Phone',
