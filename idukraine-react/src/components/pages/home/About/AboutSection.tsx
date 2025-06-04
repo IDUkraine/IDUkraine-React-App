@@ -6,42 +6,75 @@ import { useLanguage } from '../../../../context/LanguageContext';
 import DOMPurify from 'dompurify';
 import { useEffect, useState, useCallback, useRef } from 'react';
 
+// Import images directly or use a dynamic import if they are in a specific folder
+import aboutImage1 from '../../../../../public/about-image-1.jpg';
+import aboutImage2 from '../../../../../public/about-image-2.jpeg';
+import aboutImage3 from '../../../../../public/about-image-3.jpg';
+import aboutImage4 from '../../../../../public/about-image-4.jpeg';
+import aboutImage5 from '../../../../../public/about-image-5.jpg';
+
 const AboutSection = () => {
   const [ref, hasAnimated] = useSectionAnimation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t } = useLanguage();
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const [imagesLoaded, setImagesLoaded] = useState(false); // New state to track image loading
 
   const aboutImages = [
     {
-      src: './about-image-1.jpg',
+      src: aboutImage1, // Use imported images
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-2.jpeg',
+      src: aboutImage2,
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-3.jpg',
+      src: aboutImage3,
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-4.jpeg',
+      src: aboutImage4,
       alt: t('about.subtitle'),
     },
     {
-      src: './about-image-5.jpg',
+      src: aboutImage5,
       alt: t('about.subtitle'),
     },
   ];
 
+  // Function to preload images
+  useEffect(() => {
+    let loadedCount = 0;
+    const totalImages = aboutImages.length;
+
+    const handleImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        setImagesLoaded(true);
+      }
+    };
+
+    aboutImages.forEach((image) => {
+      const img = new Image();
+      img.src = image.src;
+      img.onload = handleImageLoad;
+      img.onerror = () => {
+        console.error(`Failed to load image: ${image.src}`);
+        // Potentially still set imagesLoaded to true if you want to proceed even with some failures
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          setImagesLoaded(true);
+        }
+      };
+    });
+  }, []); // Run once on mount
+
   const startImageRotation = useCallback(() => {
-    // Clear any existing timeout
     if (timeoutRef.current) {
       clearInterval(timeoutRef.current);
     }
 
-    // Start new timeout
     timeoutRef.current = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % aboutImages.length);
     }, 6000);
@@ -50,21 +83,23 @@ const AboutSection = () => {
   const handleIndicatorClick = useCallback(
     (index: number) => {
       setCurrentImageIndex(index);
-      startImageRotation(); // Reset the timeout when manually changing image
+      startImageRotation();
     },
     [startImageRotation]
   );
 
   useEffect(() => {
-    startImageRotation();
+    if (imagesLoaded) {
+      // Only start rotation after all images are loaded
+      startImageRotation();
+    }
 
-    // Cleanup on component unmount
     return () => {
       if (timeoutRef.current) {
         clearInterval(timeoutRef.current);
       }
     };
-  }, [startImageRotation]);
+  }, [startImageRotation, imagesLoaded]); // Add imagesLoaded to dependency array
 
   return (
     <section className="about-section" id="about" ref={ref}>
@@ -77,20 +112,24 @@ const AboutSection = () => {
             animate={hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={currentImageIndex}
-                src={aboutImages[currentImageIndex].src}
-                alt={aboutImages[currentImageIndex].alt}
-                className="about-image"
-                initial={{ opacity: 0, y: 20 }}
-                animate={
-                  hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                }
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              />
-            </AnimatePresence>
+            {/* Render only when images are loaded */}
+            {imagesLoaded && (
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImageIndex} // Keep the key for Framer Motion transitions
+                  src={aboutImages[currentImageIndex].src}
+                  alt={aboutImages[currentImageIndex].alt}
+                  className="about-image"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={
+                    hasAnimated ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                  }
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                />
+              </AnimatePresence>
+            )}
+            {!imagesLoaded && <div className="loading-spinner"></div>}
             <FingerPrintAbout className="about-fingerprint" />
             <div className="image-indicators">
               {aboutImages.map((_, index) => (
