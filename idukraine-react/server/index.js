@@ -65,6 +65,7 @@ app.get('/api/workers', async (req, res) => {
       const { facebook, ...workerData } = worker;
       return {
         ...workerData,
+        avatar: worker.avatar || null,
         links: {
           facebook: facebook || null,
         },
@@ -94,6 +95,7 @@ app.post('/api/workers', async (req, res) => {
         worker.descriptionEn,
         worker.descriptionUk,
         worker.photo,
+        worker.avatar || null,
         worker.iconPhotoOffsetY,
         worker.links?.facebook || null,
         worker.isDisplayedInCircle || false,
@@ -102,7 +104,7 @@ app.post('/api/workers', async (req, res) => {
       await pool.query(
         `INSERT INTO workers 
         (nameEn, nameUk, positionEn, positionUk, specialtyEn, specialtyUk, 
-         years, descriptionEn, descriptionUk, photo, iconPhotoOffsetY, facebook, isDisplayedInCircle)
+         years, descriptionEn, descriptionUk, photo, avatar, iconPhotoOffsetY, facebook, isDisplayedInCircle)
         VALUES ?`,
         [values]
       );

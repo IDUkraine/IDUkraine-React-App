@@ -183,6 +183,8 @@ function TeamSection() {
     return null;
   }
 
+  console.log(circleEmployees);
+
   return (
     <section className="team-section" id="team">
       <h2 className="team-title">{t('nav.team.title')}</h2>
@@ -233,7 +235,7 @@ function TeamSection() {
                     >
                       <div className="photo-dot">
                         <img
-                          src={emp.photo}
+                          src={emp.avatar || emp.photo}
                           alt={getName(emp)}
                           style={{
                             width: '100%',
@@ -321,9 +323,6 @@ function TeamSection() {
                   alt={getName(selectedEmployee)}
                   style={{
                     objectFit: 'cover',
-                    objectPosition: `center ${
-                      selectedEmployee.iconPhotoOffsetY ?? '0%'
-                    }`,
                   }}
                 />
               </div>

@@ -35,6 +35,7 @@ async function initializeDatabase() {
         descriptionEn TEXT,
         descriptionUk TEXT,
         photo VARCHAR(255),
+        avatar VARCHAR(255),
         iconPhotoOffsetY VARCHAR(50),
         facebook VARCHAR(255),
         isDisplayedInCircle BOOLEAN DEFAULT false,

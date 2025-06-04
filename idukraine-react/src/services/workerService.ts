@@ -91,4 +91,21 @@ export const workerService = {
     }
     return null;
   },
+
+  async deleteWorkerPhotos(worker: { photo?: string; avatar?: string }) {
+    if (worker.photo) {
+      try {
+        await workerService.deletePhoto(worker.photo);
+      } catch (e) {
+        console.error('Error deleting worker photo:', e);
+      }
+    }
+    if (worker.avatar) {
+      try {
+        await workerService.deletePhoto(worker.avatar);
+      } catch (e) {
+        console.error('Error deleting worker avatar:', e);
+      }
+    }
+  },
 };

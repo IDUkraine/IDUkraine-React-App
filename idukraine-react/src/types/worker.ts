@@ -11,6 +11,7 @@ export interface Worker {
   descriptionEn: string;
   descriptionUk: string;
   photo: string;
+  avatar?: string;
   iconPhotoOffsetY: string;
   links: {
     facebook?: string;
@@ -24,8 +25,11 @@ export interface WorkersData {
   radiuses: number[];
 }
 
-export interface WorkerFormData extends Omit<Worker, 'id' | 'photo'> {
+export interface WorkerFormData
+  extends Omit<Worker, 'id' | 'photo' | 'avatar'> {
   id?: number;
   photo?: File;
   currentPhotoPath?: string;
+  avatar?: File;
+  currentAvatarPath?: string;
 }

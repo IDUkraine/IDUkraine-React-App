@@ -4,6 +4,8 @@ import { workerService } from '../../services/workerService';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useLanguage } from '../../context/LanguageContext';
+import ReactCrop, { Crop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 interface ValidationErrors {
   nameEn?: string;
@@ -47,6 +49,18 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
     {}
   );
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [crop, setCrop] = useState<Crop>({
+    unit: '%',
+    width: 50,
+    height: 50,
+    x: 25,
+    y: 25,
+  });
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [tempAvatarPath, setTempAvatarPath] = useState<string | null>(null);
+  const [cropFromCurrentPhoto, setCropFromCurrentPhoto] = useState(false);
 
   const editorEn = useEditor({
     extensions: [StarterKit],
@@ -290,10 +304,10 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
     try {
       setIsSaving(true);
       let photoPath = worker.currentPhotoPath || '';
+      let avatarPath = (worker.avatar as string) || '';
 
       if (worker.photo) {
         photoPath = await workerService.uploadPhoto(worker.photo);
-
         if (worker.currentPhotoPath && worker.currentPhotoPath !== photoPath) {
           try {
             await workerService.deletePhoto(worker.currentPhotoPath);
@@ -303,10 +317,31 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
         }
       }
 
+      if (croppedImage) {
+        setIsUploadingAvatar(true);
+        const blob = await fetch(croppedImage).then((r) => r.blob());
+        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+        avatarPath = await workerService.uploadPhoto(file);
+        if (
+          worker.avatar &&
+          typeof worker.avatar === 'string' &&
+          worker.avatar !== avatarPath
+        ) {
+          try {
+            await workerService.deletePhoto(worker.avatar);
+          } catch (error) {
+            console.error('Error deleting old avatar:', error);
+          }
+        }
+        setIsUploadingAvatar(false);
+        setTempAvatarPath(avatarPath);
+      }
+
       const workerData: Worker = {
         ...worker,
         id: worker.id || Math.max(...workers.map((w) => w.id), 0) + 1,
         photo: photoPath,
+        avatar: avatarPath,
         years: worker.years || 0,
         descriptionEn: editorEn?.getHTML() || '',
         descriptionUk: editorUk?.getHTML() || '',
@@ -320,6 +355,7 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
       onSave({ error: 'Error saving worker. Please try again.' } as any);
     } finally {
       setIsSaving(false);
+      setIsUploadingAvatar(false);
     }
   };
 
@@ -341,6 +377,40 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
       editorUk.commands.setContent('');
     }
     onClose();
+  };
+
+  const onImageLoaded = (img: HTMLImageElement) => {
+    setImageRef(img);
+  };
+
+  const onCropComplete = async (crop: Crop) => {
+    if (imageRef && crop.width && crop.height) {
+      const canvas = document.createElement('canvas');
+      const scaleX = imageRef.naturalWidth / imageRef.width;
+      const scaleY = imageRef.naturalHeight / imageRef.height;
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(
+          imageRef,
+          crop.x * scaleX,
+          crop.y * scaleY,
+          crop.width * scaleX,
+          crop.height * scaleY,
+          0,
+          0,
+          crop.width,
+          crop.height
+        );
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            setCroppedImage(url);
+          }
+        }, 'image/jpeg');
+      }
+    }
   };
 
   if (!worker) return null;
@@ -578,15 +648,31 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
                 </div>
               )}
               {worker.photo && (
-                <div className="imageContainer">
-                  <span className="imageLabel">
-                    {t('admin.worker.newPhoto')}:
-                  </span>
-                  <img
-                    src={URL.createObjectURL(worker.photo)}
-                    alt="Preview"
-                    className="previewImage"
-                  />
+                <div className="cropContainer">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(newCrop) => setCrop(newCrop)}
+                    aspect={1}
+                    circularCrop
+                    onComplete={onCropComplete}
+                  >
+                    <img
+                      src={URL.createObjectURL(worker.photo)}
+                      alt="Crop source"
+                      onLoad={(e) => onImageLoaded(e.currentTarget)}
+                      style={{ maxWidth: '100%', maxHeight: 300 }}
+                    />
+                  </ReactCrop>
+                  {croppedImage && (
+                    <div className="croppedPreview">
+                      <span>Обрізаний аватар:</span>
+                      <img
+                        src={croppedImage}
+                        alt="Cropped Avatar"
+                        style={{ borderRadius: '50%', width: 100, height: 100 }}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>

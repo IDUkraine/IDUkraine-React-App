@@ -22,6 +22,8 @@ const WorkersTab: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState<string>('');
 
+  console.log(workers);
+
   useEffect(() => {
     loadWorkers();
   }, []);
@@ -53,15 +55,16 @@ const WorkersTab: React.FC = () => {
   };
 
   const handleCreateWorker = () => {
-    setEditingWorker(workerService.createEmptyWorker());
+    setEditingWorker(workerService.createEmptyWorker() as EditingWorker);
   };
 
   const handleDeleteWorker = async (worker: Worker) => {
     if (window.confirm('Are you sure you want to delete this worker?')) {
       try {
-        if (worker.photo) {
-          await workerService.deletePhoto(worker.photo);
-        }
+        await workerService.deleteWorkerPhotos({
+          photo: worker.photo,
+          avatar: worker.avatar as string,
+        });
         const updatedWorkers = workers.filter((w) => w.id !== worker.id);
         await workerService.saveWorkers(updatedWorkers);
         setWorkers(updatedWorkers);
@@ -110,7 +113,7 @@ const WorkersTab: React.FC = () => {
               src={worker.photo}
               alt={worker.nameEn}
               className="cardImage"
-              style={{ objectPosition: `center ${worker.iconPhotoOffsetY}` }}
+              style={{ objectPosition: `center 0%` }}
             />
             <div className="cardContent">
               <h3 className="cardTitle">
