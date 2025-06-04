@@ -69,11 +69,11 @@
 
 .hero-image {
   width: 100%;
-  height: 600px;
+  height: 700px;
   object-fit: cover;
   display: block;
   border-radius: 20px;
-  object-position: center 10%;
+  object-position: center 0%;
 }
 
 .milestone-container {
@@ -235,6 +235,12 @@
   }
 }
 
+@media screen and (max-width: 1200px) {
+  .hero-image {
+    height: 600px;
+  }
+}
+
 @media screen and (max-width: 1025px) {
   .hero-title {
     font-size: 32px;
@@ -245,7 +251,7 @@
     padding: 8px 12px;
   }
   .hero-image {
-    height: 400px;
+    height: 500px;
   }
 
   .milestone-container {
@@ -300,7 +306,7 @@
   }
 
   .hero-image {
-    height: 360px;
+    height: 400px;
   }
 
   .milestone-container {
