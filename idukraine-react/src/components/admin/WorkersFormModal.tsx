@@ -58,9 +58,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
   });
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
-  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const [tempAvatarPath, setTempAvatarPath] = useState<string | null>(null);
-  const [cropFromCurrentPhoto, setCropFromCurrentPhoto] = useState(false);
 
   const editorEn = useEditor({
     extensions: [StarterKit],
@@ -318,7 +315,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
       }
 
       if (croppedImage) {
-        setIsUploadingAvatar(true);
         const blob = await fetch(croppedImage).then((r) => r.blob());
         const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
         avatarPath = await workerService.uploadPhoto(file);
@@ -333,8 +329,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
             console.error('Error deleting old avatar:', error);
           }
         }
-        setIsUploadingAvatar(false);
-        setTempAvatarPath(avatarPath);
       }
 
       const workerData: Worker = {
@@ -355,7 +349,6 @@ const WorkersFormModal: React.FC<WorkersFormModalProps> = ({
       onSave({ error: 'Error saving worker. Please try again.' } as any);
     } finally {
       setIsSaving(false);
-      setIsUploadingAvatar(false);
     }
   };
 
