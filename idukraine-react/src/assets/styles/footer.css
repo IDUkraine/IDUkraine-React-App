@@ -124,9 +124,9 @@
 
 @media screen and (max-width: 1380px) {
   .footer-container {
-    width: calc(100% - 60px);
+    width: 100%;
     max-width: 1380px;
-    margin: 0 30px;
+    margin: 0 auto;
     height: 200px;
   }
   .footer-logo {
