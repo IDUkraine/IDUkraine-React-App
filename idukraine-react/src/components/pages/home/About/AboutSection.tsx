@@ -7,11 +7,8 @@ import DOMPurify from 'dompurify';
 import { useEffect, useState, useCallback, useRef } from 'react';
 
 // Import images directly or use a dynamic import if they are in a specific folder
-import aboutImage1 from '../../../../../public/about-image-1.jpg';
-import aboutImage2 from '../../../../../public/about-image-2.jpeg';
-import aboutImage3 from '../../../../../public/about-image-3.jpg';
-import aboutImage4 from '../../../../../public/about-image-4.jpeg';
-import aboutImage5 from '../../../../../public/about-image-5.jpg';
+import aboutImage1 from '../../../../../public/about-image-1.jpeg';
+import aboutImage2 from '../../../../../public/about-image-2.jpg';
 
 const AboutSection = () => {
   const [ref, hasAnimated] = useSectionAnimation();
@@ -27,18 +24,6 @@ const AboutSection = () => {
     },
     {
       src: aboutImage2,
-      alt: t('about.subtitle'),
-    },
-    {
-      src: aboutImage3,
-      alt: t('about.subtitle'),
-    },
-    {
-      src: aboutImage4,
-      alt: t('about.subtitle'),
-    },
-    {
-      src: aboutImage5,
       alt: t('about.subtitle'),
     },
   ];
